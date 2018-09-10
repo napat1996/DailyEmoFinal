@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kmutt.dailyemofinal.MainActivity">
+
+
+
+
+    <FrameLayout
+        android:orientation="vertical"
+        android:id="@+id/flcontent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        >
+
+
+        <RelativeLayout
+            android:id="@+id/buttom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="183dp"
+                android:layout_height="170dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="115dp"
+                app:srcCompat="@drawable/hrate" />
+
+            <TextView
+                android:id="@+id/hear_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="142dp"
+                android:text="76"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/title_hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="44dp"
+                android:text="HEART RATE"
+                android:textColor="#FFBA5E7E"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_hr2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/imageView5"
+                android:layout_alignTop="@+id/title_hr"
+                android:text="HEART RATE"
+                android:textColor="#ffffff"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="168dp"
+                android:layout_height="29dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="173dp"
+                android:text="STEP : 509 STEP"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="32dp"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_toStartOf="@+id/imageView5"
+                app:srcCompat="@drawable/ic_step_count24dp" />
+
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+
+
+
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="HOME" />
+    <item
+        android:id="@+id/nav_sleep"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:icon="@drawable/ic_sleep_24dp"
+        android:title="SLEEP" />
+
+    <item
+        android:id="@+id/nav_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:icon="@drawable/ic_directions_car_black_24dp"
+        android:title="GOING"
+        />
+
+    <item
+        android:id="@+id/nav_dash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:icon="@drawable/ic_date_range_black_24dp"
+        android:title="DASHBOARD" />
+</menu>
