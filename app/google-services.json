@@ -80,6 +80,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857668522687:android:14bcb21fc3ebf06a",
+        "android_client_info": {
+          "package_name": "com.kmutt.dailyemofinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857668522687-84gcso801r98p7ssmnr5ps9reab5fi6u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kmutt.dailyemofinal",
+            "certificate_hash": "0cf5dec9166bd1919ba4e1839c0a357906cb97c5"
+          }
+        },
+        {
+          "client_id": "857668522687-35ldph4a8bgm0t5h11msltivn48vto0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxPBI7CwQrp9rLpAUEg3FPaLtavTGZS9I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857668522687-35ldph4a8bgm0t5h11msltivn48vto0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -36,13 +36,14 @@
                 app:srcCompat="@drawable/hrate" />
 
             <TextView
-                android:id="@+id/hear_rate"
+                android:id="@+id/heart_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:textAllCaps="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="142dp"
-                android:text="76"
+
                 android:textSize="30dp" />
 
             <TextView

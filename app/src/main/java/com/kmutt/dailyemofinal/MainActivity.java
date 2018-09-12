@@ -1,37 +1,47 @@
 package com.kmutt.dailyemofinal;
 
-import android.content.Context;
-import android.net.Network;
+import android.content.BroadcastReceiver;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.kmutt.dailyemofinal.Model.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONStringer;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Thread repeatTaskThread;
+    private String TAG = MainActivity.class.getSimpleName();
+
+    private TextView txtHeartRate, txtSteptCount;
+    BroadcastReceiver broadcastReceiver;
+
+    private TextView todo_text;
+    private Button fetch_data_button;
+    private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
     Button btnRegister;
@@ -47,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         dl = findViewById(R.id.dl);
         toggle = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
         dl.addDrawerListener(toggle);
@@ -63,8 +74,77 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
     }
 
+    private void heartrateCheck() {
+        Thread urlConnectionThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URLConnection connection = new URL(API_PREFIX.concat("/1/user/-/activities/heart/date/today/1d/1sec/time/00:00/23:59.json")).openConnection();
+                    connection.setRequestProperty("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VEpaWEYiLCJhdWQiOiIyMkNaUE4iLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM2NzUzODY0LCJpYXQiOjE1MzY3MjUwNjR9.XikM37qhKUWNFwHp1UmYCF4GfrAA9GLZYbuqbm3HGRA");
+                    InputStream response = connection.getInputStream();
+                    JSONParser jsonParser = new JSONParser();
+                    JSONObject responseObject = (JSONObject)jsonParser.parse(
+                            new InputStreamReader(response, "UTF-8"));
+                    JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
+                    JSONArray dataset = (JSONArray) activities.get("dataset");
+                    JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
+                    String heartRateValue = datasetObject.toJSONString();
+                    Log.e(TAG, "===========================run: "+ heartRateValue);
+                    Log.e(TAG, txtHeartRate.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        urlConnectionThread.start();
+    }
+
+    public void RepeatTask() {
+        repeatTaskThread = new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        HttpURLConnection connection = (HttpURLConnection) new URL(API_PREFIX.concat("/oauth2/token")).openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Authorization", "Basic MjJDWlBOOmE0NjNiNWQ0ZWMyZDYzNGQwYjliMWE2NWFiYWJlNjdk");
+                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                        String body = "{\\r\\n\\\"clientId\\\": \\\"22CZPN\\\",\\r\\n\\\"code\\\": \\\"91f5ded2732843a1117f34cdafaa443c125a5f6a\\\",\\r\\n\\\"grant_type\\\": \\\"authorization_code\\\"\\r\\n}";
+                        byte[] outputInBytes = body.getBytes("UTF-8");
+
+                        OutputStream outputStream = connection.getOutputStream();
+                        outputStream.write(outputInBytes);
+                        outputStream.close();
+
+                        InputStream response = connection.getInputStream();
+                        JSONParser jsonParser = new JSONParser();
+                        JSONObject responseObject = (JSONObject)jsonParser.parse(
+                                new InputStreamReader(response, "UTF-8"));
+                        String access_token = (String) responseObject.get("access_token");
+                        Log.d("Access Token", access_token);
+
+                        try {
+                            Thread.sleep(28800);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                }
+            }
+        };
+
+        repeatTaskThread.start();
+    }
+
+    //nav bar
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =  new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
