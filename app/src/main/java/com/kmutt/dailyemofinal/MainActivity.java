@@ -1,7 +1,6 @@
 package com.kmutt.dailyemofinal;
 
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -13,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +23,9 @@ import org.json.JSONStringer;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -38,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private Thread repeatTaskThread;
     private String TAG = MainActivity.class.getSimpleName();
 
-    private TextView txtHeartRate, txtSteptCount;
     BroadcastReceiver broadcastReceiver;
 
-    private TextView todo_text;
-    private Button fetch_data_button;
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
@@ -54,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
 
     Fragment[] bottomNavigationFragments;
+
+    private boolean isSterss = false;
+    private int heartRate =0, asSleep = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,33 +78,34 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
+        try {
+            isStress();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void heartrateCheck() {
-        Thread urlConnectionThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URLConnection connection = new URL(API_PREFIX.concat("/1/user/-/activities/heart/date/today/1d/1sec/time/00:00/23:59.json")).openConnection();
-                    connection.setRequestProperty("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VEpaWEYiLCJhdWQiOiIyMkNaUE4iLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM2NzUzODY0LCJpYXQiOjE1MzY3MjUwNjR9.XikM37qhKUWNFwHp1UmYCF4GfrAA9GLZYbuqbm3HGRA");
-                    InputStream response = connection.getInputStream();
-                    JSONParser jsonParser = new JSONParser();
-                    JSONObject responseObject = (JSONObject)jsonParser.parse(
-                            new InputStreamReader(response, "UTF-8"));
-                    JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
-                    JSONArray dataset = (JSONArray) activities.get("dataset");
-                    JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-                    String heartRateValue = datasetObject.toJSONString();
-                    Log.e(TAG, "===========================run: "+ heartRateValue);
-                    Log.e(TAG, txtHeartRate.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+    private boolean isStress() throws IOException, ParseException {
+        boolean isStress;
+        DhomeFragment dhomeFragment = new DhomeFragment();
+        int heartRate = dhomeFragment.getHeartRate();
+        if( heartRate > 70){
+            if(asSleep < 300){
+                isStress = true;
             }
-        });
+            else {
+                isStress = false;
+            }
 
-        urlConnectionThread.start();
+        }
+        else
+            isStress = false;
+        return isStress;
     }
+
 
     public void RepeatTask() {
         repeatTaskThread = new Thread() {
@@ -225,26 +227,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void changePageHR(View v) {
-        Intent intent = new Intent(getApplicationContext(), HomelinkHr.class);
-        startActivity(intent);
-    }
 
-    public void changePageSleep(View v) {
-        Intent intent = new Intent(getApplicationContext(), HomelinkSleep.class);
-        startActivity(intent);
-    }
-    public void changePageMap(View v) {
-        Intent intent = new Intent(getApplicationContext(), HomelinkMap.class);
-        startActivity(intent);
-    }
-    public void changePageStep(View v) {
-        Intent intent = new Intent(getApplicationContext(), HomelinkStep.class);
-        startActivity(intent);
-    }
-    public void changePageCalendar(View v) {
-        Intent intent = new Intent(getApplicationContext(), Calendar.class);
-        startActivity(intent);
-    }
 
 }
