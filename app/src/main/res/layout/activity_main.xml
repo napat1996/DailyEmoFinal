@@ -6,7 +6,6 @@
     android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
     tools:context="com.kmutt.dailyemofinal.MainActivity"
     android:layout_above="@id/buttom_bar"
 
@@ -31,7 +30,7 @@
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/main_nav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57sp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             app:itemIconTint="@color/front"

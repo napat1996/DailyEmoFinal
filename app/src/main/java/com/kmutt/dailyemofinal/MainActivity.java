@@ -1,6 +1,7 @@
 package com.kmutt.dailyemofinal;
 
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -221,6 +223,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void changePageHR(View v) {
+        Intent intent = new Intent(getApplicationContext(), HomelinkHr.class);
+        startActivity(intent);
+    }
+
+    public void changePageSleep(View v) {
+        Intent intent = new Intent(getApplicationContext(), HomelinkSleep.class);
+        startActivity(intent);
+    }
+    public void changePageMap(View v) {
+        Intent intent = new Intent(getApplicationContext(), HomelinkMap.class);
+        startActivity(intent);
+    }
+    public void changePageStep(View v) {
+        Intent intent = new Intent(getApplicationContext(), HomelinkStep.class);
+        startActivity(intent);
+    }
+    public void changePageCalendar(View v) {
+        Intent intent = new Intent(getApplicationContext(), Calendar.class);
+        startActivity(intent);
     }
 
 }

@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
-    android:background="@drawable/bg"
+    tools:context=".LoginActivity"
+    android:background="@drawable/bgbalck"
 
     >
 
@@ -64,7 +64,7 @@
         android:layout_height="38dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="175dp"
         android:background="@drawable/rounded_button"
         android:elevation="0dp"
         android:text="SIGN IN"
@@ -77,7 +77,7 @@
         android:layout_height="26dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="14dp"
         android:text="Create a new account"
         android:textColor="#FFFF"
         android:textSize="15dp" />
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="79dp"
         android:text="Forgot your password?"
         android:textColor="#fff"
         android:textSize="15dp" />
@@ -98,8 +98,8 @@
         android:layout_height="wrap_content"
 
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/inputUsername"
-        android:layout_marginBottom="182dp"
+        android:layout_marginBottom="228dp"
+        android:layout_toStartOf="@+id/textView2"
         android:buttonTint="#FFFF"
         android:outlineSpotShadowColor="@color/white"
         android:text="Remember Me"
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
+        android:layout_marginBottom="49dp"
         android:text="or"
         android:textColor="@color/white" />
 
