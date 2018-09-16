@@ -14,15 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kmutt.dailyemofinal.Model.Data;
 
-import org.json.JSONStringer;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -31,7 +29,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment[] bottomNavigationFragments;
 
     private boolean isSterss = false;
+    private boolean isJam = false;
     private int heartRate =0, asSleep = 0;
 
 
@@ -85,17 +83,27 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        Data data = new Data();
+        try {
+            data.getDateOfSleep();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private boolean isStress() throws IOException, ParseException {
         boolean isStress;
-        DhomeFragment dhomeFragment = new DhomeFragment();
-        int heartRate = dhomeFragment.getHeartRate();
+        Data data = new Data();
+        int heartRate = data.getHeartRateValue();
         if( heartRate > 70){
             if(asSleep < 300){
                 isStress = true;
             }
+            else if(isJam == true)
+                isStress = true;
             else {
                 isStress = false;
             }
