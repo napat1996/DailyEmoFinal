@@ -26,6 +26,10 @@
 
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".HomelinkHr" />
+        <activity android:name=".HomelinkSleep" />
+        <activity android:name=".HomelinkStep" />
+        <activity android:name=".HomelinkMap" />
     </application>
 
 </manifest>

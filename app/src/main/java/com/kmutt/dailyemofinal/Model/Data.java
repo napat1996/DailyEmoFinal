@@ -24,10 +24,10 @@ import static android.content.ContentValues.TAG;
 
 public class Data {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-17/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-15.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM3MjA1NzkyLCJpYXQiOjE1MzcxNzY5OTJ9.EFjIbgFeYm1DWDJ_VLQaUCaDKBo_xX3VG1Ncvvck6kc";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MjM4MjI0LCJpYXQiOjE1MzcyMDk0MjR9.v8XBkjDjRS-b6SKvHUceOYJbZSEY8m-sUd3qN9dFos4";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef, users;
