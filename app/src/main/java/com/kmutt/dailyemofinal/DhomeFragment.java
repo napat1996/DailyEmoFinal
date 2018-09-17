@@ -1,6 +1,7 @@
 package com.kmutt.dailyemofinal;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,7 +27,7 @@ import static android.content.ContentValues.TAG;
  */
 public class DhomeFragment extends Fragment {
 
-    private TextView txtHeartRate;
+    private TextView txtHeartRate, txtSleep;
     View view;
     private static final String API_PREFIX = "https://api.fitbit.com";
 
@@ -40,27 +41,35 @@ public class DhomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        this.view = inflater.inflate(R.layout.fragment_dhome, null, false);
+        final View view = inflater.inflate(R.layout.fragment_dhome, container, false);
 
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Data data = new Data();
 
-        Data data = new Data();
-        try {
-            //int heartRate = data.getHeartRateValue();
-            int sleepMinute = data.getMinutesAsleep();
-            //String heartRateStr = heartRate+"";
-            //Log.e(TAG, "run: ================ Heart Rate: "+ heartRate+" Time: " + data.getHeartRateTime() );
-            Log.e(TAG, "onCreateView: sleep : "+ sleepMinute );
-            txtHeartRate = view.findViewById(R.id.heart_rate);
-            //txtHeartRate.setText(heartRate);
-        } catch (IOException e) {
-            e.printStackTrace();
-            txtHeartRate.setText("-");
-        } catch (ParseException e) {
-            e.printStackTrace();
-            txtHeartRate.setText("-");
-        }
+                try {
+                    final int heartRate = data.getHeartRateValue();
+                    final long sleepMinute = data.getMinutesAsleep();
 
-//        heartrateCheck();
+                    Log.e(TAG, "onCreateView: sleep : "+ sleepMinute );
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            txtHeartRate = getActivity().findViewById(R.id.heart_rate);
+                            txtHeartRate.setText(heartRate + "");
+
+                            txtSleep = getActivity().findViewById(R.id.textView);
+                            txtSleep.setText(sleepMinute + "");
+                        }
+                    });
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        })).start();
 
 //        MainActivity mainActivity = (MainActivity) getActivity();
 //        return inflater.inflate(R.layout.fragment_dhome, container, false);
