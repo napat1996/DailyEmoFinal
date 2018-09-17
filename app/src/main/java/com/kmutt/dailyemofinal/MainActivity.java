@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setupDrawerContent(navigationView);
 
 
-        Fragment tempFragments[] = {new DhomeFragment(), new DsleepFragment(), new DgoingMapFragment(), new DdashbroadFragment()};
+        Fragment tempFragments[] = {new DhomeFragment(), new DgoingMapFragment(), new DdashbroadFragment()};
         bottomNavigationFragments = tempFragments;
 
         getSupportFragmentManager().beginTransaction().replace(R.id.flcontent, bottomNavigationFragments[0]).commit();
