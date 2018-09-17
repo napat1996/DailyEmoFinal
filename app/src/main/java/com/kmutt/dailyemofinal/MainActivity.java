@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private Thread repeatTaskThread;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_hr;
     private Button btn_sleep;
     private Button btn_map, btn_calendar, btn_step;
-
 
     BroadcastReceiver broadcastReceiver;
 
@@ -84,27 +84,34 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        try {
-            isStress();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Data data = new Data();
-        try {
-            data.getDateOfSleep();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    isStress();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        })).start();
+
+//        Data data = new Data();
+//        try {
+//            data.getDateOfSleep();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
     private boolean isStress() throws IOException, ParseException {
-        boolean isStress;
         Data data = new Data();
+        boolean isStress;
+
         int heartRate = data.getHeartRateValue();
         if( heartRate > 70){
             if(asSleep < 300){

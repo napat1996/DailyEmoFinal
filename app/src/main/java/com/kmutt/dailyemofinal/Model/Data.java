@@ -22,12 +22,12 @@ import java.net.URLConnection;
 
 import static android.content.ContentValues.TAG;
 
-public class Data extends AppCompatActivity{
+public class Data {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5minute/time/00:00/23:59.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-15.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MTI3MzI0LCJpYXQiOjE1MzcwOTg1MjR9.5LNz5OLV9Jjk52udWuB9PNjXQspE6gDQwcy2CnLUUAY";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM3MjA1NzkyLCJpYXQiOjE1MzcxNzY5OTJ9.EFjIbgFeYm1DWDJ_VLQaUCaDKBo_xX3VG1Ncvvck6kc";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef, users;
@@ -72,8 +72,6 @@ public class Data extends AppCompatActivity{
         JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
         JSONArray dataset = (JSONArray) activities.get("dataset");
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-//                    String heartRateValue = datasetObject.toJSONString();
-//                    Log.e(TAG, "===========================run: "+ heartRateValue);
         final String heartRateValue = (datasetObject.get("value")) + "";
         final String heartRateTime = (datasetObject.get("time")) + "";
         Log.e(TAG, "run: ================ Heart Rate: "+heartRateValue);
@@ -90,22 +88,20 @@ public class Data extends AppCompatActivity{
         JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
         JSONArray dataset = (JSONArray) activities.get("dataset");
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-//                    String heartRateValue = datasetObject.toJSONString();
-//                    Log.e(TAG, "===========================run: "+ heartRateValue);
         final String heartRateValue = (datasetObject.get("value")) + "";
         final String heartRateTime = (datasetObject.get("time")) + "";
         Log.e(TAG, "run: ================ Time: " + heartRateTime );
         return heartRateTime;
     }
 
-    public int getMinutesAsleep() throws IOException, ParseException {
+    public long getMinutesAsleep() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
         JSONParser jsonParser = new JSONParser();
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONObject summary = (JSONObject) responseObject.get("summary");
-        int minuteAsleep = (Integer)summary.get("totalMinutesAsleep");
+        long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
         return minuteAsleep;
     }
 
