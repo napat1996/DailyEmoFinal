@@ -32,14 +32,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.kmutt.dailyemofinal.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private Thread repeatTaskThread;
     private String TAG = MainActivity.class.getSimpleName();
-    private Button btn_hr;
-    private Button btn_sleep;
-    private Button btn_map, btn_calendar, btn_step;
+
 
     BroadcastReceiver broadcastReceiver;
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setup();
+
 
         dl = findViewById(R.id.dl);
         toggle = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
@@ -250,33 +250,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void setup() {
-        btn_hr = (Button) findViewById(R.id.buttom_hr);
-        btn_sleep = (Button) findViewById(R.id.buttom_sleep);
-        btn_map = (Button) findViewById(R.id.buttom_map2);
-        btn_calendar = (Button) findViewById(R.id.button_mood);
-        btn_step = (Button) findViewById(R.id.buttom_step);
-    }
 
-    public void changePageHR(View view) {
-        Intent intent = new Intent(getApplicationContext(),HomelinkHr.class);
-        startActivity(intent);
-    }
-    public void changePageSleep(View view) {
-        Intent intent = new Intent(getApplicationContext(),HomelinkSleep.class);
-        startActivity(intent);
-    }
-    public void changePageMap(View view) {
-        Intent intent = new Intent(getApplicationContext(),HomelinkMap.class);
-        startActivity(intent);
-    }
-    public void changePageCalendar(View view) {
-        Intent intent = new Intent(getApplicationContext(),Calendar.class);
-        startActivity(intent);
-    }
-    public void changePageStep(View view) {
-        Intent intent = new Intent(getApplicationContext(),HomelinkStep.class);
-        startActivity(intent);
-    }
+
 
 }

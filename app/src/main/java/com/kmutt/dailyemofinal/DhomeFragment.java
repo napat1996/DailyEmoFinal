@@ -60,7 +60,7 @@ public class DhomeFragment extends Fragment {
                             txtHeartRate = getActivity().findViewById(R.id.heart_rate);
                             txtHeartRate.setText(heartRate + "");
 
-                            txtSleep = getActivity().findViewById(R.id.textView);
+                            txtSleep = getActivity().findViewById(R.id.text_sleep);
                             txtSleep.setText(sleepMinute + "");
                         }
                     });
