@@ -6,19 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="@drawable/bg">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-59dp"
-        android:text="Dailyemo"
-        android:textColor="#ffff"
-        android:textSize="27dp"
-        android:textStyle="bold" />
+    android:background="@drawable/bggggg">
 
 
     <EditText
@@ -27,7 +15,7 @@
         android:layout_height="41dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="159dp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
@@ -38,9 +26,9 @@
         android:id="@+id/inputEmail"
         android:layout_width="wrap_content"
         android:layout_height="41dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="210dp"
+        android:layout_marginTop="221dp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
@@ -53,7 +41,7 @@
         android:layout_height="41dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="152dp"
+        android:layout_marginBottom="184dp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
@@ -66,7 +54,7 @@
         android:layout_height="41dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
@@ -83,16 +71,16 @@
         android:layout_marginBottom="38dp"
         android:background="@drawable/rounded_button"
         android:text="REGISTER"
-        android:textColor="#4789E8" />
+        android:textColor="#5b687c" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="130dp"
+        android:layout_width="141dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        app:srcCompat="@drawable/profile" />
+        android:layout_marginTop="17dp"
+        app:srcCompat="@drawable/loogoo" />
 
 
 </RelativeLayout>

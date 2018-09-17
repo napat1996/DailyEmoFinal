@@ -16,107 +16,99 @@
         android:id="@+id/flcontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#d2c4c4"
+        android:background="#d3e3ea"
         >
-
-
-        <RelativeLayout
-            android:id="@+id/buttom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="150sp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="#a1be92">
-
-
-            <TextView
-                android:id="@+id/steps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="11dp"
-                android:layout_marginEnd="28dp"
-                android:text="500 steps"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="94dp"
-                android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="19dp"
-                android:text="On Car / Walk"
-                android:textSize="15sp"/>
-
-
-        </RelativeLayout>
-
 
 
         <TextView
             android:id="@+id/heart_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/buttom_hr"
+            android:layout_marginStart="81sp"
             android:text="3000"
             android:textAllCaps="true"
-            android:textSize="20dp" />
+            android:textColor="#3A727F"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/buttom_hr"
-            android:layout_width="108dp"
-            android:layout_height="70dp"
+            android:layout_width="108sp"
+            android:layout_height="70sp"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/buttom_sleep"
-            android:layout_marginStart="52dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="52sp"
             android:background="@drawable/loogoo"
-            android:onClick="changePageHR" />
+            android:onClick="changePageHR"
+
+            />
 
         <Button
             android:id="@+id/buttom_sleep"
-            android:layout_width="108dp"
-            android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="108sp"
+            android:layout_height="70sp"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="206dp"
-            android:layout_marginEnd="52dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="52sp"
             android:background="@drawable/loogoo"
             android:onClick="changePageSleep" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/heart_rate"
+            android:layout_marginEnd="57dp"
+            android:text="8hr 30 min"
+            android:textColor="#3A727F"
+            android:textSize="20sp" />
 
 
         <Button
             android:id="@+id/buttom_map2"
             android:layout_width="108dp"
             android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/buttom_sleep"
-            android:layout_marginBottom="94dp"
+            android:layout_alignTop="@+id/buttom_step"
             android:background="@drawable/loogoo"
             android:onClick="changePageMap" />
 
         <Button
             android:id="@+id/buttom_step"
-            android:layout_width="108dp"
-            android:layout_height="70dp"
+            android:layout_width="108sp"
+            android:layout_height="70sp"
+            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/buttom_hr"
-            android:layout_alignTop="@+id/buttom_map2"
+            android:layout_marginBottom="79sp"
             android:background="@drawable/loogoo"
             android:onClick="changePageStep" />
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/button_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="89dp"
-
+            android:layout_marginTop="69dp"
             android:background="@drawable/circle"
-            android:onClick="changePageCalendar"/>
+            android:onClick="changePageCalendar"
+            android:text="MOOD"/>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/buttom_hr"
+            android:layout_below="@+id/buttom_map2"
+            android:text="3,049 steps"
+            android:textColor="#3A727F"
+            android:textSize="20sp" />
+
+
     </RelativeLayout>
 
 

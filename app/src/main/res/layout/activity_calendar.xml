@@ -5,17 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calendar">
+    tools:context=".Calendar"
+    android:background="@drawable/bggggg">
 
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="324dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/fah"></CalendarView>
 
+
+
+
+
+            <ImageView
+                android:layout_width="341sp"
+                android:layout_height="344dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/calen" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="347sp"
+                android:layout_height="358dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
 
 
