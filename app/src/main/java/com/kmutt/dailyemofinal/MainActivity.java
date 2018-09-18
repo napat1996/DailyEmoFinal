@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSterss = false;
     private boolean isJam = false;
     private int heartRate =0, asSleep = 0;
+    public String stressStr = "Normal";
 
 
     @Override
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean isStress() throws IOException, ParseException {
+    public String isStress() throws IOException, ParseException {
         Data data = new Data();
         boolean isStress;
 
@@ -115,17 +116,23 @@ public class MainActivity extends AppCompatActivity {
         if( heartRate > 70){
             if(asSleep < 300){
                 isStress = true;
+                stressStr = "Stress";
             }
-            else if(isJam == true)
+            else if(isJam == true) {
                 isStress = true;
+                stressStr = "Normal";
+            }
             else {
                 isStress = false;
+                stressStr = "Normal";
             }
 
         }
-        else
+        else {
             isStress = false;
-        return isStress;
+            stressStr = "Normal";
+        }
+        return stressStr;
     }
 
 
