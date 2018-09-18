@@ -6,38 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Calendar"
-    android:background="@drawable/bggggg">
+    android:background="#F0F0F0"    >
 
 
 
 
 
 
+            <!--<ImageView-->
+                <!--android:layout_width="341sp"-->
+                <!--android:layout_height="344dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/calen" />-->
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="375dp"
+        android:layout_height="358dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
 
 
-            <ImageView
-                android:layout_width="341sp"
-                android:layout_height="344dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/calen" />
+        />
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="347sp"
-                android:layout_height="358dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-               />
 
     <TextView
         android:id="@+id/isStress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/calendarView"
-        android:layout_marginStart="29dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="96dp"
         android:text="----"
-        android:textColor="@color/white"/>
+        android:textColor="#cf5959"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textmood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="178dp"
+        android:layout_marginStart="36dp"
+        android:text="MOOD:"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

@@ -6,14 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomelinkHr"
-    android:background="@drawable/bggggg"
+    android:background="#F0F0F0"
+    android:id="@+id/mainlayout"
     >
- <com.github.mikephil.charting.charts.LineChart
+
+ <com.github.mikephil.charting.charts.BarChart
      android:layout_width="match_parent"
      android:layout_height="match_parent"
-     android:id="@+id/barchart_hr">
+     android:id="@+id/barchart_hr"
+     >
 
- </com.github.mikephil.charting.charts.LineChart>
+ </com.github.mikephil.charting.charts.BarChart>
+
 
 
 </RelativeLayout>
