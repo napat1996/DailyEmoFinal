@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kmutt.dailyemofinal.Model.Data;
+import com.kmutt.dailyemofinal.Model.User;
 
 import org.json.simple.parser.ParseException;
 
@@ -17,11 +19,12 @@ public class DatabaseService {
     FirebaseDatabase database;
     DatabaseReference mRootRef, users;
     Data data = new Data();
+    User user = new User();
     Calendar calendar = Calendar.getInstance();
+    LoginActivity loginActivity = new LoginActivity();
 
     private void updateSleepDataToDB() throws IOException, ParseException {
-        int heartRateValue = data.getHeartRateValue();
-        String heartRateTime = data.getHeartRateTime();
+
         long sleepMinute = data.getMinutesAsleep();
         String rem = data.getRem();
         String deep = data.getDeep();
@@ -40,9 +43,12 @@ public class DatabaseService {
         Log.e(TAG, "updateSleepDataToDB: Sleep Stages : "+ stages );
     }
 
-    private void updateHeartRateDataToDB() throws IOException, ParseException {
+    public void updateHeartRateDataToDB() throws IOException, ParseException {
         int heartRateValue = data.getHeartRateValue();
         String heartRateTime = data.getHeartRateTime();
+        Log.d(TAG, "updateSleepDataToDB: "+ user.getUsername());
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReference("Users/"+ loginActivity.mUsername);
 
 //        DatabaseReference time = mRootRef.child("Time")
         DatabaseReference heartRate = mRootRef.child("HeartRate");

@@ -24,43 +24,10 @@ import static android.content.ContentValues.TAG;
 
 public class Data {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-17/1d/5min/time/00:00/23:59.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-15.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MjM4MjI0LCJpYXQiOjE1MzcyMDk0MjR9.v8XBkjDjRS-b6SKvHUceOYJbZSEY8m-sUd3qN9dFos4";
-
-    FirebaseDatabase database;
-    DatabaseReference mRootRef, users;
-//    private void heartrateCheck() {
-//        Thread urlConnectionThread = new Thread(new Runnable() {
-////            mRootRef.addListenerForSingleValueEvent(new ValueEventListener()
-//
-//
-//            @Override
-//            public void run() {
-//                try {
-//                    URLConnection connection = new URL(API_PREFIX.concat("/1/user/-/activities/heart/date/2018-09-13/1d/5min/time/00:00/23:59.json")).openConnection();
-//                    connection.setRequestProperty("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VEpaWEYiLCJhdWQiOiIyMkNaUE4iLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM2ODg2NzQ3LCJpYXQiOjE1MzY4NTc5NDd9.UGZ9x0pBbcTGcI2rCUdp1iVeS2MF0dGpy2pU8CHC4ko");
-//                    InputStream response = connection.getInputStream();
-//                    JSONParser jsonParser = new JSONParser();
-//                    JSONObject responseObject = (JSONObject)jsonParser.parse(
-//                            new InputStreamReader(response, "UTF-8"));
-//                    JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
-//                    JSONArray dataset = (JSONArray) activities.get("dataset");
-//                    JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-////                    String heartRateValue = datasetObject.toJSONString();
-////                    Log.e(TAG, "===========================run: "+ heartRateValue);
-//                    final String heartRateValue = (datasetObject.get("value")) + "";
-//                    final String heartRateTime = (datasetObject.get("time")) + "";
-//                    Log.e(TAG, "run: ================ Heart Rate: "+heartRateValue+" Time: " + heartRateTime );
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        urlConnectionThread.start();
-//    }
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3Mjg0MzU1LCJpYXQiOjE1MzcyNTU1NTV9.wtzVb6AgligMpu_-gCjcqzpJu457yctqUAP0gAvhVoE";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
@@ -102,6 +69,7 @@ public class Data {
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONObject summary = (JSONObject) responseObject.get("summary");
         long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
+        Log.e(TAG, "getMinutesAsleep: "+ minuteAsleep );
         return minuteAsleep;
     }
 
@@ -114,7 +82,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         String sleepStage = stages.toJSONString();
-        Log.e(TAG, "===========================Sleep level : REM : " +sleepStage);
+        Log.e(TAG, "===========================Sleep level : " +sleepStage);
 
         return sleepStage;
     }
@@ -148,12 +116,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         //String heartRateValue = datasetObject.toJSONString();
-        String rem = (stages.get("rem")) + "";
         final String deep = (stages.get("deep")) + "";
-        final String light = (stages.get("light")) + "";
-        final String wake = (stages.get("wake")) + "";
-        Log.e(TAG, "===========================Sleep level : REM : " + rem + " DEEP : "+deep+" LIGHT : "+light+" AWAKE : "+ wake);
-        JSONArray sleep = (JSONArray) responseObject.get("sleep");
 
         Log.e(TAG, "run: Date Of Sleep Deep : "+ deep );
         return deep;
@@ -181,7 +144,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         final String wake = (stages.get("wake")) + "";
-        Log.e(TAG, "===========================Sleep level : REM : AWAKE : "+ wake);
+        Log.e(TAG, "===========================Sleep level : AWAKE : "+ wake);
 
         return wake;
     }

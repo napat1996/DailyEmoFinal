@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText inputEmail, inputPassword, inputUsername;
     Button btnLogin;
     TextView btnToSignup;
+    String mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +90,16 @@ public class LoginActivity extends AppCompatActivity {
         mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // ไม่เข้าอันล่าง
+                User user = new User();
                 if(dataSnapshot.child(username).exists()){
                     if(!username.isEmpty()){
                         User login = dataSnapshot.child(username).getValue(User.class);
                         if (login.getPassword().equals(password)){
                             Toast.makeText(LoginActivity.this,"Success Login", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "onDataChange: ++++++++++++ S U C C E S S   F U L L ++++++++++++");
+
+                            mUsername = username;
+                            user.setUsername(username);
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
