@@ -12,11 +12,11 @@
 
 
     <LinearLayout
-        android:layout_width="265dp"
-        android:layout_height="109dp"
+        android:layout_width="265sp"
+        android:layout_height="109sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="181dp"
+        android:layout_marginTop="181sp"
         android:background="@drawable/rouded_button_tran_white">
 
 
@@ -24,16 +24,16 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="178dp"
-        android:layout_height="177dp"
-        android:layout_alignParentTop="true"
+        android:layout_width="178sp"
+        android:layout_height="177sp"
+        android:layout_above="@+id/inputUsername"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginBottom="-188dp"
         android:src="@drawable/loogoo" />
 
     <EditText
         android:id="@+id/inputUsername"
-        android:layout_width="249dp"
+        android:layout_width="249sp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -47,7 +47,7 @@
 
     <EditText
         android:id="@+id/inputPassword"
-        android:layout_width="249dp"
+        android:layout_width="249sp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/inputUsername"
         android:layout_centerHorizontal="true"
@@ -60,37 +60,37 @@
 
     <Button
         android:id="@+id/log_in_button"
-        android:layout_width="103dp"
-        android:layout_height="38dp"
+        android:layout_width="103sp"
+        android:layout_height="38sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="126dp"
+        android:layout_marginBottom="126sp"
         android:background="@drawable/rounded_button"
-        android:elevation="0dp"
+        android:elevation="0sp"
         android:text="SIGN IN"
         android:textColor="#4789E8"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/createNewAccount"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="35dp"
         android:text="Create a new account"
-        android:textColor="#FFFF"
-        android:textSize="15dp" />
+        android:textColor="#2c4c71"
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp"
+        android:layout_alignTop="@+id/createNewAccount"
+        android:layout_toEndOf="@+id/checkBox"
         android:text="Forgot your password?"
-        android:textColor="#fff"
-        android:textSize="15dp" />
+        android:textColor="#2c4c71"
+        android:textSize="15sp" />
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -99,22 +99,14 @@
 
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/inputUsername"
-        android:layout_marginBottom="178dp"
+        android:layout_marginBottom="178sp"
         android:buttonTint="#FFFF"
         android:outlineSpotShadowColor="@color/white"
         android:text="Remember Me"
         android:textColor="#FFFF"
         android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="49dp"
-        android:text="or"
-        android:textColor="@color/white" />
+
 
 
 </RelativeLayout>

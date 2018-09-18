@@ -16,7 +16,7 @@
         android:id="@+id/flcontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#d3e3ea"
+        android:background="@drawable/bggggg"
         >
 
 
@@ -26,33 +26,34 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/buttom_hr"
-            android:layout_marginStart="81sp"
-            android:text="3000"
+            android:layout_marginStart="94dp"
+            android:text="--"
             android:textAllCaps="true"
             android:textColor="#3A727F"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textAlignment="center"
+             />
 
         <Button
             android:id="@+id/buttom_hr"
             android:layout_width="108sp"
             android:layout_height="70sp"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="52sp"
-            android:background="@drawable/loogoo"
-            android:onClick="changePageHR"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="52dp"
 
-            />
+
+            android:layout_marginTop="198dp"
+            android:background="@drawable/loogoo" />
 
         <Button
             android:id="@+id/buttom_sleep"
             android:layout_width="108sp"
             android:layout_height="70sp"
+            android:layout_above="@+id/heart_rate"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="52sp"
-            android:background="@drawable/loogoo"
-            android:onClick="changePageSleep" />
+            android:layout_marginEnd="62dp"
+            android:background="@drawable/loogoo" />
 
         <TextView
             android:id="@+id/text_sleep"
@@ -60,8 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/heart_rate"
-            android:layout_marginEnd="57dp"
-            android:text="8hr 30 min"
+            android:layout_marginEnd="106dp"
+            android:text="--"
+            android:textAlignment="center"
             android:textColor="#3A727F"
             android:textSize="20sp" />
 
@@ -72,8 +74,7 @@
             android:layout_height="70dp"
             android:layout_alignStart="@+id/buttom_sleep"
             android:layout_alignTop="@+id/buttom_step"
-            android:background="@drawable/loogoo"
-            android:onClick="changePageMap" />
+            android:background="@drawable/loogoo" />
 
         <Button
             android:id="@+id/buttom_step"
@@ -81,9 +82,8 @@
             android:layout_height="70sp"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/buttom_hr"
-            android:layout_marginBottom="79sp"
-            android:background="@drawable/loogoo"
-            android:onClick="changePageStep" />
+            android:layout_marginBottom="106dp"
+            android:background="@drawable/loogoo" />
 
 
         <Button
@@ -93,10 +93,10 @@
 
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="69dp"
+            android:layout_marginTop="46dp"
             android:background="@drawable/circle"
-            android:onClick="changePageCalendar"
-            android:text="MOOD"/>
+
+            android:text="MOOD" />
 
         <TextView
             android:id="@+id/text_steps"

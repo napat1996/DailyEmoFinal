@@ -29,7 +29,7 @@ public class HomelinkSleep extends AppCompatActivity {
 
 
         mChart = (PieChart)findViewById(R.id.chart1);
-        mChart.setBackgroundColor(Color.WHITE);
+       // mChart.setBackgroundColor(Color.WHITE);
         moveOffscreen();
 
         mChart.setUsePercentValues(true);
@@ -59,6 +59,8 @@ public class HomelinkSleep extends AppCompatActivity {
 
     }
     String[] sleep = new String[] {"2hr", "7hr", "9hr", "10hr"};
+
+
     private void setData (int count, int range){
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0 ; i<count; i ++ ){
@@ -69,6 +71,7 @@ public class HomelinkSleep extends AppCompatActivity {
         dataSet.setSelectionShift(5f);
         dataSet.setSliceSpace(3f);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
