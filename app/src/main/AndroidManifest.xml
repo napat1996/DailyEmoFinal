@@ -30,6 +30,7 @@
         <activity android:name=".HomelinkSleep" />
         <activity android:name=".HomelinkStep" />
         <activity android:name=".HomelinkMap" />
+        <activity android:name=".Calendar" />
     </application>
 
 </manifest>

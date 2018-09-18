@@ -25,9 +25,9 @@ import static android.content.ContentValues.TAG;
 public class Data {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-15.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3Mjg0MzU1LCJpYXQiOjE1MzcyNTU1NTV9.wtzVb6AgligMpu_-gCjcqzpJu457yctqUAP0gAvhVoE";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MzA0NDAzLCJpYXQiOjE1MzcyNzU2MDN9.l9rStzi143jV6hBTuB4v38tb4up243yS2KiKPto0-Rg";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
@@ -87,7 +87,7 @@ public class Data {
         return sleepStage;
     }
 
-    public String  getRem() throws IOException, ParseException {
+    public Long getRem() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -96,18 +96,13 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         //String heartRateValue = datasetObject.toJSONString();
-        String rem = (stages.get("rem")) + "";
-        final String deep = (stages.get("deep")) + "";
-        final String light = (stages.get("light")) + "";
-        final String wake = (stages.get("wake")) + "";
-        Log.e(TAG, "===========================Sleep level : REM : " + rem + " DEEP : "+deep+" LIGHT : "+light+" AWAKE : "+ wake);
-        JSONArray sleep = (JSONArray) responseObject.get("sleep");
+        long rem = (Long) (stages.get("rem"));
 
         Log.e(TAG, "run: Date Of Sleep REM : "+ rem );
         return rem;
     }
 
-    public String  getDeep() throws IOException, ParseException {
+    public Long  getDeep() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -116,12 +111,12 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         //String heartRateValue = datasetObject.toJSONString();
-        final String deep = (stages.get("deep")) + "";
+        final long deep = (Long)(stages.get("deep"));
 
         Log.e(TAG, "run: Date Of Sleep Deep : "+ deep );
         return deep;
     }
-    public String  getlight() throws IOException, ParseException {
+    public Long  getlight() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -129,13 +124,13 @@ public class Data {
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
-        final String light = (stages.get("light")) + "";
+        final long light = (Long)(stages.get("light"));
         Log.e(TAG, "===========================Sleep level :  LIGHT : "+light);
 
         return light;
     }
 
-    public String  getWake() throws IOException, ParseException {
+    public Long  getWake() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -143,7 +138,7 @@ public class Data {
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
-        final String wake = (stages.get("wake")) + "";
+        final long wake = (Long)(stages.get("wake"));
         Log.e(TAG, "===========================Sleep level : AWAKE : "+ wake);
 
         return wake;

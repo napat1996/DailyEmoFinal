@@ -28,9 +28,10 @@ public class DhomeFragment extends Fragment {
 
     private TextView txtHeartRate, txtSleep;
     View view;
-    private Button btnHeartRate, btnSleep, btnStep, btnMap;
+    private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private static final String API_PREFIX = "https://api.fitbit.com";
 
+    LoginActivity loginActivity = new LoginActivity();
 
 
     public DhomeFragment() {
@@ -52,25 +53,28 @@ public class DhomeFragment extends Fragment {
                     final int heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
 
-
-
+                    DatabaseService db = new DatabaseService();
 
                     Log.e(TAG, "onCreateView: sleep : "+ sleepMinute );
+                    try {
+                        db.updateHeartRateDataToDB(getActivity().getApplicationContext());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            DatabaseService db = new DatabaseService();
+
+                            btnEmo = getActivity().findViewById(R.id.button_mood);
+
                             btnHeartRate = getActivity().findViewById(R.id.buttom_hr);
                             txtHeartRate = getActivity().findViewById(R.id.heart_rate);
                             txtHeartRate.setText(heartRate + "");
-//                            try {
-//                                db.updateHeartRateDataToDB();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            } catch (ParseException e) {
-//                                e.printStackTrace();
-//                            }
+
 
                             btnSleep = getActivity().findViewById(R.id.buttom_sleep);
                             txtSleep = getActivity().findViewById(R.id.text_sleep);
@@ -79,6 +83,17 @@ public class DhomeFragment extends Fragment {
                             btnStep = getActivity().findViewById(R.id.buttom_step);
 
                             btnMap = getActivity().findViewById(R.id.buttom_map2);
+
+
+                            btnEmo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    System.out.println("go to Mood graph page");
+                                    Intent myIntent = new Intent(getActivity(), Calendar.class);
+                                    startActivity(myIntent);
+
+                                }
+                            });
 
                             btnHeartRate.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -93,7 +108,7 @@ public class DhomeFragment extends Fragment {
                             btnSleep.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    System.out.println("go to heart rate graph page");
+                                    System.out.println("go to sleep graph page");
                                     Intent myIntent = new Intent(getActivity(), HomelinkSleep.class);
                                     startActivity(myIntent);
 
@@ -103,7 +118,7 @@ public class DhomeFragment extends Fragment {
                             btnStep.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    System.out.println("go to heart rate graph page");
+                                    System.out.println("go to step graph page");
                                     Intent myIntent = new Intent(getActivity(), HomelinkStep.class);
                                     startActivity(myIntent);
 
@@ -113,7 +128,7 @@ public class DhomeFragment extends Fragment {
                             btnMap.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    System.out.println("go to heart rate graph page");
+                                    System.out.println("go to Traffic graph page");
                                     Intent myIntent = new Intent(getActivity(), HomelinkMap.class);
                                     startActivity(myIntent);
 

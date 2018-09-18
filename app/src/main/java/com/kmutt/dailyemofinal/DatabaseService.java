@@ -1,5 +1,7 @@
 package com.kmutt.dailyemofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
@@ -17,19 +19,17 @@ import static android.content.ContentValues.TAG;
 
 public class DatabaseService {
     FirebaseDatabase database;
-    DatabaseReference mRootRef, users;
+    DatabaseReference mRootRef;
     Data data = new Data();
-    User user = new User();
     Calendar calendar = Calendar.getInstance();
-    LoginActivity loginActivity = new LoginActivity();
 
     private void updateSleepDataToDB() throws IOException, ParseException {
 
         long sleepMinute = data.getMinutesAsleep();
-        String rem = data.getRem();
-        String deep = data.getDeep();
-        String light = data.getlight();
-        String wake = data.getWake();
+        long rem = data.getRem();
+        long deep = data.getDeep();
+        long light = data.getlight();
+        long wake = data.getWake();
         String dateOfSleep = data.getDateOfSleep();
         String startTime = data.getStartTimeOfSleep();
         String endTime = data.getEndTimeOfSleep();
@@ -41,16 +41,20 @@ public class DatabaseService {
         Log.e(TAG, "updateSleepDataToDB: Sleep Minute : "+ sleepMinute );
         sleep.child(dateOfSleep).setValue(stages);
         Log.e(TAG, "updateSleepDataToDB: Sleep Stages : "+ stages );
+        Log.e(TAG, "REM =  : "+ rem );
     }
 
-    public void updateHeartRateDataToDB() throws IOException, ParseException {
+    public void updateHeartRateDataToDB(Context context) throws IOException, ParseException {
+
+        SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "");
+
         int heartRateValue = data.getHeartRateValue();
         String heartRateTime = data.getHeartRateTime();
-        Log.d(TAG, "updateSleepDataToDB: "+ user.getUsername());
         database = FirebaseDatabase.getInstance();
-        mRootRef = database.getReference("Users/"+ loginActivity.mUsername);
 
-//        DatabaseReference time = mRootRef.child("Time")
+        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
+
         DatabaseReference heartRate = mRootRef.child("HeartRate");
         heartRate.child(heartRateTime).setValue(heartRateValue);
 

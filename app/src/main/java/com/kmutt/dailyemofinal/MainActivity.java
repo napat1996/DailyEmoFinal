@@ -2,6 +2,7 @@ package com.kmutt.dailyemofinal;
 
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -64,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         dl = findViewById(R.id.dl);
         toggle = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);

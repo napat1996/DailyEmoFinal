@@ -1,6 +1,7 @@
 package com.kmutt.dailyemofinal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         btnToSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("EIEI");
                 Intent s = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(s);
 
@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logIn(final String username, final String password) {
-        System.out.println("Hi, I'm a logIn method!!");
         mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,6 +99,13 @@ public class LoginActivity extends AppCompatActivity {
 
                             mUsername = username;
                             user.setUsername(username);
+
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("username", mUsername);
+                            editor.commit();
+
+                            Log.e("Debugging =====", preferences.getString("username", "def"));
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
