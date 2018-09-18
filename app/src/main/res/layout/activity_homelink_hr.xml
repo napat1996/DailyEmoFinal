@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomelinkHr"
-    android:background="@drawable/bggggg"
+    android:background="#F0F0F0"
     android:id="@+id/mainlayout"
     >
 

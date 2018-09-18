@@ -16,7 +16,7 @@
         android:id="@+id/flcontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bggggg"
+        android:background="#F0F0F0"
         >
 
 
@@ -29,7 +29,7 @@
             android:layout_marginStart="94dp"
             android:text="--"
             android:textAllCaps="true"
-            android:textColor="#3A727F"
+            android:textColor="#afaa9e"
             android:textSize="20sp"
             android:textAlignment="center"
              />
@@ -41,8 +41,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="52dp"
-
-
             android:layout_marginTop="198dp"
             android:background="@drawable/loogoo" />
 
@@ -64,7 +62,7 @@
             android:layout_marginEnd="106dp"
             android:text="--"
             android:textAlignment="center"
-            android:textColor="#3A727F"
+            android:textColor="#afaa9e"
             android:textSize="20sp" />
 
 
@@ -105,7 +103,7 @@
             android:layout_alignStart="@+id/buttom_hr"
             android:layout_below="@+id/buttom_map2"
             android:text="3,049 steps"
-            android:textColor="#3A727F"
+            android:textColor="#afaa9e"
             android:textSize="20sp" />
 
 
