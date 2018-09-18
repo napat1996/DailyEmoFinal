@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.kmutt.dailyemofinal.Model.Data;
 
 import org.json.simple.parser.ParseException;

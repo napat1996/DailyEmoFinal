@@ -56,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
     Fragment[] bottomNavigationFragments;
 
+    TrafficActivity trafficActivity = new TrafficActivity();
+
     private boolean isSterss = false;
-    private boolean isJam = false;
+    private boolean isJam = trafficActivity.isTrafficJam();
     private int heartRate =0, asSleep = 0;
     public String stressStr = "Normal";
 
@@ -136,46 +138,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void RepeatTask() {
-        repeatTaskThread = new Thread() {
-            public void run() {
-                while (true) {
-                    try {
-                        HttpURLConnection connection = (HttpURLConnection) new URL(API_PREFIX.concat("/oauth2/token")).openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setRequestProperty("Authorization", "Basic MjJDWlBOOmE0NjNiNWQ0ZWMyZDYzNGQwYjliMWE2NWFiYWJlNjdk");
-                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                        String body = "{\\r\\n\\\"clientId\\\": \\\"22CZPN\\\",\\r\\n\\\"code\\\": \\\"91f5ded2732843a1117f34cdafaa443c125a5f6a\\\",\\r\\n\\\"grant_type\\\": \\\"authorization_code\\\"\\r\\n}";
-                        byte[] outputInBytes = body.getBytes("UTF-8");
-
-                        OutputStream outputStream = connection.getOutputStream();
-                        outputStream.write(outputInBytes);
-                        outputStream.close();
-
-                        InputStream response = connection.getInputStream();
-                        JSONParser jsonParser = new JSONParser();
-                        JSONObject responseObject = (JSONObject)jsonParser.parse(
-                                new InputStreamReader(response, "UTF-8"));
-                        String access_token = (String) responseObject.get("access_token");
-                        Log.d("Access Token", access_token);
-
-                        try {
-                            Thread.sleep(28800);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-                }
-            }
-        };
-
-        repeatTaskThread.start();
-    }
 
     //nav bar
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =  new BottomNavigationView.OnNavigationItemSelectedListener() {

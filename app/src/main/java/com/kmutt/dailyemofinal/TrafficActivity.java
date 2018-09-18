@@ -1,266 +1,230 @@
 package com.kmutt.dailyemofinal;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
-import android.Manifest;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-public class TrafficActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnMarkerDragListener {
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
-    private static final String TAG = "TrafficActivity";
-    private TextView mLatitudeTextView;
-    private TextView mLongitudeTextView;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
-    private LocationManager mLocationManager;
+public class TrafficActivity extends AppCompatActivity {
 
-    private LocationRequest mLocationRequest;
-    private com.google.android.gms.location.LocationListener listener;
-    private long UPDATE_INTERVAL = 2 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private FusedLocationProviderClient mFusedLocationClient;
+    private boolean mLocationPermissionGranted;
 
-    private LocationManager locationManager;
+    private Location preLocation;
+    private Location thisLocation;
 
-    private GoogleMap mMap;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    int PROXIMITY_RADIUS = 10000;
-    double latitude, longitude;
-    double end_latitude, end_longitude;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    //ลูบทุกๆวิ (ตรงนี้เราต้องไป set เวลาเองว่าเราจะเอากี่นาทีเพื่อหาระยะห่างและเวลาซึ่งในที่นี้เราอาจจะจับที่ 5 นาที)
+    private static final int INTERVAL = 1 * 1000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traffic);
 
-        mLatitudeTextView = (TextView) findViewById(R.id.latitude_textview);
-        mLatitudeTextView = (TextView) findViewById((R.id.latitude_textview));
-        mLongitudeTextView = (TextView) findViewById(R.id.longitude_textview);
+        //setContentView(R.layout.activity_main);
+        //เปิด service เพื่อขอ current location
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //ขอ permission โทรศัพท์
+        getLocationPermission();
+        //ขอ latitide/longtitude ครั้งแรก
+        getDeviceLocation("initial");
+        //ทำทุกๆ interval 1 วิ (1*1000)
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
+                getDeviceLocation("service");
+                handler.postDelayed(this, INTERVAL);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
-
-        //Check if Google Play Services Available or not
-        if (!CheckGooglePlayServices()) {
-            Log.d("onCreate", "Finishing test case since Google Play Services are not available");
-            finish();
-        }
-        else {
-            Log.d("onCreate","Google Play Services available.");
-        }
-
-
-
+            }
+        }, INTERVAL);
     }
 
-    private boolean CheckGooglePlayServices() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(this);
-        if(result != ConnectionResult.SUCCESS) {
-            if(googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(this, result,
-                        0).show();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    public boolean checkLocationPermission(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Asking user if explanation is needed
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                //Prompt the user once explanation has been shown
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
         } else {
-            return true;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted. Do the
-                    // contacts-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        if (mGoogleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
-                        mMap.setMyLocationEnabled(true);
-                    }
-
-                } else {
-
-                    // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
+                    mLocationPermissionGranted = true;
                 }
-                return;
             }
-
-            // other 'case' lines to check for other permissions this app might request.
-            // You can add here other case statements according to your requirement.
         }
     }
 
-    private void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
+    private void getDeviceLocation(final String type) {
+        Log.d("Debugging", "in getDevicePermission");
+        try {
+            if(mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationClient.getLastLocation();
+                locationResult.addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        Log.d("Debugging", "in onSuccess");
+                        if(location != null) {
+                            if (type == "initial")
+                                preLocation = location;
+                            else {
+                                thisLocation = location;
+                            }
 
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                            try {
+                                calculateVelocity();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Log.d("Debugging", "location is null");
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
+//    private void calculateVelocity() {
+//
+//        Log.d("Debugging", "in calculate velo");
+//        if (preLocation != null && thisLocation != null) {
+//            (new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        final double v, s, t;
+//                        String url = "https://maps.googleapis.com/maps/api/directions/json?";
+//                        url += "origin=" + preLocation.getLatitude() + "," + preLocation.getLongitude();
+//                        url += "&destination=" + thisLocation.getLatitude() + "," + thisLocation.getLongitude();
+//                        url += "&key=" + "AIzaSyDjEK_vRWBhbFL4S_3CsXWO-TG_7bBkXwk";
+//                        //ปริ้นดูค่าใน logcat จะขึ้น http คลิกตามลิ้ง
+//                        Log.d("Debugging", url);
+//                        URLConnection connection = new URL(url).openConnection();
+//                        InputStream response = connection.getInputStream();
+//                        JSONParser parser = new JSONParser();
+//                        JSONObject result = (JSONObject) parser.parse(
+//                                new InputStreamReader(response, "UTF-8"));
+//                        JSONObject routes = (JSONObject) ((JSONArray)result.get("routes")).get(0);
+//                        JSONObject legs = (JSONObject) ((JSONArray) routes.get("legs")).get(0);
+//                        Long distance = (Long)((JSONObject) legs.get("distance")).get("value");
+//                        Long duration = (Long)((JSONObject) legs.get("duration")).get("value");
+//
+//                        // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
+//                        Log.d("Debugging : Distance = ", distance + "");
+//                        Log.d("Debugging : Duration = ", duration + "");
+//                        t = 5;
+//                        s = distance;
+//                        v = s/t;
+//
+//
+//                        // reset location
+//                        //ห้ามลบบรรทัดนี้*****
+//                        preLocation = thisLocation;
+//                        thisLocation = null;
+//
+//                    } catch (MalformedURLException ex) {
+//                        ex.printStackTrace();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    } catch (ParseException ex) {
+//                        ex.printStackTrace();
+//                    }
+//
+//                }
+//            })).start();
+//        }
+//    }
+    public double v, s, t;
+    public double calculateVelocity() throws IOException, ParseException {
+
+        Log.d("Debugging", "in calculate velo");
+        if (preLocation != null && thisLocation != null) {
+
+            String url = "https://maps.googleapis.com/maps/api/directions/json?";
+            url += "origin=" + preLocation.getLatitude() + "," + preLocation.getLongitude();
+            url += "&destination=" + thisLocation.getLatitude() + "," + thisLocation.getLongitude();
+            url += "&key=" + "AIzaSyDjEK_vRWBhbFL4S_3CsXWO-TG_7bBkXwk";
+            //ปริ้นดูค่าใน logcat จะขึ้น http คลิกตามลิ้ง
+            Log.d("Debugging", url);
+            URLConnection connection = new URL(url).openConnection();
+            InputStream response = connection.getInputStream();
+            JSONParser parser = new JSONParser();
+            JSONObject result = (JSONObject) parser.parse(new InputStreamReader(response, "UTF-8"));
+            JSONObject routes = (JSONObject) ((JSONArray) result.get("routes")).get(0);
+            JSONObject legs = (JSONObject) ((JSONArray) routes.get("legs")).get(0);
+            Long distance = (Long) ((JSONObject) legs.get("distance")).get("value");
+            Long duration = (Long) ((JSONObject) legs.get("duration")).get("value");
+
+            // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
+            Log.d("Debugging : Distance = ", distance + "");
+            Log.d("Debugging : Duration = ", duration + "");
+            t = 5;
+            s = distance;
+            v = s / t;
+
+
+            // reset location
+            //ห้ามลบบรรทัดนี้*****
+            preLocation = thisLocation;
+            thisLocation = null;
+            return v;
+        }
+        else
+            return 300;
 
     }
 
-    private String getDirectionsUrl()
-    {
-        StringBuilder googleDirectionsUrl = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
-        googleDirectionsUrl.append("origin="+latitude+","+longitude);
-        googleDirectionsUrl.append("&destination="+end_latitude+","+end_longitude);
-        googleDirectionsUrl.append("&key=AIzaSyDjEK_vRWBhbFL4S_3CsXWO-TG_7bBkXwk");
-
-        return googleDirectionsUrl.toString();
+    public boolean isTrafficJam(){
+        //Don't know how to get V from calculatevevol
+        if(v < 30){
+            return true;
+        }
+        else
+            return false;
     }
 
-    private String getUrl(double latitude, double longitude, String nearbyPlace)
-    {
-        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location=" + latitude + "," + longitude);
-        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
-        googlePlacesUrl.append("&type=" + nearbyPlace);
-        googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyDjEK_vRWBhbFL4S_3CsXWO-TG_7bBkXwk");
-        Log.d("getUrl", googlePlacesUrl.toString());
-        return (googlePlacesUrl.toString());
-    }
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        mLatitudeTextView.setText(String.valueOf(location.getLatitude()));
-        mLongitudeTextView.setText(String.valueOf(location.getLongitude() ));
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
-    }
-
-    @Override
-    public void onMarkerDragStart(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDrag(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }
+//ค่าที่ได้มาอาจจะเพี้ยน เพราะ current location มีหลายที่ อย่างเช้นใน ม.ปักหมุด current เราไม่เหมือนกัร
+//ตอนนี้ค่าที่ได้เป็น value อยู่ดูได้ใน http
