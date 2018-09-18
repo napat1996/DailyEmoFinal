@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class Calendar extends AppCompatActivity {
      Data data = new Data();
      MainActivity mainActivity = new MainActivity();
      TextView txtStress;
+     CalendarView calendarView;
+
 
     //https://www.youtube.com/watch?v=xs5406vApTo
     @Override
@@ -63,4 +66,5 @@ public class Calendar extends AppCompatActivity {
 
 
     }
+
 }
