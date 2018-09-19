@@ -26,12 +26,11 @@ import static android.content.ContentValues.TAG;
 
 public class DhomeFragment extends Fragment {
 
-    private TextView txtHeartRate, txtSleep;
+    private TextView txtHeartRate, txtSleep, txtActivity;
     View view;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
-    private static final String API_PREFIX = "https://api.fitbit.com";
 
-    LoginActivity loginActivity = new LoginActivity();
+//    LoginActivity loginActivity = new LoginActivity();
 
 
     public DhomeFragment() {
@@ -48,10 +47,13 @@ public class DhomeFragment extends Fragment {
             @Override
             public void run() {
                 Data data = new Data();
+//                final TrackActivity trackActivity = new TrackActivity();
 
                 try {
                     final int heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
+//                    final String activity = trackActivity.activity;
+//                    Log.d(TAG, "run: Activity : "+activity);
 
                     DatabaseService db = new DatabaseService();
 
@@ -81,6 +83,8 @@ public class DhomeFragment extends Fragment {
                             txtSleep.setText(sleepMinute + "");
 
                             btnStep = getActivity().findViewById(R.id.buttom_step);
+                            txtActivity = getActivity().findViewById(R.id.text_steps);
+                            txtActivity.setText("");
 
                             btnMap = getActivity().findViewById(R.id.buttom_map2);
 

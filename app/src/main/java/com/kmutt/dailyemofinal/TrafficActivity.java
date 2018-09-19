@@ -29,6 +29,7 @@ import java.net.URLConnection;
 
 public class TrafficActivity extends AppCompatActivity {
 
+    private static final String TAG = TrackActivity.class.getSimpleName();
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted;
 
@@ -176,9 +177,9 @@ public class TrafficActivity extends AppCompatActivity {
 //            })).start();
 //        }
 //    }
-    public double v, s, t;
-    public double calculateVelocity() throws IOException, ParseException {
 
+    public double calculateVelocity() throws IOException, ParseException {
+        double v, s, t;
         Log.d("Debugging", "in calculate velo");
         if (preLocation != null && thisLocation != null) {
 
@@ -204,6 +205,7 @@ public class TrafficActivity extends AppCompatActivity {
             s = distance;
             v = s / t;
 
+            Log.e(TAG, "calculateVelocity: V = " + v);
 
             // reset location
             //ห้ามลบบรรทัดนี้*****
@@ -216,8 +218,10 @@ public class TrafficActivity extends AppCompatActivity {
 
     }
 
-    public boolean isTrafficJam(){
+    public boolean isTrafficJam() throws IOException, ParseException {
         //Don't know how to get V from calculatevevol
+        double v = calculateVelocity();
+        Log.e(TAG, "isTrafficJam: V = "+ v );
         if(v < 30){
             return true;
         }

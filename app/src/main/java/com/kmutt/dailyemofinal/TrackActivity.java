@@ -22,6 +22,7 @@ public class TrackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_track);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -105,5 +106,19 @@ public class TrackActivity extends AppCompatActivity {
     private void stopTracking() {
         Intent intent = new Intent(TrackActivity.this, BackgroundDetectedActivitiesService.class);
         stopService(intent);
+    }
+
+    public void setActivity(){
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
+                    int type = intent.getIntExtra("type", -1);
+                    int confidence = intent.getIntExtra("confidence", 0);
+                    handleUserActivity(type, confidence);
+                }
+            }
+        };
     }
 }

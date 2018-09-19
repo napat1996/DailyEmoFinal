@@ -27,7 +27,7 @@ public class Data {
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MzA0NDAzLCJpYXQiOjE1MzcyNzU2MDN9.l9rStzi143jV6hBTuB4v38tb4up243yS2KiKPto0-Rg";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MzY2NDgxLCJpYXQiOjE1MzczMzc2ODF9.pectrz-cWUom_M_KGb5tjO_F9q5XWiUHXOIzyhhKynQ";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
@@ -41,7 +41,7 @@ public class Data {
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
         final String heartRateValue = (datasetObject.get("value")) + "";
         final String heartRateTime = (datasetObject.get("time")) + "";
-        Log.e(TAG, "run: ================ Heart Rate: "+heartRateValue);
+        Log.d(TAG, "run: ================ Heart Rate: "+heartRateValue);
         return Integer.parseInt(""+datasetObject.get("value"));
     }
 
@@ -57,7 +57,7 @@ public class Data {
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
         final String heartRateValue = (datasetObject.get("value")) + "";
         final String heartRateTime = (datasetObject.get("time")) + "";
-        Log.e(TAG, "run: ================ Time: " + heartRateTime );
+        Log.d(TAG, "run: ================ Time: " + heartRateTime );
         return heartRateTime;
     }
 
@@ -69,7 +69,7 @@ public class Data {
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONObject summary = (JSONObject) responseObject.get("summary");
         long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
-        Log.e(TAG, "getMinutesAsleep: "+ minuteAsleep );
+        Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
         return minuteAsleep;
     }
 
@@ -82,7 +82,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         String sleepStage = stages.toJSONString();
-        Log.e(TAG, "===========================Sleep level : " +sleepStage);
+        Log.d(TAG, "===========================Sleep level : " +sleepStage);
 
         return sleepStage;
     }
@@ -98,7 +98,7 @@ public class Data {
         //String heartRateValue = datasetObject.toJSONString();
         long rem = (Long) (stages.get("rem"));
 
-        Log.e(TAG, "run: Date Of Sleep REM : "+ rem );
+        Log.d(TAG, "run: Date Of Sleep REM : "+ rem );
         return rem;
     }
 
@@ -113,7 +113,7 @@ public class Data {
         //String heartRateValue = datasetObject.toJSONString();
         final long deep = (Long)(stages.get("deep"));
 
-        Log.e(TAG, "run: Date Of Sleep Deep : "+ deep );
+        Log.d(TAG, "run: Date Of Sleep Deep : "+ deep );
         return deep;
     }
     public Long  getlight() throws IOException, ParseException {
@@ -125,7 +125,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         final long light = (Long)(stages.get("light"));
-        Log.e(TAG, "===========================Sleep level :  LIGHT : "+light);
+        Log.d(TAG, "===========================Sleep level :  LIGHT : "+light);
 
         return light;
     }
@@ -139,7 +139,7 @@ public class Data {
         JSONObject summary = (JSONObject) responseObject.get("summary");
         JSONObject stages = (JSONObject) summary.get("stages");
         final long wake = (Long)(stages.get("wake"));
-        Log.e(TAG, "===========================Sleep level : AWAKE : "+ wake);
+        Log.d(TAG, "===========================Sleep level : AWAKE : "+ wake);
 
         return wake;
     }

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     TrafficActivity trafficActivity = new TrafficActivity();
 
     private boolean isSterss = false;
-    private boolean isJam = trafficActivity.isTrafficJam();
+
     private int heartRate =0, asSleep = 0;
     public String stressStr = "Normal";
 
@@ -111,12 +111,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String isStress() throws IOException, ParseException {
+        boolean isJam = trafficActivity.isTrafficJam();
         Data data = new Data();
         boolean isStress;
 
         int heartRate = data.getHeartRateValue();
-        if( heartRate > 70){
-            if(asSleep < 300){
+        if( heartRate > 100){
+            if(asSleep < 40000){
                 isStress = true;
                 stressStr = "Stress";
             }

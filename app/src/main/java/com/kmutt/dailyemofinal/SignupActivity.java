@@ -1,6 +1,7 @@
 package com.kmutt.dailyemofinal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     Button btnRegister;
     DatabaseReference mRootRef, username;
     FirebaseDatabase database;
+    String mUsername;
 
     private FirebaseAuthException auth;
 
@@ -57,6 +59,12 @@ public class SignupActivity extends AppCompatActivity {
                         else {
                             mRootRef.child(user.getUsername()).setValue(user);
                             Toast.makeText(SignupActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
+
+                            mUsername = inputUsername.toString();
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("username", mUsername);
+                            editor.commit();
                         }
                     }
 
