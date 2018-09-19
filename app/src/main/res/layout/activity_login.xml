@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@drawable/bggggg"
+    android:background="#d5c5c6"
 
     >
 
@@ -29,7 +29,7 @@
         android:layout_above="@+id/inputUsername"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-188dp"
-        android:src="@drawable/loogoo" />
+        android:src="@drawable/logo_newww" />
 
     <EditText
         android:id="@+id/inputUsername"
@@ -68,7 +68,7 @@
         android:background="@drawable/rounded_button"
         android:elevation="0sp"
         android:text="SIGN IN"
-        android:textColor="#4789E8"
+        android:textColor="#c1a2a4"
         android:textSize="15sp" />
 
     <TextView
@@ -80,7 +80,7 @@
         android:layout_marginBottom="30dp"
         android:layout_marginStart="35dp"
         android:text="Create a new account"
-        android:textColor="#2c4c71"
+        android:textColor="#ac8588"
         android:textSize="15sp" />
 
     <TextView
@@ -89,7 +89,7 @@
         android:layout_alignTop="@+id/createNewAccount"
         android:layout_toEndOf="@+id/checkBox"
         android:text="Forgot your password?"
-        android:textColor="#2c4c71"
+        android:textColor="#ac8588"
         android:textSize="15sp" />
 
     <CheckBox

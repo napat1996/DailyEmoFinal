@@ -6,81 +6,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="@drawable/bggggg">
+    android:background="@color/main_bg">
 
 
     <EditText
         android:id="@+id/inputUsername"
         android:layout_width="wrap_content"
-        android:layout_height="41dp"
+        android:layout_height="41sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="159dp"
+        android:layout_marginTop="159sp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
         android:hint="Username"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColorHint="@color/main_text"/>
 
     <EditText
         android:id="@+id/inputEmail"
         android:layout_width="wrap_content"
-        android:layout_height="41dp"
+        android:layout_height="41sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="221dp"
+        android:layout_marginTop="221sp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
         android:hint="E-mail"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColorHint="@color/main_text"/>
 
     <EditText
         android:id="@+id/inputPassword"
         android:layout_width="wrap_content"
-        android:layout_height="41dp"
+        android:layout_height="41sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="184dp"
+        android:layout_marginBottom="184sp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="@color/main_text"/>
 
     <EditText
         android:id="@+id/confirmPass"
         android:layout_width="wrap_content"
-        android:layout_height="41dp"
+        android:layout_height="41sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="120sp"
         android:background="@drawable/rounded_button_gery"
         android:ems="12"
         android:gravity="center"
         android:hint="Confirm password"
-        android:inputType="textPassword" />
-
+        android:inputType="textPassword"
+        android:textColorHint="@color/main_text"/>
 
     <Button
         android:id="@+id/sign_in_button"
-        android:layout_width="103dp"
-        android:layout_height="38dp"
+        android:layout_width="103sp"
+        android:layout_height="38sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="38sp"
         android:background="@drawable/rounded_button"
         android:text="REGISTER"
-        android:textColor="#5b687c" />
+        android:textColor="#c1a2a4" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="141dp"
-        android:layout_height="150dp"
+        android:layout_width="141sp"
+        android:layout_height="150sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        app:srcCompat="@drawable/loogoo" />
+        android:layout_marginTop="17sp"
+        app:srcCompat="@drawable/logo_newww" />
 
 
 </RelativeLayout>

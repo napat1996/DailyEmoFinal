@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#c1a2a4</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ba5e7e</color>
     <color name="white">#FFFFFF</color>
@@ -11,6 +11,18 @@
     <color name="jojo">#d2c4c4</color>
     <color name="green">#a1be92</color>
     <color name="fah">#c1d8e4</color>
+
+    ac8588
+
+    <color name="main_text">#c1a2a4</color>
+    <color name="main_bg">#d5c5c6</color>
+    <color name="main_text2">#ac8588</color>
+
+
+
+
+
+
 
 
 
