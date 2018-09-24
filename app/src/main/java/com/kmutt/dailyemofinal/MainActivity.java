@@ -492,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                double v, s, t;
+//                double v, s, t;
 
                 if (preLocation != null && thisLocation != null) {
                     String url = "https://maps.googleapis.com/maps/api/directions/json?";
@@ -515,9 +515,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("Debugging : Distance = ", distance + "");
                         Log.d("Debugging : Duration = ", duration + "");
 
-                        t = 5;
-                        s = distance;
-                        v = s / t;
+                        final int t = 5;
+                        final double s = distance;
+                        final double v = s / t;
 
                         Log.e(TAG, "calculateVelocity: V = " + v);
 
@@ -525,13 +525,25 @@ public class MainActivity extends AppCompatActivity {
                         //ห้ามลบบรรทัดนี้*****
                         preLocation = thisLocation;
                         thisLocation = null;
-                        txtTraffic.setText(v + "");
-                        txtTraffic.setText(v + "");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                txtTraffic.setText(v + "");
+                                txtTraffic.setText(v + "");
+                            }
+                        });
+
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 } else {
-                    txtTraffic.setText("error!!");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            txtTraffic.setText("error!!");
+                        }
+                    });
+
                 }
             }
 
