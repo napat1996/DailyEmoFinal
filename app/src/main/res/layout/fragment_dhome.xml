@@ -11,104 +11,127 @@
 
 
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:id="@+id/flcontent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/main_bg"
-        >
+    <!--<RelativeLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:id="@+id/flcontent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/main_bg"-->
+        <!--&gt;-->
 
 
-        <TextView
-            android:id="@+id/heart_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="220dp"
-            android:layout_marginStart="100dp"
-            android:text="--"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="#afaa9e"
-            android:textSize="20sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/heart_rate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_marginBottom="220dp"-->
+            <!--android:layout_marginStart="100dp"-->
+            <!--android:text="&#45;&#45;"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textAllCaps="true"-->
+            <!--android:textColor="#afaa9e"-->
+            <!--android:textSize="20sp" />-->
 
-        <Button
-            android:id="@+id/buttom_hr"
-            android:layout_width="66dp"
-            android:layout_height="62dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="73dp"
-            android:layout_marginTop="187dp"
-            android:background="@drawable/icon_heart" />
+        <!--<Button-->
+            <!--android:id="@+id/buttom_hr"-->
+            <!--android:layout_width="66dp"-->
+            <!--android:layout_height="62dp"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginStart="73dp"-->
+            <!--android:layout_marginTop="187dp"-->
+            <!--android:background="@drawable/icon_heart" />-->
 
-        <Button
-            android:id="@+id/buttom_sleep"
-            android:layout_width="68dp"
-            android:layout_height="65dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/buttom_hr"
-            android:layout_marginEnd="73dp"
-            android:background="@drawable/icon_moon" />
+        <!--<Button-->
+            <!--android:id="@+id/buttom_sleep"-->
+            <!--android:layout_width="68dp"-->
+            <!--android:layout_height="65dp"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignTop="@+id/buttom_hr"-->
+            <!--android:layout_marginEnd="73dp"-->
+            <!--android:background="@drawable/icon_moon" />-->
 
-        <TextView
-            android:id="@+id/text_sleep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/heart_rate"
-            android:layout_marginEnd="99dp"
-            android:text="--"
-            android:textAlignment="center"
-            android:textColor="#afaa9e"
-            android:textSize="20sp" />
-
-
-        <Button
-            android:id="@+id/buttom_map2"
-            android:layout_width="108dp"
-            android:layout_height="70dp"
-            android:layout_alignStart="@+id/buttom_sleep"
-            android:layout_alignTop="@+id/buttom_step"
-            android:background="@drawable/loogoo" />
-
-        <Button
-            android:id="@+id/buttom_step"
-            android:layout_width="71dp"
-            android:layout_height="61dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/buttom_hr"
-            android:layout_marginBottom="113dp"
-            android:background="@drawable/icon_step" />
+        <!--<TextView-->
+            <!--android:id="@+id/text_sleep"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignTop="@+id/heart_rate"-->
+            <!--android:layout_marginEnd="99dp"-->
+            <!--android:text="&#45;&#45;"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="#afaa9e"-->
+            <!--android:textSize="20sp" />-->
 
 
-        <Button
-            android:id="@+id/button_mood"
-            android:layout_width="141sp"
-            android:layout_height="150sp"
-            android:layout_marginTop="17sp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/logoja"
-            android:text="MOOD"
-            android:textColor="@color/white" />
+        <!--<Button-->
+            <!--android:id="@+id/buttom_map2"-->
+            <!--android:layout_width="108dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_alignStart="@+id/buttom_sleep"-->
+            <!--android:layout_alignTop="@+id/buttom_step"-->
+            <!--android:background="@drawable/loogoo" />-->
 
-        <TextView
-            android:id="@+id/text_steps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="72dp"
-            android:layout_marginStart="63dp"
-            android:text="3,049 steps"
-            android:textColor="#afaa9e"
-            android:textSize="20sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/text_activity"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignEnd="@+id/button_mood"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="59dp"-->
+            <!--android:text="&#45;&#45;"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="#afaa9e"-->
+            <!--android:textSize="20sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_map"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignTop="@+id/text_activity"-->
+            <!--android:layout_marginEnd="44dp"-->
+            <!--android:text="&#45;&#45;"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="#afaa9e"-->
+            <!--android:textSize="20sp" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/buttom_step"-->
+            <!--android:layout_width="71dp"-->
+            <!--android:layout_height="61dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignStart="@+id/buttom_hr"-->
+            <!--android:layout_marginBottom="113dp"-->
+            <!--android:background="@drawable/icon_step" />-->
 
 
-    </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/button_mood"-->
+            <!--android:layout_width="141sp"-->
+            <!--android:layout_height="150sp"-->
+            <!--android:layout_marginTop="17sp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:background="@drawable/logoja"-->
+            <!--android:text="MOOD"-->
+            <!--android:textColor="@color/white" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/text_steps"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignStart="@+id/heart_rate"-->
+            <!--android:layout_marginBottom="69dp"-->
+            <!--android:text="&#45;&#45;"-->
+            <!--android:textColor="#afaa9e"-->
+            <!--android:textSize="20sp" />-->
+
+
+    <!--</RelativeLayout>-->
 
 
 

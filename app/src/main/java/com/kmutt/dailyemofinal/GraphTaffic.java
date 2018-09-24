@@ -3,11 +3,11 @@ package com.kmutt.dailyemofinal;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class HomelinkMap extends AppCompatActivity {
+public class GraphTaffic extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homelink_map);
+        setContentView(R.layout.activity_graph_taffic);
     }
 }

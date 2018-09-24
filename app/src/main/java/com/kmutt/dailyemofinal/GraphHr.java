@@ -1,10 +1,7 @@
 package com.kmutt.dailyemofinal;
 
-import android.graphics.Color;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -12,14 +9,11 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-
 
 
 import java.util.ArrayList;
 
-public class HomelinkHr extends AppCompatActivity {
+public class GraphHr extends AppCompatActivity {
 
     private RelativeLayout mainlayout;
     private LineChart mchart;
@@ -31,7 +25,7 @@ public class HomelinkHr extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homelink_hr);
+        setContentView(R.layout.activity_graph_hr);
 
 //        mainlayout = (RelativeLayout) findViewById(R.id.mainlayout);
 //        // create line chart

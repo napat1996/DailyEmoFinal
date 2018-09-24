@@ -23,16 +23,16 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class HomelinkSleep extends AppCompatActivity {
+public class GraphSleep extends AppCompatActivity {
 
     private PieChart mChart;
-    private String TAG = HomelinkSleep.class.getSimpleName();
+    private String TAG = GraphSleep.class.getSimpleName();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homelink_sleep);
+        setContentView(R.layout.activity_graph_sleep);
 
 
         mChart = (PieChart)findViewById(R.id.chart1);

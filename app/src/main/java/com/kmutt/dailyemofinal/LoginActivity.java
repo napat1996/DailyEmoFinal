@@ -66,9 +66,9 @@ public class LoginActivity extends AppCompatActivity {
                 //btnLogin.setVisibility(View.INVISIBLE);
                 logIn(inputUsername.getText().toString(),
                         inputPassword.getText().toString());
+                Intent s = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(s);
 
-//                MainActivity activity = new MainActivity();
-//                activity.RepeatTask();
             }
         });
 

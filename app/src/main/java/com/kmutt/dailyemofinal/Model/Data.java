@@ -24,10 +24,10 @@ import static android.content.ContentValues.TAG;
 
 public class Data {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-20/1d/5min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-19.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3MzY2NDgxLCJpYXQiOjE1MzczMzc2ODF9.pectrz-cWUom_M_KGb5tjO_F9q5XWiUHXOIzyhhKynQ";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3ODIxODY1LCJpYXQiOjE1Mzc3OTMwNjV9.Wnq67gAcZ1HRz3EmALoEqpx163oIw3LgQa-MjfzBdiM";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();

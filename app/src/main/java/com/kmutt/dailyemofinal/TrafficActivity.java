@@ -214,7 +214,7 @@ public class TrafficActivity extends AppCompatActivity {
             return v;
         }
         else
-            return 300;
+            return 300.00;
 
     }
 

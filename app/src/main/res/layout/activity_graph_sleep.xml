@@ -5,20 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomelinkHr"
+    tools:context=".GraphSleep"
     android:background="#F0F0F0"
-    android:id="@+id/mainlayout"
     >
 
- <com.github.mikephil.charting.charts.BarChart
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:id="@+id/barchart_hr"
-     >
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
- </com.github.mikephil.charting.charts.BarChart>
-
-
+    </com.github.mikephil.charting.charts.PieChart>
 
 </RelativeLayout>
-

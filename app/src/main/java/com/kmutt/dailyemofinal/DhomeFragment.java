@@ -1,7 +1,6 @@
 package com.kmutt.dailyemofinal;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.kmutt.dailyemofinal.Model.Data;
 
 import org.json.simple.parser.ParseException;
@@ -26,11 +23,10 @@ import static android.content.ContentValues.TAG;
 
 public class DhomeFragment extends Fragment {
 
-    private TextView txtHeartRate, txtSleep, txtActivity;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic;
     View view;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
 
-//    LoginActivity loginActivity = new LoginActivity();
 
 
     public DhomeFragment() {
@@ -47,12 +43,11 @@ public class DhomeFragment extends Fragment {
             @Override
             public void run() {
                 Data data = new Data();
-//                final TrackActivity trackActivity = new TrackActivity();
 
                 try {
                     final int heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
-//                    final String activity = trackActivity.activity;
+//                    final String activity = trackActivity.setActivity();
 //                    Log.d(TAG, "run: Activity : "+activity);
 
                     DatabaseService db = new DatabaseService();
@@ -83,10 +78,12 @@ public class DhomeFragment extends Fragment {
                             txtSleep.setText(sleepMinute + "");
 
                             btnStep = getActivity().findViewById(R.id.buttom_step);
-                            txtActivity = getActivity().findViewById(R.id.text_steps);
-                            txtActivity.setText("");
+//                            txtActivity = getActivity().findViewById(R.id.text_steps);
+//                            txtActivity.setText(activity);
 
                             btnMap = getActivity().findViewById(R.id.buttom_map2);
+//                            txtTraffic = getActivity().findViewById(R.id.buttom_map2);
+//                            txtTraffic.setText(traffic+"");
 
 
                             btnEmo.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +100,7 @@ public class DhomeFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println("go to heart rate graph page");
-                                    Intent myIntent = new Intent(getActivity(), HomelinkHr.class);
+                                    Intent myIntent = new Intent(getActivity(), GraphHr.class);
                                     startActivity(myIntent);
 
                                 }
@@ -113,7 +110,7 @@ public class DhomeFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println("go to sleep graph page");
-                                    Intent myIntent = new Intent(getActivity(), HomelinkSleep.class);
+                                    Intent myIntent = new Intent(getActivity(), GraphSleep.class);
                                     startActivity(myIntent);
 
                                 }
@@ -133,7 +130,7 @@ public class DhomeFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println("go to Traffic graph page");
-                                    Intent myIntent = new Intent(getActivity(), HomelinkMap.class);
+                                    Intent myIntent = new Intent(getActivity(), GraphTaffic.class);
                                     startActivity(myIntent);
 
                                 }
