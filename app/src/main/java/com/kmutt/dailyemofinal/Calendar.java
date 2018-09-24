@@ -11,7 +11,7 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kmutt.dailyemofinal.Model.Data;
+import com.kmutt.dailyemofinal.Model.FitbitData;
 
 import org.json.simple.parser.ParseException;
 
@@ -25,7 +25,7 @@ import static com.kmutt.dailyemofinal.R.id.isStress;
 public class Calendar extends AppCompatActivity {
 
     private String TAG = Calendar.class.getSimpleName();
-     Data data = new Data();
+     FitbitData data = new FitbitData();
      MainActivity mainActivity = new MainActivity();
      TextView txtStress;
      CalendarView calendarView;

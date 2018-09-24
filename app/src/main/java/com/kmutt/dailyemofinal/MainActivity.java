@@ -34,7 +34,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.kmutt.dailyemofinal.Model.Data;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -50,6 +49,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.kmutt.dailyemofinal.Calendar;
+import com.kmutt.dailyemofinal.Model.FitbitData;
+
+import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
-    TextView txtActivity, txtTraffic;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic;
+    private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     Button btnRegister;
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -128,7 +131,108 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+
+                    FitbitData data = new FitbitData();
+
+                    try {
+                        final int heartRate = data.getHeartRateValue();
+                        final long sleepMinute = data.getMinutesAsleep();
+//                    final String activity = trackActivity.setActivity();
+//                    Log.d(TAG, "run: Activity : "+activity);
+
+                        DatabaseService db = new DatabaseService();
+
+                        Log.e(TAG, "onCreateView: sleep : "+ sleepMinute );
+                        try {
+                            db.updateHeartRateDataToDB(getApplicationContext().getApplicationContext());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                btnEmo = findViewById(R.id.button_mood);
+
+                                btnHeartRate = findViewById(R.id.buttom_hr);
+                                txtHeartRate = findViewById(R.id.heart_rate);
+                                txtHeartRate.setText(heartRate + "");
+
+
+                                btnSleep = findViewById(R.id.buttom_sleep);
+                                txtSleep = findViewById(R.id.text_sleep);
+                                txtSleep.setText(sleepMinute + "");
+
+                                btnStep = findViewById(R.id.buttom_step);
+//                            txtActivity = getActivity().findViewById(R.id.text_steps);
+//                            txtActivity.setText(activity);
+
+                                btnMap = findViewById(R.id.buttom_map2);
+//                            txtTraffic = getActivity().findViewById(R.id.buttom_map2);
+//                            txtTraffic.setText(traffic+"");
+
+
+                                btnEmo.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("go to Mood graph page");
+                                        Intent myIntent = new Intent(getApplicationContext(), Calendar.class);
+                                        startActivity(myIntent);
+
+                                    }
+                                });
+
+                                btnHeartRate.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("go to heart rate graph page");
+                                        Intent myIntent = new Intent(getApplicationContext(), GraphHr.class);
+                                        startActivity(myIntent);
+
+                                    }
+                                });
+
+                                btnSleep.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("go to sleep graph page");
+                                        Intent myIntent = new Intent(getApplicationContext(), GraphSleep.class);
+                                        startActivity(myIntent);
+
+                                    }
+                                });
+
+                                btnStep.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("go to step graph page");
+                                        Intent myIntent = new Intent(getApplicationContext(), HomelinkStep.class);
+                                        startActivity(myIntent);
+
+                                    }
+                                });
+
+                                btnMap.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("go to Traffic graph page");
+                                        Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
+                                        startActivity(myIntent);
+
+                                    }
+                                });
+                            }
+                        });
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     isStress();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -225,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String isStress() throws IOException, ParseException {
         boolean isJam = true;
-        Data data = new Data();
+        FitbitData data = new FitbitData();
         boolean isStress;
 
         int heartRate = data.getHeartRateValue();

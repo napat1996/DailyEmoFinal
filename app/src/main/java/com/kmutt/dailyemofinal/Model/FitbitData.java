@@ -22,7 +22,7 @@ import java.net.URLConnection;
 
 import static android.content.ContentValues.TAG;
 
-public class Data {
+public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-20/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-19.json";

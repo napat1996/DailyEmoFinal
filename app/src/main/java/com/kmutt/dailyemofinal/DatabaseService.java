@@ -7,7 +7,7 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kmutt.dailyemofinal.Model.Data;
+import com.kmutt.dailyemofinal.Model.FitbitData;
 import com.kmutt.dailyemofinal.Model.User;
 
 import org.json.simple.parser.ParseException;
@@ -20,7 +20,7 @@ import static android.content.ContentValues.TAG;
 public class DatabaseService {
     FirebaseDatabase database;
     DatabaseReference mRootRef;
-    Data data = new Data();
+    FitbitData data = new FitbitData();
     Calendar calendar = Calendar.getInstance();
 
     private void updateSleepDataToDB() throws IOException, ParseException {
