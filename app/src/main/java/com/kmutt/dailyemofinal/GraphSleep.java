@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.kmutt.dailyemofinal.Model.Data;
+import com.kmutt.dailyemofinal.Model.FitbitData;
 
 import org.json.simple.parser.ParseException;
 
@@ -86,7 +86,7 @@ public class GraphSleep extends AppCompatActivity {
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                Data sData = new Data();
+                FitbitData sData = new FitbitData();
                 ArrayList<PieEntry> values = new ArrayList<>();
                 try {
                     long valRem = sData.getRem()+ range / 5;
