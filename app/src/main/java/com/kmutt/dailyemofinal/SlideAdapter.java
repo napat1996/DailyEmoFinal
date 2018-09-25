@@ -36,20 +36,26 @@ public class SlideAdapter extends PagerAdapter {
 
     };
 
-    // list of description
-    public String[] lst_des = {
+//    // list of description
+////    public String[] lst_des = {
+////
+////            "Des1",
+////            "Des2",
+////            "Des3"
+////
+////    };
 
-            "Des1",
-            "Des2",
-            "Des3"
+
+    public int[] lst_des_image ={
+            R.drawable.txt_sleep, R.drawable.hr1, R.drawable.takeawalk1
 
     };
 
     public int[] lst_bg = {
 
-            Color.rgb(213, 197, 198),
-            Color.rgb(213, 197, 198),
-            Color.rgb(213, 197, 198)
+            Color.rgb(240, 240, 240),
+            Color.rgb(240, 240, 240),
+            Color.rgb(240, 240, 240)
 
     };
 
@@ -80,12 +86,12 @@ public class SlideAdapter extends PagerAdapter {
         LinearLayout layoutslide =  (LinearLayout) view.findViewById(R.id.slidelinearlayout);
         ImageView imgslide = (ImageView) view.findViewById(R.id.slideimg);
         ImageView titleimg = (ImageView) view.findViewById(R.id.imgtitle);
-        TextView txtdes = (TextView) view.findViewById(R.id.txtdescription);
+        ImageView desimg = (ImageView) view.findViewById(R.id.imgdes);
         layoutslide.setBackgroundColor(lst_bg[position]);
         imgslide.setImageResource(lst_image[position]);
         titleimg.setImageResource(lst_title_image[position]);
 
-        txtdes.setText(lst_des[position]);
+        desimg.setImageResource(lst_des_image[position]);
         container.addView(view);
         return view;
 
