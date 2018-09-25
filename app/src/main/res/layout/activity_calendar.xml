@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calendar"
+    tools:context=".Calendar_g"
     android:background="#F0F0F0"    >
 
 
@@ -19,15 +19,28 @@
                 <!--android:layout_centerHorizontal="true"-->
                 <!--android:background="@drawable/calen" />-->
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="375dp"
-        android:layout_height="358dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+    <!--<CalendarView-->
+        <!--android:id="@+id/calendarView"-->
+        <!--android:layout_width="375dp"-->
+        <!--android:layout_height="358dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"-->
 
 
-        />
+        <!--/>-->
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarVieww"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        app:mcv_arrowColor="@color/main_text2"
+        app:mcv_selectionColor="@color/main_text"
+        app:mcv_showOtherDates="all">
+
+    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+
+
+
 
 
     <TextView
@@ -36,10 +49,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="50dp"
         android:text="----"
         android:textColor="#cf5959"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:textStyle="bold" />
 
     <TextView
@@ -48,8 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="178dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginBottom="129dp"
+        android:layout_marginStart="28dp"
         android:text="MOOD:"
         android:textSize="20sp"
         android:textStyle="bold" />

@@ -48,10 +48,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.kmutt.dailyemofinal.Calendar;
+import com.kmutt.dailyemofinal.Calendar_g;
 import com.kmutt.dailyemofinal.Model.FitbitData;
 
 import static android.content.ContentValues.TAG;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         System.out.println("go to Mood graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), Calendar.class);
+                                        Intent myIntent = new Intent(getApplicationContext(), Calendar_g.class);
                                         startActivity(myIntent);
 
                                     }
