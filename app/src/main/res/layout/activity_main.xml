@@ -6,201 +6,215 @@
     android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kmutt.dailyemofinal.MainActivity">
+    tools:context="com.kmutt.dailyemofinal.MainActivity"
+    android:background="#F0F0F0">
 
     <!--//nav bar-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:clipToPadding="true"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:background="@color/blue">
+            android:background="#c1a2a4">
 
             <Button
                 android:id="@+id/btn_home"
                 android:layout_width="39dp"
                 android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="31dp"
+                android:layout_marginStart="40dp"
                 android:background="@drawable/ic_home_black_24dp" />
 
             <Button
                 android:id="@+id/btn_summary"
                 android:layout_width="39dp"
                 android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="109dp"
+                android:layout_marginStart="124dp"
                 android:background="@drawable/ic_date_range_black_24dp" />
 
             <Button
                 android:id="@+id/btn_suggestion"
                 android:layout_width="39dp"
                 android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="147dp"
-                android:background="@drawable/ic_directions_car_black_24dp" />
+                android:layout_marginEnd="129dp"
+                android:background="@drawable/ic_mood_black_24dp" />
 
             <Button
                 android:id="@+id/btn_profile"
                 android:layout_width="39dp"
                 android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginEnd="40dp"
-                android:background="@drawable/ic_person24dp" />
+                android:background="@drawable/ic_people_white" />
             <!--end nav bar-->
         </RelativeLayout>
 
-            <!--android:id="@+id/flcontent"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:background="@color/main_bg"-->
-            <!--android:orientation="vertical">-->
+        <!--android:id="@+id/flcontent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:background="@color/main_bg"-->
+        <!--android:orientation="vertical">-->
 
 
-            <TextView
-                android:id="@+id/heart_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="213dp"
-                android:layout_marginStart="98dp"
-                android:text="--"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="#afaa9e"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/heart_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/buttom_sleep"
+            android:layout_marginStart="98dp"
+            android:text="--"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#afaa9e"
+            android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/buttom_hr"
-                android:layout_width="66dp"
-                android:layout_height="62dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="73dp"
-                android:layout_marginTop="187dp"
-                android:background="@drawable/icon_heart" />
+        <Button
+            android:id="@+id/buttom_hr"
+            android:layout_width="66dp"
+            android:layout_height="62dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="73dp"
+            android:layout_marginTop="187dp"
+            android:background="@drawable/icon_heart" />
 
-            <Button
-                android:id="@+id/buttom_sleep"
-                android:layout_width="68dp"
-                android:layout_height="65dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/buttom_hr"
-                android:layout_marginEnd="73dp"
-                android:background="@drawable/icon_moon" />
+        <Button
+            android:id="@+id/buttom_sleep"
+            android:layout_width="66sp"
+            android:layout_height="62sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/buttom_hr"
+            android:layout_marginEnd="73dp"
+            android:background="@drawable/icon_moon" />
 
-            <TextView
-                android:id="@+id/text_sleep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/heart_rate"
-                android:layout_marginEnd="99dp"
-                android:text="--"
-                android:textAlignment="center"
-                android:textColor="#afaa9e"
-                android:textSize="20sp" />
-
-
-            <Button
-                android:id="@+id/buttom_map2"
-                android:layout_width="108dp"
-                android:layout_height="70dp"
-                android:layout_alignStart="@+id/buttom_sleep"
-                android:layout_alignTop="@+id/buttom_step"
-                android:background="@drawable/loogoo" />
-
-            <TextView
-                android:id="@+id/text_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/button_mood"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="59dp"
-                android:text="--"
-                android:textAlignment="center"
-                android:textColor="#afaa9e"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/text_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/text_activity"
-                android:layout_marginEnd="44dp"
-                android:text="--"
-                android:textAlignment="center"
-                android:textColor="#afaa9e"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/buttom_step"
-                android:layout_width="71dp"
-                android:layout_height="61dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/buttom_hr"
-                android:layout_marginBottom="134dp"
-                android:background="@drawable/icon_step" />
+        <TextView
+            android:id="@+id/text_sleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/heart_rate"
+            android:layout_marginEnd="99dp"
+            android:text="--"
+            android:textAlignment="center"
+            android:textColor="#afaa9e"
+            android:textSize="20sp" />
 
 
-            <Button
-                android:id="@+id/button_mood"
-                android:layout_width="141sp"
-                android:layout_height="150sp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="17sp"
-                android:background="@drawable/logoja"
-                android:text="MOOD"
-                android:textColor="@color/white" />
+        <Button
+            android:id="@+id/buttom_map2"
+            android:layout_width="66sp"
+            android:layout_height="62sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/buttom_sleep"
+            android:layout_marginBottom="126dp"
+            android:background="@drawable/carr" />
 
-            <TextView
-                android:id="@+id/text_steps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/heart_rate"
-                android:layout_marginBottom="69dp"
-                android:text="--"
-                android:textColor="#afaa9e"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/text_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="84dp"
+            android:layout_toStartOf="@+id/buttom_sleep"
+            android:text="--"
+            android:textAlignment="center"
+            android:textColor="#afaa9e"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_activity"
+            android:layout_marginStart="-73dp"
+            android:layout_toEndOf="@+id/buttom_sleep"
+            android:text="--"
+            android:textAlignment="center"
+            android:textColor="#afaa9e"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttom_step"
+            android:layout_width="66sp"
+            android:layout_height="62sp"
+            android:layout_alignStart="@+id/buttom_hr"
+            android:layout_alignTop="@+id/buttom_map2"
+            android:background="@drawable/icon_step" />
 
 
+        <Button
+            android:id="@+id/button_mood"
+            android:layout_width="141sp"
+            android:layout_height="150sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17sp"
+            android:background="@drawable/logoja"
+            android:text="MOOD"
+            android:textColor="@color/white" />
 
+        <TextView
+            android:id="@+id/text_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/heart_rate"
+            android:layout_alignTop="@+id/text_activity"
+            android:text="--"
+            android:textColor="#afaa9e"
+            android:textSize="20sp" />
 
+        <!--line-->
+        <View
+            android:layout_width="3sp"
+            android:layout_height="237sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="99dp"
+            android:background="@color/main_text2" />
+
+        <View
+            android:layout_width="275dp"
+            android:layout_height="3sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="213dp"
+            android:background="@color/main_text2" />
 
 
         <!--<FrameLayout-->
-            <!--android:id="@+id/flcontent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
+        <!--android:id="@+id/flcontent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
 
         <!--</FrameLayout>-->
 
         <!--<android.support.design.widget.BottomNavigationView-->
-            <!--android:id="@+id/main_nav"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="57sp"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:background="@color/white"-->
-            <!--app:itemIconTint="@color/front"-->
-            <!--app:itemTextColor="@color/front"-->
-            <!--app:menu="@menu/buttom_nav">-->
+        <!--android:id="@+id/main_nav"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="57sp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/white"-->
+        <!--app:itemIconTint="@color/front"-->
+        <!--app:itemTextColor="@color/front"-->
+        <!--app:menu="@menu/buttom_nav">-->
 
         <!--</android.support.design.widget.BottomNavigationView>-->
 
