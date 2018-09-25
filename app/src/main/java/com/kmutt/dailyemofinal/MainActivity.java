@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
-    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     Button btnRegister;
     DatabaseReference mRootRef, users;
@@ -113,16 +113,7 @@ public class MainActivity extends AppCompatActivity {
 //        BottomNavigationView bottomNavigationView = findViewById(R.id.main_nav);
 //        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
-                    int type = intent.getIntExtra("type", -1);
-                    int confidence = intent.getIntExtra("confidence", 0);
-                    handleUserActivity(type, confidence);
-                }
-            }
-        };
+
 
 
         startTracking();
@@ -273,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleUserActivity(int type, int confidence) {
-        String label = getString(R.string.activity_unknown);
+        String label = "UNKNOWN";
 
         switch (type) {
             case DetectedActivity.IN_VEHICLE: {
@@ -493,6 +484,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 //                double v, s, t;
+                broadcastReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
+                            int type = intent.getIntExtra("type", -1);
+                            int confidence = intent.getIntExtra("confidence", 0);
+                            handleUserActivity(type, confidence);
+                        }
+                    }
+                };
 
                 if (preLocation != null && thisLocation != null) {
                     String url = "https://maps.googleapis.com/maps/api/directions/json?";
@@ -508,9 +509,16 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject result = (JSONObject) parser.parse(new InputStreamReader(response, "UTF-8"));
                         JSONObject routes = (JSONObject) ((JSONArray) result.get("routes")).get(0);
                         JSONObject legs = (JSONObject) ((JSONArray) routes.get("legs")).get(0);
-                        Long distance = (Long) ((JSONObject) legs.get("distance")).get("value");
+                        final Long distance = (Long) ((JSONObject) legs.get("distance")).get("value");
                         Long duration = (Long) ((JSONObject) legs.get("duration")).get("value");
 
+//                        JSONObject end_location = (JSONObject)legs.get("end_location");
+//                        final String lat = (JSONObject)end_location.get("lat")+"";
+//                        final String lng = (JSONObject)end_location.get("lng")+"";
+//                        final String strLat = lat+"";
+//
+//                        Log.d(TAG, "run: Lat : "+lat);
+//                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
                         Log.d("Debugging : Distance = ", distance + "");
                         Log.d("Debugging : Duration = ", duration + "");
@@ -528,6 +536,8 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                txtDistance = findViewById(R.id.text_activity);
+                                txtDistance.setText(distance+"");
                                 txtTraffic.setText(v + "");
                                 txtTraffic.setText(v + "");
                             }
