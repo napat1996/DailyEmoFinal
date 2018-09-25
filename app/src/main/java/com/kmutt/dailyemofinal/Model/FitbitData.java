@@ -26,9 +26,9 @@ public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-20/1d/5min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-19.json";
-    private static final String URL_STEPS = "/1/user/-/activities/steps/date/today/1d.json";
+    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-19/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM3OTEzMjg5LCJpYXQiOjE1Mzc4ODQ0ODl9.IZNn6T_UkrkIVKeqh1aUY61DQyxFze39sXVWARYgJnE";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM3OTM4ODIzLCJpYXQiOjE1Mzc5MTAwMjN9.A0TVyyk1m-ZPj7CfCdi47SfIX8aJdM_q0aRkiKmNvVo";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();

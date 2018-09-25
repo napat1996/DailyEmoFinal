@@ -157,16 +157,26 @@
             android:background="@drawable/icon_step" />
 
 
-        <Button
-            android:id="@+id/button_mood"
+        <!--<Button-->
+            <!--android:id="@+id/button_mood"-->
+            <!--android:layout_width="141sp"-->
+            <!--android:layout_height="150sp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="17sp"-->
+            <!--android:background="@drawable/logoja"-->
+            <!--android:text="MOOD"-->
+            <!--android:textColor="@color/white" />-->
+
+        <ImageView
+            android:id="@+id/img_mood"
             android:layout_width="141sp"
             android:layout_height="150sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17sp"
-            android:background="@drawable/logoja"
-            android:text="MOOD"
-            android:textColor="@color/white" />
+
+            />
 
         <TextView
             android:id="@+id/text_steps"

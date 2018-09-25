@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.location.DetectedActivity;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome,btnProfile,btnResult,btnSuggesstion;
+    private ImageView imgMood;
     Button btnRegister;
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -158,7 +160,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                btnEmo = findViewById(R.id.button_mood);
+//                                btnEmo = findViewById(R.id.button_mood);
+                                imgMood = findViewById(R.id.img_mood);
+                                imgMood.setImageResource(R.drawable.emo_blushing);
 
                                 btnHeartRate = findViewById(R.id.buttom_hr);
                                 txtHeartRate = findViewById(R.id.heart_rate);
@@ -182,8 +186,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         System.out.println("go to Mood graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), Calendar.class);
-                                        startActivity(myIntent);
+                                        imgMood.setImageResource(R.drawable.emo_desperate);
 
                                     }
                                 });
