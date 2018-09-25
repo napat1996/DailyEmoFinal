@@ -96,25 +96,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        dl = findViewById(R.id.dl);
-//        toggle = new ActionBarDrawerToggle(this, dl, R.string.open, R.string.close);
-//        dl.addDrawerListener(toggle);
-//        NavigationView navigationView = findViewById(R.id.nnnv);
-//        toggle.syncState();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        setupDrawerContent(navigationView);
-//
-//
-//        Fragment tempFragments[] = {new DhomeFragment(), new DgoingMapFragment(), new DdashbroadFragment()};
-//        bottomNavigationFragments = tempFragments;
-//
-//        getSupportFragmentManager().beginTransaction().replace(R.id.flcontent, bottomNavigationFragments[0]).commit();
-//
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.main_nav);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
-
-
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
+                    int type = intent.getIntExtra("type", -1);
+                    int confidence = intent.getIntExtra("confidence", 0);
+                    handleUserActivity(type, confidence);
+                }
+            }
+        };
 
         startTracking();
 
@@ -133,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
                         DatabaseService db = new DatabaseService();
 
-                        Log.e(TAG, "onCreateView: sleep : "+ sleepMinute );
+                        Log.e(TAG, "onCreateView: sleep : " + sleepMinute);
                         try {
                             db.updateHeartRateDataToDB(getApplicationContext().getApplicationContext());
                         } catch (IOException e) {
@@ -264,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleUserActivity(int type, int confidence) {
+        Log.d(TAG, "in handle user activity");
         String label = "UNKNOWN";
 
         switch (type) {
@@ -307,13 +299,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (confidence > Constants.CONFIDENCE) {
             activity = label;
+            Log.d(TAG, "handleUserActivity: "+label);
             txtActivity = findViewById(R.id.text_steps);
             txtActivity.setText(label);
         }
     }
 
     protected void startTracking() {
-        Intent intent = new Intent(this, BackgroundDetectedActivitiesService.class);
+        Intent intent = new Intent(MainActivity.this, BackgroundDetectedActivitiesService.class);
         startService(intent);
     }
 
@@ -474,26 +467,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void calculateVelocity() throws IOException, ParseException {
         txtTraffic = findViewById(R.id.text_map);
 
         Log.d("Debugging", "in calculate velo");
 
         (new Thread(new Runnable() {
+            private void isTrafficJam(double velocity) {
+                boolean stress = false;
+                if (velocity < 30) {
+                    stress = true;
+                } else {
+                    stress = false;
+                }
+
+                // todo implement database transaction
+            }
+
             @Override
             public void run() {
-//                double v, s, t;
-                broadcastReceiver = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
-                            int type = intent.getIntExtra("type", -1);
-                            int confidence = intent.getIntExtra("confidence", 0);
-                            handleUserActivity(type, confidence);
-                        }
-                    }
-                };
+
 
                 if (preLocation != null && thisLocation != null) {
                     String url = "https://maps.googleapis.com/maps/api/directions/json?";
@@ -527,6 +520,8 @@ public class MainActivity extends AppCompatActivity {
                         final double s = distance;
                         final double v = s / t;
 
+                        this.isTrafficJam(v);
+
                         Log.e(TAG, "calculateVelocity: V = " + v);
 
                         // reset location
@@ -537,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 txtDistance = findViewById(R.id.text_activity);
-                                txtDistance.setText(distance+"");
+                                txtDistance.setText(distance + "");
                                 txtTraffic.setText(v + "");
                                 txtTraffic.setText(v + "");
                             }
@@ -553,25 +548,10 @@ public class MainActivity extends AppCompatActivity {
                             txtTraffic.setText("error!!");
                         }
                     });
-
                 }
             }
 
-
-            //end Thread
         })).start();
     }
-
-    public void isTrafficJam() throws IOException, ParseException {
-        //Don't know how to get V from calculatevevol
-//        double v = calculateVelocity();
-//        Log.e(TAG, "isTrafficJam: V = " + v);
-//        if (v < 30) {
-////            return true;
-//        }
-
-//        return false;
-    }
-
 }
 
