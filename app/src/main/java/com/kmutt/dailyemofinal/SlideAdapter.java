@@ -4,13 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SlideAdapter extends PagerAdapter {
@@ -34,7 +32,7 @@ public class SlideAdapter extends PagerAdapter {
 //    };
 
     public int[] lst_title_image ={
-        R.drawable.Sleep1, R.drawable.hr1, R.drawable.steps1
+        R.drawable.sleep1, R.drawable.hr1, R.drawable.steps1
 
     };
 
@@ -78,7 +76,7 @@ public class SlideAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
        // return super.instantiateItem(container, position);
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.slide_one,container,false);
+        View view = inflater.inflate(R.layout.suggestion_one,container,false);
         LinearLayout layoutslide =  (LinearLayout) view.findViewById(R.id.slidelinearlayout);
         ImageView imgslide = (ImageView) view.findViewById(R.id.slideimg);
         ImageView titleimg = (ImageView) view.findViewById(R.id.imgtitle);

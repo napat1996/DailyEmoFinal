@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SuggestionBackgroundActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,8 @@
         <activity android:name=".HomelinkStep" />
         <activity android:name=".GraphTaffic" />
         <activity android:name=".Calendar" />
-        <activity android:name=".Suggestion_slide"></activity>
+        <activity android:name=".SummaryActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
