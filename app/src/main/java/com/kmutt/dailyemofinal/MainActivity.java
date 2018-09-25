@@ -3,25 +3,15 @@ package com.kmutt.dailyemofinal;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,15 +33,11 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.kmutt.dailyemofinal.Calendar;
 import com.kmutt.dailyemofinal.Model.FitbitData;
 
-import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -72,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
 
-//    private DrawerLayout dl;
-//    private ActionBarDrawerToggle toggle;
-//
-//    Fragment[] bottomNavigationFragments;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted;
