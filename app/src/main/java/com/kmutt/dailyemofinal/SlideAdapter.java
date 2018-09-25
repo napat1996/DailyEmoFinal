@@ -26,10 +26,15 @@ public class SlideAdapter extends PagerAdapter {
 
     };
 // list of titles
-    public String[] lst_title ={
-         "Sleep",
-         "Heart rate",
-         "Step"
+//    public String[] lst_title ={
+//         "Sleep",
+//         "Heart rate",
+//         "Step"
+//
+//    };
+
+    public int[] lst_title_image ={
+        R.drawable.Sleep1, R.drawable.hr1, R.drawable.steps1
 
     };
 
@@ -59,7 +64,7 @@ public class SlideAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return lst_title.length;
+        return  lst_title_image.length;
     }
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
@@ -76,11 +81,12 @@ public class SlideAdapter extends PagerAdapter {
         View view = inflater.inflate(R.layout.slide_one,container,false);
         LinearLayout layoutslide =  (LinearLayout) view.findViewById(R.id.slidelinearlayout);
         ImageView imgslide = (ImageView) view.findViewById(R.id.slideimg);
-        TextView txttitle = (TextView) view.findViewById(R.id.txttitle);
+        ImageView titleimg = (ImageView) view.findViewById(R.id.imgtitle);
         TextView txtdes = (TextView) view.findViewById(R.id.txtdescription);
         layoutslide.setBackgroundColor(lst_bg[position]);
         imgslide.setImageResource(lst_image[position]);
-        txttitle.setText(lst_title[position]);
+        titleimg.setImageResource(lst_title_image[position]);
+
         txtdes.setText(lst_des[position]);
         container.addView(view);
         return view;

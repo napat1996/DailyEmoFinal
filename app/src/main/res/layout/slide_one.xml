@@ -13,14 +13,12 @@
         android:layout_width="200sp"
         android:layout_height="200sp" />
 
-    <TextView
-        android:id="@+id/txttitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imgtitle"
+        android:layout_width="200sp"
+        android:layout_height="60sp"
         android:layout_marginTop="40sp"
-        android:text="Tiltle here"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+         />
     <TextView
         android:id="@+id/txtdescription"
         android:layout_width="wrap_content"
