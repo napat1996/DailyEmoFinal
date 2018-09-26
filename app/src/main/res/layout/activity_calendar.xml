@@ -19,26 +19,43 @@
                 <!--android:layout_centerHorizontal="true"-->
                 <!--android:background="@drawable/calen" />-->
 
-    <!--<CalendarView-->
-        <!--android:id="@+id/calendarView"-->
-        <!--android:layout_width="375dp"-->
-        <!--android:layout_height="358dp"-->
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="375dp"
+        android:layout_height="358dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+
+
+        />
+
+    <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+        <!--android:id="@+id/calendarVieww"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="340dp"-->
+        <!--app:mcv_arrowColor="@color/main_text2"-->
+        <!--app:mcv_selectionColor="@color/main_text"-->
+        <!--app:mcv_showOtherDates="defaults">-->
+
+    <!--</com.prolificinteractive.materialcalendarview.MaterialCalendarView>-->
+
+    <!--<com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/compactcalendar_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="283dp"-->
+        <!--android:layout_alignParentStart="true"-->
         <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-
-
-        <!--/>-->
-
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarVieww"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
-        app:mcv_arrowColor="@color/main_text2"
-        app:mcv_selectionColor="@color/main_text"
-        app:mcv_showOtherDates="all">
-
-    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
-
+        <!--android:layout_marginTop="35dp"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--app:compactCalendarBackgroundColor="#ffe95451"-->
+        <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
+        <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
+        <!--app:compactCalendarDisplayOtherMonthDays="true"-->
+        <!--app:compactCalendarMultiEventIndicatorColor="#fff"-->
+        <!--app:compactCalendarTargetHeight="250dp"-->
+        <!--app:compactCalendarTextColor="#fff"-->
+        <!--app:compactCalendarTextSize="12sp" />-->
 
 
 
