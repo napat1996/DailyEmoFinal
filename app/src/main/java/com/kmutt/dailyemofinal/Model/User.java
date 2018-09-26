@@ -5,6 +5,9 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String process;
+    private boolean traffic;
+    private boolean mood;
 
     public User(){
 
@@ -14,6 +17,9 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.traffic = traffic;
+        this.mood = mood;
+        this.process = process;
     }
 
     public String getUsername() {
@@ -38,5 +44,37 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean getTraffic(){
+        return traffic;
+    }
+
+    public boolean getMood(){
+        return mood;
+    }
+
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
+    public boolean isTraffic() {
+        return traffic;
+    }
+
+    public void setTraffic(boolean traffic) {
+        this.traffic = traffic;
+    }
+
+    public boolean isMood() {
+        return mood;
+    }
+
+    public void setMood(boolean mood) {
+        this.mood = mood;
     }
 }

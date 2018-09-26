@@ -3,6 +3,7 @@ package com.kmutt.dailyemofinal;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Handler;
@@ -23,6 +24,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,9 +39,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
+import com.google.firebase.database.ValueEventListener;
 import com.kmutt.dailyemofinal.Model.FitbitData;
-
+import com.kmutt.dailyemofinal.Model.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private Location thisLocation;
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int INTERVAL = 1 * 1000;
+    private static final int INTERVAL = 5 * 1000;
     private boolean isSterss = false;
 
     private int heartRate = 0, asSleep = 0;
@@ -148,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.e(TAG, "onCreateView: sleep : " + sleepMinute);
                         try {
-                            db.updateHeartRateDataToDB(getApplicationContext().getApplicationContext());
+                            db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
+                            db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
@@ -181,15 +190,6 @@ public class MainActivity extends AppCompatActivity {
 //                            txtTraffic = getActivity().findViewById(R.id.buttom_map2);
 //                            txtTraffic.setText(traffic+"");
 
-
-                                btnEmo.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        System.out.println("go to Mood graph page");
-                                        imgMood.setImageResource(R.drawable.emo_desperate);
-
-                                    }
-                                });
 
                                 btnHeartRate.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -335,26 +335,48 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String isStress() throws IOException, ParseException {
-        boolean isJam = true;
+
+        boolean isJam = false;
         FitbitData data = new FitbitData();
         boolean isStress;
 
         int heartRate = data.getHeartRateValue();
         if (heartRate > 100) {
+
+            String mood = "Normal";
+            mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User process = dataSnapshot.child("process").getValue(User.class);
+                    boolean isJam = process.isTraffic();
+                    Log.e(TAG, "onDataChange: isJam ="+ isJam );
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                }
+            });
+
             if (asSleep < 40000) {
                 isStress = true;
+                imgMood.setImageResource(R.drawable.emo_desperate);
                 stressStr = "Stress";
             } else if (isJam == true) {
                 isStress = true;
-                stressStr = "Normal";
+                stressStr = "Stress";
+                imgMood.setImageResource(R.drawable.emo_desperate);
             } else {
                 isStress = false;
                 stressStr = "Normal";
+                imgMood.setImageResource(R.drawable.emo_blushing);
             }
 
         } else {
             isStress = false;
             stressStr = "Normal";
+            imgMood.setImageResource(R.drawable.emo_blushing);
         }
         return stressStr;
     }
@@ -473,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             try {
-                                calculateVelocity();
+                                calculateVelocity(getBaseContext());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
@@ -490,26 +512,56 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void calculateVelocity() throws IOException, ParseException {
+    int jamCount = 0;
+    int notJamCount = 0 ;
+    int locationCount = 0;
+
+    public void calculateVelocity(Context context) throws IOException, ParseException {
         txtTraffic = findViewById(R.id.text_map);
+
+
+        final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "");
+
+        database = FirebaseDatabase.getInstance();
+
+        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
+
 
         Log.d("Debugging", "in calculate velo");
 
         (new Thread(new Runnable() {
-            private void isTrafficJam(double velocity) {
-                boolean stress = false;
+            private void isTrafficJam(double velocity, int count, long distance) {
+                boolean isJam = false;
                 if (velocity < 30) {
-                    stress = true;
+                    isJam = true;
+                    jamCount++;
+
+                    java.util.Calendar calendar = Calendar.getInstance();
+                    java.util.Date now = calendar.getTime();
+
+                    DatabaseReference locDate = mRootRef.child("DateTime").child(date);
+                    locDate.child("Location").child(jamCount+"TrafficJam").child(now+"").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child(jamCount+"TrafficJam").child(now+"").child("Distance").setValue(distance);
+
                 } else {
-                    stress = false;
+                    java.util.Calendar calendar = Calendar.getInstance();
+                    java.util.Date now = calendar.getTime();
+                    isJam = false;
+                    notJamCount++;
+                    DatabaseReference locDate = mRootRef.child("DateTime").child(date);
+                    locDate.child("Location").child(notJamCount+"TrafficNotJam").child(now+"").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child(notJamCount+"TrafficNotJam").child(now+"").child("Distance").setValue(distance);
                 }
+                DatabaseReference process = mRootRef.child("process");
+                process.child("Traffic").setValue(isJam);
 
                 // todo implement database transaction
             }
 
             @Override
             public void run() {
-
 
                 if (preLocation != null && thisLocation != null) {
                     String url = "https://maps.googleapis.com/maps/api/directions/json?";
@@ -527,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject legs = (JSONObject) ((JSONArray) routes.get("legs")).get(0);
                         final Long distance = (Long) ((JSONObject) legs.get("distance")).get("value");
                         Long duration = (Long) ((JSONObject) legs.get("duration")).get("value");
-
+                        locationCount++;
 //                        JSONObject end_location = (JSONObject)legs.get("end_location");
 //                        final String lat = (JSONObject)end_location.get("lat")+"";
 //                        final String lng = (JSONObject)end_location.get("lng")+"";
@@ -536,14 +588,15 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "run: Lat : "+lat);
 //                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
-                        Log.d("Debugging : Distance = ", distance + "");
-                        Log.d("Debugging : Duration = ", duration + "");
+                        Log.d(TAG, "run: "+ locationCount + " Distance = "+distance);
+                        Log.d(TAG, "run: "+ locationCount + " Duration = "+duration);
 
                         final int t = 5;
                         final double s = distance;
                         final double v = s / t;
 
-                        this.isTrafficJam(v);
+                        this.isTrafficJam(v, locationCount, distance);
+
 
                         Log.e(TAG, "calculateVelocity: V = " + v);
 
