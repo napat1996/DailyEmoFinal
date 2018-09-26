@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -64,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
     private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
-    private Button btnHome,btnProfile,btnResult,btnSuggesstion;
+    private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
     private Switch btnSwitch;
 
-    private int imgInt[] = {R.drawable.emo_desperate,R.drawable.emo_blushing};
+    private int imgInt[] = {R.drawable.emo_desperate, R.drawable.emo_blushing};
     Button btnRegister;
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -131,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
 //        broadcastReceiver = new BroadcastReceiver() {
 ////            @Override
 ////            public void onReceive(Context context, Intent intent) {
@@ -145,160 +145,158 @@ public class MainActivity extends AppCompatActivity {
 ////
 ////        startTracking();
 
-        (new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
+        imgMood = findViewById(R.id.img_mood);
+        imgMood.setImageResource(imgInt[1]);
 
-                    FitbitData data = new FitbitData();
-
-                    try {
-                        final int heartRate = data.getHeartRateValue();
-                        final long sleepMinute = data.getMinutesAsleep();
-//                    final String activity = trackActivity.setActivity();
-//                    Log.d(TAG, "run: Activity : "+activity);
-
-                        DatabaseService db = new DatabaseService();
-
-                        Log.e(TAG, "onCreateView: sleep : " + sleepMinute);
-                        try {
-                            db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
-                            db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        //setContentView(R.layout.activity_main);
-                        //เปิด service เพื่อขอ current location
-                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-                        //ขอ permission โทรศัพท์
-                        getLocationPermission();
+        btnHeartRate = findViewById(R.id.buttom_hr);
 
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
 
-//                                btnEmo = findViewById(R.id.button_mood);
-                                imgMood = findViewById(R.id.img_mood);
-                                imgMood.setImageResource(imgInt[1]);
-
-                                btnHeartRate = findViewById(R.id.buttom_hr);
-                                txtHeartRate = findViewById(R.id.heart_rate);
-                                txtHeartRate.setText(heartRate + "");
+        btnSleep = findViewById(R.id.buttom_sleep);
 
 
-                                btnSleep = findViewById(R.id.buttom_sleep);
-                                txtSleep = findViewById(R.id.text_sleep);
-                                txtSleep.setText(sleepMinute + "");
-
-                                btnStep = findViewById(R.id.buttom_step);
+        btnStep = findViewById(R.id.buttom_step);
 //                            txtActivity = getActivity().findViewById(R.id.text_steps);
 //                            txtActivity.setText(activity);
 
-                                btnMap = findViewById(R.id.buttom_map2);
-//                            txtTraffic = getActivity().findViewById(R.id.buttom_map2);
-//                            txtTraffic.setText(traffic+"");
+        btnMap = findViewById(R.id.buttom_map2);
 
 
-                                btnHeartRate.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        System.out.println("go to heart rate graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), GraphHr.class);
-                                        startActivity(myIntent);
+        btnHeartRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("go to heart rate graph page");
+                Intent myIntent = new Intent(getApplicationContext(), GraphHr.class);
+                startActivity(myIntent);
 
-                                    }
-                                });
+            }
+        });
 
-                                btnSleep.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        System.out.println("go to sleep graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), GraphSleep.class);
-                                        startActivity(myIntent);
+        btnSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("go to sleep graph page");
+                Intent myIntent = new Intent(getApplicationContext(), GraphSleep.class);
+                startActivity(myIntent);
 
-                                    }
-                                });
+            }
+        });
 
-                                btnStep.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        System.out.println("go to step graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), HomelinkStep.class);
-                                        startActivity(myIntent);
+        btnStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("go to step graph page");
+                Intent myIntent = new Intent(getApplicationContext(), HomelinkStep.class);
+                startActivity(myIntent);
 
-                                    }
-                                });
+            }
+        });
 
-                                btnMap.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        System.out.println("go to Traffic graph page");
-                                        Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
-                                        startActivity(myIntent);
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("go to Traffic graph page");
+                Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
+                startActivity(myIntent);
 
-                                    }
-                                });
+            }
+        });
 
-                                btnSwitch = findViewById(R.id.activity_switch);
+        btnSwitch = findViewById(R.id.activity_switch);
 
-                                String statusSwitch;
+        btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("Debugging", "btn switch clicked");
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), isChecked + "", Toast.LENGTH_LONG).show();
 
-                                if(btnSwitch.isChecked()){
-                                    statusSwitch = btnSwitch.getTextOff().toString();
-                                    (new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            //ขอ latitide/longtitude ครั้งแรก
-                                            getDeviceLocation("initial");
-                                            //ทำทุกๆ interval 1 วิ (1*1000)
-                                            final Handler handler = new Handler();
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
-                                                    getDeviceLocation("service");
-                                                    handler.postDelayed(this, INTERVAL);
-
-                                                }
-                                            }, INTERVAL);
-                                        }
-                                    })).start();
+                    getDeviceLocation("initial");
+                    //ทำทุกๆ interval 1 วิ (1*1000)
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
+                            (new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getDeviceLocation("service");
                                 }
-                                else {
-                                    statusSwitch = btnSwitch.getTextOn().toString();
-                                }
-                                Toast.makeText(getApplicationContext(),statusSwitch,Toast.LENGTH_LONG).show();
+                            })).start();
+                            handler.postDelayed(this, INTERVAL);
 
-                            }
-                        });
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        }
+                    }, INTERVAL);
+                }
+            }
+        });
+
+
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                FitbitData data = new FitbitData();
+
+                try {
+                    final int heartRate = data.getHeartRateValue();
+                    final long sleepMinute = data.getMinutesAsleep();
+//                    final String activity = trackActivity.setActivity();
+//                    Log.d(TAG, "run: Activity : "+activity);
+
+                    DatabaseService db = new DatabaseService();
+
+                    Log.e(TAG, "onCreateView: sleep : " + sleepMinute);
+                    try {
+                        db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
+                        db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
 
-                    isStress();
+                    //setContentView(R.layout.activity_main);
+                    //เปิด service เพื่อขอ current location
+                    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+                    //ขอ permission โทรศัพท์
+                    getLocationPermission();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            txtSleep = findViewById(R.id.text_sleep);
+                            txtSleep.setText(sleepMinute + "");
+                            Log.e(TAG, "run: sleep ="+ sleepMinute);
+
+                            txtHeartRate = findViewById(R.id.heart_rate);
+                            txtHeartRate.setText(heartRate + "");
+                            Log.e(TAG, "run: HeartRate = "+heartRate );
+
+
+                            try {
+                                isStress();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                } catch (Exception ex) {
+                    Log.e("Debugging", "Errorrrrrrrrrrrrrrrrrrrrrrrr!");
+                    ex.printStackTrace();
                 }
+
+
             }
         })).start();
 
 
-
-//        Data data = new Data();
-//        try {
-//            data.getDateOfSleep();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
 
     }
@@ -348,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (confidence > Constants.CONFIDENCE) {
             activity = label;
-            Log.d(TAG, "handleUserActivity: "+label);
+            Log.d(TAG, "handleUserActivity: " + label);
             txtActivity = findViewById(R.id.text_steps);
             txtActivity.setText(label);
         }
@@ -366,7 +364,8 @@ public class MainActivity extends AppCompatActivity {
         FitbitData data = new FitbitData();
         boolean isStress;
 
-        int heartRate = data.getHeartRateValue();
+//        int heartRate = data.getHeartRateValue();
+        int heartRate = 101;
         if (heartRate > 100) {
 
             String mood = "Normal";
@@ -375,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User process = dataSnapshot.child("process").getValue(User.class);
                     boolean isJam = process.isTraffic();
-                    Log.e(TAG, "onDataChange: isJam ="+ isJam );
+                    Log.e(TAG, "onDataChange: isJam =" + isJam);
                 }
 
                 @Override
@@ -541,7 +540,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     int jamCount = 0;
-    int notJamCount = 0 ;
+    int notJamCount = 0;
     int locationCount = 0;
 
     public void calculateVelocity(Context context) throws IOException, ParseException {
@@ -554,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
+        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/" + username);
 
 
         Log.d("Debugging", "in calculate velo");
@@ -570,8 +569,8 @@ public class MainActivity extends AppCompatActivity {
                     java.util.Date now = calendar.getTime();
 
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficJam"+jamCount).child(now+"").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficJam"+jamCount).child(now+"").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Distance").setValue(distance);
 
                 } else {
                     java.util.Calendar calendar = Calendar.getInstance();
@@ -579,8 +578,8 @@ public class MainActivity extends AppCompatActivity {
                     isJam = false;
                     notJamCount++;
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficNotJam"+notJamCount).child(now+"").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficNotJam"+notJamCount).child(now+"").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Distance").setValue(distance);
                 }
                 DatabaseReference process = mRootRef.child("process");
                 process.child("Traffic").setValue(isJam);
@@ -616,8 +615,8 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "run: Lat : "+lat);
 //                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
-                        Log.d(TAG, "run: "+ locationCount + " Distance = "+distance);
-                        Log.d(TAG, "run: "+ locationCount + " Duration = "+duration);
+                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance);
+                        Log.d(TAG, "run: " + locationCount + " Duration = " + duration);
 
                         final int t = 5;
                         final double s = distance;

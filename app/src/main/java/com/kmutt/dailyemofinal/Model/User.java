@@ -62,10 +62,6 @@ public class User {
         this.email = email;
     }
 
-    public boolean getTraffic(){
-        return traffic;
-    }
-
     public boolean getMood(){
         return mood;
     }
@@ -84,10 +80,6 @@ public class User {
 
     public void setTraffic(boolean traffic) {
         this.traffic = traffic;
-    }
-
-    public boolean isMood() {
-        return mood;
     }
 
     public void setMood(boolean mood) {
