@@ -17,7 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome,btnProfile,btnResult,btnSuggesstion;
     private ImageView imgMood;
+    private Switch btnSwitch;
+
+    private int imgInt[] = {R.drawable.emo_desperate,R.drawable.emo_blushing};
     Button btnRegister;
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -126,18 +131,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
-                    int type = intent.getIntExtra("type", -1);
-                    int confidence = intent.getIntExtra("confidence", 0);
-                    handleUserActivity(type, confidence);
-                }
-            }
-        };
 
-        startTracking();
+//        broadcastReceiver = new BroadcastReceiver() {
+////            @Override
+////            public void onReceive(Context context, Intent intent) {
+////                if (intent.getAction().equals(Constants.BROADCAST_DETECTED_ACTIVITY)) {
+////                    int type = intent.getIntExtra("type", -1);
+////                    int confidence = intent.getIntExtra("confidence", 0);
+////                    handleUserActivity(type, confidence);
+////                }
+////            }
+////        };
+////
+////        startTracking();
 
         (new Thread(new Runnable() {
             @Override
@@ -164,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
+                        //setContentView(R.layout.activity_main);
+                        //เปิด service เพื่อขอ current location
+                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+                        //ขอ permission โทรศัพท์
+                        getLocationPermission();
+
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -171,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                                btnEmo = findViewById(R.id.button_mood);
                                 imgMood = findViewById(R.id.img_mood);
-                                imgMood.setImageResource(R.drawable.emo_blushing);
+                                imgMood.setImageResource(imgInt[1]);
 
                                 btnHeartRate = findViewById(R.id.buttom_hr);
                                 txtHeartRate = findViewById(R.id.heart_rate);
@@ -230,6 +242,37 @@ public class MainActivity extends AppCompatActivity {
 
                                     }
                                 });
+
+                                btnSwitch = findViewById(R.id.activity_switch);
+
+                                String statusSwitch;
+
+                                if(btnSwitch.isChecked()){
+                                    statusSwitch = btnSwitch.getTextOff().toString();
+                                    (new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //ขอ latitide/longtitude ครั้งแรก
+                                            getDeviceLocation("initial");
+                                            //ทำทุกๆ interval 1 วิ (1*1000)
+                                            final Handler handler = new Handler();
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
+                                                    getDeviceLocation("service");
+                                                    handler.postDelayed(this, INTERVAL);
+
+                                                }
+                                            }, INTERVAL);
+                                        }
+                                    })).start();
+                                }
+                                else {
+                                    statusSwitch = btnSwitch.getTextOn().toString();
+                                }
+                                Toast.makeText(getApplicationContext(),statusSwitch,Toast.LENGTH_LONG).show();
+
                             }
                         });
                     } catch (Exception ex) {
@@ -246,24 +289,7 @@ public class MainActivity extends AppCompatActivity {
             }
         })).start();
 
-        //setContentView(R.layout.activity_main);
-        //เปิด service เพื่อขอ current location
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        //ขอ permission โทรศัพท์
-        getLocationPermission();
-        //ขอ latitide/longtitude ครั้งแรก
-        getDeviceLocation("initial");
-        //ทำทุกๆ interval 1 วิ (1*1000)
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
-                getDeviceLocation("service");
-                handler.postDelayed(this, INTERVAL);
 
-            }
-        }, INTERVAL);
 
 //        Data data = new Data();
 //        try {
@@ -361,23 +387,25 @@ public class MainActivity extends AppCompatActivity {
 
             if (asSleep < 40000) {
                 isStress = true;
-                imgMood.setImageResource(R.drawable.emo_desperate);
+                imgMood.setImageResource(imgInt[0]);
                 stressStr = "Stress";
             } else if (isJam == true) {
                 isStress = true;
                 stressStr = "Stress";
-                imgMood.setImageResource(R.drawable.emo_desperate);
+                imgMood.setImageResource(imgInt[0]);
             } else {
                 isStress = false;
                 stressStr = "Normal";
-                imgMood.setImageResource(R.drawable.emo_blushing);
+                imgMood.setImageResource(imgInt[1]);
             }
 
         } else {
             isStress = false;
             stressStr = "Normal";
-            imgMood.setImageResource(R.drawable.emo_blushing);
+            imgMood.setImageResource(imgInt[1]);
         }
+        DatabaseReference process = mRootRef.child("process");
+        process.child("Stress").setValue(isStress);
         return stressStr;
     }
 
@@ -542,8 +570,8 @@ public class MainActivity extends AppCompatActivity {
                     java.util.Date now = calendar.getTime();
 
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child(jamCount+"TrafficJam").child(now+"").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child(jamCount+"TrafficJam").child(now+"").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficJam"+jamCount).child(now+"").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficJam"+jamCount).child(now+"").child("Distance").setValue(distance);
 
                 } else {
                     java.util.Calendar calendar = Calendar.getInstance();
@@ -551,8 +579,8 @@ public class MainActivity extends AppCompatActivity {
                     isJam = false;
                     notJamCount++;
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child(notJamCount+"TrafficNotJam").child(now+"").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child(notJamCount+"TrafficNotJam").child(now+"").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficNotJam"+notJamCount).child(now+"").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficNotJam"+notJamCount).child(now+"").child("Distance").setValue(distance);
                 }
                 DatabaseReference process = mRootRef.child("process");
                 process.child("Traffic").setValue(isJam);

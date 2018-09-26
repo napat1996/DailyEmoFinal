@@ -74,9 +74,8 @@
             android:id="@+id/heart_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/buttom_sleep"
-            android:layout_marginStart="98dp"
+            android:layout_alignEnd="@+id/buttom_step"
+            android:layout_centerVertical="true"
             android:text="--"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -85,21 +84,20 @@
 
         <Button
             android:id="@+id/buttom_hr"
-            android:layout_width="66dp"
-            android:layout_height="62dp"
+            android:layout_width="116dp"
+            android:layout_height="108dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="73dp"
-            android:layout_marginTop="187dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="37dp"
             android:background="@drawable/icon_heart" />
 
         <Button
             android:id="@+id/buttom_sleep"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
+            android:layout_width="106dp"
+            android:layout_height="105dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/buttom_hr"
-            android:layout_marginEnd="73dp"
+            android:layout_marginEnd="33dp"
             android:background="@drawable/icon_moon" />
 
         <TextView
@@ -117,13 +115,21 @@
 
         <Button
             android:id="@+id/buttom_map2"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="95dp"
+            android:layout_height="99dp"
+            android:layout_alignBottom="@+id/text_activity"
             android:layout_alignStart="@+id/buttom_sleep"
-            android:layout_marginBottom="126dp"
             android:background="@drawable/carr" />
 
+        <Switch
+            android:id="@+id/activity_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/text_sleep"
+            android:layout_below="@+id/buttom_map2"
+            android:gravity="center"
+            android:textOff="Off"
+            android:textOn="On" />
         <TextView
             android:id="@+id/text_activity"
             android:layout_width="wrap_content"
@@ -150,10 +156,10 @@
 
         <Button
             android:id="@+id/buttom_step"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
+            android:layout_width="107dp"
+            android:layout_height="88dp"
+            android:layout_alignBottom="@+id/buttom_map2"
             android:layout_alignStart="@+id/buttom_hr"
-            android:layout_alignTop="@+id/buttom_map2"
             android:background="@drawable/icon_step" />
 
 
@@ -175,7 +181,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17sp"
-
+            app:srcCompat="@drawable/emo_blushing"
             />
 
         <TextView
@@ -191,20 +197,28 @@
         <!--line-->
         <View
             android:layout_width="3sp"
-            android:layout_height="237sp"
+            android:layout_height="293dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="99dp"
+            android:layout_marginBottom="43dp"
             android:background="@color/main_text2" />
 
         <View
-            android:layout_width="275dp"
-            android:layout_height="3sp"
+            android:layout_width="356dp"
+            android:layout_height="2dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="213dp"
+            android:layout_marginBottom="181dp"
+            android:background="@color/main_text2" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/img_mood"
+            android:layout_gravity="center"
             android:background="@color/main_text2" />
 
 
