@@ -11,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+//import static android.support.v4.graphics.drawable.IconCompat.getResources;
+
 public class SlideAdapter extends PagerAdapter {
 
     Context context;
     LayoutInflater inflater;
+    String str;
 
 // list of images
     public int [] lst_image ={
@@ -36,20 +39,57 @@ public class SlideAdapter extends PagerAdapter {
 
     };
 
-//    // list of description
-////    public String[] lst_des = {
-////
-////            "Des1",
-////            "Des2",
-////            "Des3"
-////
-////    };
+
+    public String[] lst_title ={
+         "Sufficient sleep is important for your health, well-being and happiness. \n" +
+          "When you sleep better, you feel better. If you’re still having trouble sleeping, \n" +
+          "try to do some suggestions : \n" +
+                 "\n" +
+                 "Tip 1 : Exercise during the day which is a great stress reliever and has been \n" +
+                 "\t\t shown to improve the quality of sleep, particularly for insomniacs.\n" +
+                 "\n" +
+                 "Tip 2 : Be smart about what you eat and drink. Your daytime eating habits \n" +
+                 "\t\tplay a role in how well you sleep. Try to make dinnertime earlier in \n" +
+                 "\t\tthe evening, and avoid heavy, rich foods within two hours of bed. \n" +
+                 "\t\tMoreover, avoid alcohol, caffeine, and nicotine before bed.   \n" +
+                 "\n" +
+                 "Tip 3 : Wind down and clear your head. Your body needs time to shift into \n" +
+                 "\t\tsleep mode, so spend the last hour before bed doing a calming \n" +
+                 "\t\tactivity such as reading, and avoid using an electronic device. ",
 
 
-    public int[] lst_des_image ={
-            R.drawable.txt_sleep, R.drawable.hr1, R.drawable.takeawalk1
+
+
+            "Heart rate",
+
+
+
+
+         "\t\tWalking  can help reduce anxiety and gives you time to think, as well as \n" +
+                 "time to get away from stressors. Getting out of the stressful environment, \n" +
+                 "breathing the air, and feeling your body move is natural stress-relief.  \n" +
+                 "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
+                 "stress and give your mind a boost. Whether it’s a slow stroll in the park with\n" +
+                 "friends or a brisk power-walk around the neighborhood, make walking a \n" +
+                 "part of your daily routine to reduce tension and promote feelings of calm."
 
     };
+
+   // String str = this.context.getResources().getString(R.string.des_sleep);
+//    // list of description
+//    public String[] lst_des = {
+//        this.context.getResources().getString(R.string.des_sleep),
+//
+//
+//    };
+
+
+//    public int[] lst_des_image ={
+//            R.drawable.tt
+//            , R.drawable.ww
+//            , R.drawable.takeawalk1
+//
+//    };
 
     public int[] lst_bg = {
 
@@ -86,12 +126,15 @@ public class SlideAdapter extends PagerAdapter {
         LinearLayout layoutslide =  (LinearLayout) view.findViewById(R.id.slidelinearlayout);
         ImageView imgslide = (ImageView) view.findViewById(R.id.slideimg);
         ImageView titleimg = (ImageView) view.findViewById(R.id.imgtitle);
-        ImageView desimg = (ImageView) view.findViewById(R.id.imgdes);
+        //ImageView txtdes = (ImageView) view.findViewById(R.id.imgdes);
+
+        TextView txtdes = (TextView)  view.findViewById(R.id.txtdescription);
         layoutslide.setBackgroundColor(lst_bg[position]);
         imgslide.setImageResource(lst_image[position]);
         titleimg.setImageResource(lst_title_image[position]);
 
-        desimg.setImageResource(lst_des_image[position]);
+        txtdes.setText(lst_title[position]);
+       //txtdes.setImageResource(lst_des_image[position]);
         container.addView(view);
         return view;
 

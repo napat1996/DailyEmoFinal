@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calendar"
+    tools:context=".Calendar_g"
     android:background="#F0F0F0"    >
 
 
@@ -29,6 +29,36 @@
 
         />
 
+    <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+        <!--android:id="@+id/calendarVieww"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="340dp"-->
+        <!--app:mcv_arrowColor="@color/main_text2"-->
+        <!--app:mcv_selectionColor="@color/main_text"-->
+        <!--app:mcv_showOtherDates="defaults">-->
+
+    <!--</com.prolificinteractive.materialcalendarview.MaterialCalendarView>-->
+
+    <!--<com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/compactcalendar_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="283dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="35dp"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--app:compactCalendarBackgroundColor="#ffe95451"-->
+        <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
+        <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
+        <!--app:compactCalendarDisplayOtherMonthDays="true"-->
+        <!--app:compactCalendarMultiEventIndicatorColor="#fff"-->
+        <!--app:compactCalendarTargetHeight="250dp"-->
+        <!--app:compactCalendarTextColor="#fff"-->
+        <!--app:compactCalendarTextSize="12sp" />-->
+
+
+
 
     <TextView
         android:id="@+id/isStress"
@@ -36,10 +66,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="50dp"
         android:text="----"
         android:textColor="#cf5959"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:textStyle="bold" />
 
     <TextView
@@ -48,8 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="178dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginBottom="129dp"
+        android:layout_marginStart="28dp"
         android:text="MOOD:"
         android:textSize="20sp"
         android:textStyle="bold" />
