@@ -31,7 +31,6 @@ public class Calendar extends AppCompatActivity {
      CalendarView calendarView;
 
 
-    //https://www.youtube.com/watch?v=xs5406vApTo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
