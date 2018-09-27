@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
+        //start nav bar
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         btnResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent s = new Intent(getApplicationContext(), SummaryActivity.class);
+                Intent s = new Intent(getApplicationContext(), CalendarActivity.class);
                 startActivity(s);
             }
         });
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(s);
             }
         });
+        //end nav bar
 
 
 //        broadcastReceiver = new BroadcastReceiver() {
@@ -272,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                     mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                     //ขอ permission โทรศัพท์
                     getLocationPermission();
+                    data.upAllHeartRateTimeToDB();
 
 
                     runOnUiThread(new Runnable() {
@@ -440,82 +443,6 @@ public class MainActivity extends AppCompatActivity {
         return stressStr;
     }
 
-
-//    //nav bar
-//    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            Fragment selectedFragment = null;
-//            switch (item.getItemId()) {
-//                case R.id.nav_home:
-//                    selectedFragment = bottomNavigationFragments[0];
-//                    break;
-//                case R.id.nav_sleep:
-//                    selectedFragment = bottomNavigationFragments[1];
-//                    break;
-//                case R.id.nav_map:
-//                    selectedFragment = bottomNavigationFragments[2];
-//                    break;
-//                case R.id.nav_dash:
-//                    selectedFragment = bottomNavigationFragments[3];
-//            }
-//            getSupportFragmentManager().beginTransaction().replace(R.id.flcontent, selectedFragment).commit();
-//
-//            return true;
-//
-//        }
-//    };
-//
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (toggle.onOptionsItemSelected(item)) {
-//            return (true);
-//        }
-//
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//
-//    public void selectItemDrawer(MenuItem menuItem) {
-//        Fragment myFragment = null;
-//        Class fragmentClass;
-//        switch (menuItem.getItemId()) {
-//            case R.id.reminder:
-//                fragmentClass = ReminderFragment.class;
-//                break;
-//            case R.id.setting:
-//                fragmentClass = SettingFragment.class;
-//                break;
-//            case R.id.home:
-//                fragmentClass = DhomeFragment.class;
-//                break;
-//            default:
-//                fragmentClass = MainActivity.class;
-//        }
-//
-//        try {
-//            myFragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-////        FragmentManager fragmentManager = getSupportFragmentManager();
-//////        fragmentManager.beginTransaction().replace(R.id.flcontent,myFragment).commit();
-////        menuItem.setChecked(true);
-////        setTitle(menuItem.getTitle());
-////        dl.closeDrawers();
-//    }
-//
-//    private void setupDrawerContent(NavigationView navigationView) {
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                selectItemDrawer(item);
-//                return true;
-//            }
-//        });
-//    }
 
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {

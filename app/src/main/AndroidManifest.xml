@@ -29,12 +29,11 @@
         <activity android:name=".GraphSleep" />
         <activity android:name=".HomelinkStep" />
         <activity android:name=".GraphTaffic" />
-        <activity android:name=".Calendar" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".SuggestionBackgroundActivity">
-        </activity>
+        <activity android:name=".SuggestionBackgroundActivity"/>
+        <activity android:name=".CalendarActivity"/>
     </application>
 
 </manifest>

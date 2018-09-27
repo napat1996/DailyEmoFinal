@@ -30,14 +30,14 @@ public class DatabaseService {
     public void updateSleepDataToDB(Context context) throws IOException, ParseException {
 
         long sleepMinute = data.getMinutesAsleep();
-        long rem = data.getRem();
-        long deep = data.getDeep();
-        long light = data.getlight();
-        long wake = data.getWake();
+//        long rem = data.getRem();
+//        long deep = data.getDeep();
+//        long light = data.getlight();
+//        long wake = data.getWake();
         String dateOfSleep = data.getDateOfSleep();
         String startTime = data.getStartTimeOfSleep();
         String endTime = data.getEndTimeOfSleep();
-        String stages = data.getSleepStage();
+//        String stages = data.getSleepStage();
 
         SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");

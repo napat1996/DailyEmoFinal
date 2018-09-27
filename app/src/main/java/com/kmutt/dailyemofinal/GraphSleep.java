@@ -88,25 +88,25 @@ public class GraphSleep extends AppCompatActivity {
             public void run() {
                 FitbitData sData = new FitbitData();
                 ArrayList<PieEntry> values = new ArrayList<>();
-                try {
-                    long valRem = sData.getRem()+ range / 5;
-                    long valDeep = sData.getDeep()+ range / 5;
-                    long valLight = sData.getlight()+ range / 5;
-                    long valWake = sData.getWake()+ range / 5;
+//                try {
+//                    long valRem = sData.getRem()+ range / 5;
+//                    long valDeep = sData.getDeep()+ range / 5;
+//                    long valLight = sData.getlight()+ range / 5;
+//                    long valWake = sData.getWake()+ range / 5;
 
-                    values.add(new PieEntry(valDeep, sleep[0]));
-                    Log.d(TAG, "setData: Deep = "+ valDeep);
-                    values.add(new PieEntry(valRem, sleep[1]));
-                    Log.d(TAG, "setData: Rem = "+ valRem);
-                    values.add(new PieEntry(valLight, sleep[2]));
-                    Log.d(TAG, "setData: Light = "+ valLight);
-                    values.add(new PieEntry(valWake, sleep[3]));
-                    Log.d(TAG, "setData: Wake = "+ valWake);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+//                    values.add(new PieEntry(valDeep, sleep[0]));
+//                    Log.d(TAG, "setData: Deep = "+ valDeep);
+//                    values.add(new PieEntry(valRem, sleep[1]));
+//                    Log.d(TAG, "setData: Rem = "+ valRem);
+//                    values.add(new PieEntry(valLight, sleep[2]));
+//                    Log.d(TAG, "setData: Light = "+ valLight);
+//                    values.add(new PieEntry(valWake, sleep[3]));
+//                    Log.d(TAG, "setData: Wake = "+ valWake);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
 
                 PieDataSet dataSet = new PieDataSet(values, "Partner ");
                 dataSet.setSelectionShift(5f);
