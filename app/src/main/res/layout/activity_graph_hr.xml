@@ -11,13 +11,20 @@
     >
 
  <com.github.mikephil.charting.charts.BarChart
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
      android:id="@+id/barchart_hr"
-     >
+     android:layout_width="match_parent"
+     android:layout_height="256dp">
 
  </com.github.mikephil.charting.charts.BarChart>
 
+ <ImageView
+     android:id="@+id/imageView8"
+     android:layout_width="59dp"
+     android:layout_height="52dp"
+     android:layout_alignParentBottom="true"
+     android:layout_centerHorizontal="true"
+     android:layout_marginBottom="165dp"
+     app:srcCompat="@drawable/btn_heart" />
 
 
 </RelativeLayout>
