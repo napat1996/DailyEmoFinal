@@ -25,10 +25,10 @@ import static android.content.ContentValues.TAG;
 public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-09-20/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-19.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-20.json";
     private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-19/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM4MDY3NDUzLCJpYXQiOjE1MzgwMzg2NTN9.S1HWBbf1bs1sAEqNYceX5z9tW6-kPd0v0jN7BzwBw-k";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4MTA3MTg1LCJpYXQiOjE1MzgwNzgzODV9.L3f6m-HSXWhEWgU_3vyZq1KnvN48T1VAoI2XP_EaZ70";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
@@ -39,11 +39,17 @@ public class FitbitData {
                 new InputStreamReader(response, "UTF-8"));
         JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
         JSONArray dataset = (JSONArray) activities.get("dataset");
+//        int i = 0;
+//        while(i<dataset.size()-1){
+//            JSONObject datasetObject = (JSONObject) dataset.get(i);
+//        final String heartRateValue = (datasetObject.get("value")) + "";
+//        final String heartRateTime = (datasetObject.get("time")) + "";
+//        }
+        Log.d(TAG, "getHeartRateValue: dataset size" + dataset.size());
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-        final String heartRateValue = (datasetObject.get("value")) + "";
-        final String heartRateTime = (datasetObject.get("time")) + "";
+        final String heartRateValue = (String)(datasetObject.get("value").toString());
         Log.d(TAG, "run: ================ Heart Rate: "+heartRateValue);
-        return Integer.parseInt(""+datasetObject.get("value"));
+        return Integer.parseInt(heartRateValue);
     }
 
     public String getHeartRateTime() throws IOException, ParseException {
@@ -56,7 +62,6 @@ public class FitbitData {
         JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
         JSONArray dataset = (JSONArray) activities.get("dataset");
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-        final String heartRateValue = (datasetObject.get("value")) + "";
         final String heartRateTime = (datasetObject.get("time")) + "";
         Log.d(TAG, "run: ================ Time: " + heartRateTime );
         return heartRateTime;

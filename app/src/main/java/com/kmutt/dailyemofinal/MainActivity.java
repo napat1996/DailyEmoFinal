@@ -287,16 +287,16 @@ public class MainActivity extends AppCompatActivity {
                             Log.e(TAG, "run: HeartRate = "+heartRate );
 
 
-                            try {
-                                isStress();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-
                         }
                     });
+                    try {
+                        isStress();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                 } catch (Exception ex) {
                     Log.e("Debugging", "Errorrrrrrrrrrrrrrrrrrrrrrrr!");
                     ex.printStackTrace();
@@ -374,8 +374,8 @@ public class MainActivity extends AppCompatActivity {
         FitbitData data = new FitbitData();
         boolean isStress;
 
-//        int heartRate = data.getHeartRateValue();
-        int heartRate = 101;
+        int heartRate = data.getHeartRateValue();
+//        int heartRate = 101;
         if (heartRate > 100) {
 
             String mood = "Normal";
@@ -383,9 +383,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d("Debugging", "on Data change is running");
-                    Map<String, String> value = (Map<String, String>) dataSnapshot.child("process").getValue();
-                    String process = value.get("Traffic");
-                    String isJam = process;
+                    Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                    Boolean isJam = (Boolean)value.get("Traffic");
                     Log.e(TAG, "onDataChange: isJam =" + isJam);
                 }
 
@@ -398,22 +397,43 @@ public class MainActivity extends AppCompatActivity {
 
             if (asSleep < 40000) {
                 isStress = true;
-                imgMood.setImageResource(imgInt[0]);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imgMood.setImageResource(imgInt[0]);
+                    }
+                });
+
                 stressStr = "Stress";
             } else if (isJam == true) {
                 isStress = true;
                 stressStr = "Stress";
-                imgMood.setImageResource(imgInt[0]);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imgMood.setImageResource(imgInt[0]);
+                    }
+                });
             } else {
                 isStress = false;
                 stressStr = "Normal";
-                imgMood.setImageResource(imgInt[1]);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imgMood.setImageResource(imgInt[1]);
+                    }
+                });
             }
 
         } else {
             isStress = false;
             stressStr = "Normal";
-            imgMood.setImageResource(imgInt[1]);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imgMood.setImageResource(imgInt[1]);
+                }
+            });
         }
         DatabaseReference process = mRootRef.child("process");
         process.child("Stress").setValue(isStress);
