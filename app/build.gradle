@@ -16,7 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
     configurations.all {
         resolutionStrategy {
             force 'com.android.support:support-v4:28.0.0-rc02'

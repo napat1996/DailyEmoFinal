@@ -19,7 +19,7 @@ import static android.content.ContentValues.TAG;
 
 public class DatabaseService {
     FirebaseDatabase database;
-    DatabaseReference mRootRef;
+    public static DatabaseReference mRootRef;
     FitbitData data = new FitbitData();
     Calendar calendar = Calendar.getInstance();
 
@@ -57,7 +57,5 @@ public class DatabaseService {
 
         DatabaseReference heartRate = mRootRef.child("HeartRate");
         heartRate.child(heartRateTime).setValue(heartRateValue);
-
-
     }
 }
