@@ -28,7 +28,7 @@
         android:layout_height="177sp"
         android:layout_above="@+id/inputUsername"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-188dp"
+        android:layout_marginBottom="-188sp"
         android:src="@drawable/logo_newww" />
 
     <EditText
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="188sp"
         android:backgroundTint="#b6babc"
         android:drawableLeft="@drawable/ic_person24dp"
         android:ems="10"
@@ -76,19 +76,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="95dp"
         android:text="Create a new account"
-        android:textColor="#ac8588"
-        android:textSize="15sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/createNewAccount"
-        android:layout_toEndOf="@+id/checkBox"
-        android:text="Forgot your password?"
         android:textColor="#ac8588"
         android:textSize="15sp" />
 

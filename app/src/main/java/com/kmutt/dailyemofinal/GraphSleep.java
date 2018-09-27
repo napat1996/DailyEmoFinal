@@ -120,14 +120,12 @@ public class GraphSleep extends AppCompatActivity {
                 data.setValueTextColor(Color.WHITE);
 
                 mChart.setData(data);
-//                mChart.invalidate();
+              //  mChart.invalidate();
 
 
 
             }
         }) ).start();
-
-
 
 
     }
