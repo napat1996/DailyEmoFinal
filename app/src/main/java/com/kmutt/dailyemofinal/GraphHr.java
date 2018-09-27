@@ -54,7 +54,7 @@ public class GraphHr extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
         mChart = (BarChart) findViewById(R.id.barchart_hr);
-        setData(10);
+        setData(7);
         mChart.setMaxVisibleValueCount(70);
 
     }

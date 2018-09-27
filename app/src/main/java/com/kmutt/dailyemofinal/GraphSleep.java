@@ -121,17 +121,10 @@ public class GraphSleep extends AppCompatActivity {
 
                 mChart.setData(data);
 //                mChart.invalidate();
-
-
-
             }
         }) ).start();
 
-
-
-
     }
-
     private void moveOffscreen(){
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
