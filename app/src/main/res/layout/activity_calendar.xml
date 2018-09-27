@@ -9,7 +9,51 @@
     android:background="#F0F0F0"    >
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#e2e2e2">
 
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="27sp"
+            android:background="@drawable/menu_daily" />
+
+        <Button
+            android:id="@+id/btn_summary"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="110sp"
+            android:background="@drawable/dash" />
+
+        <Button
+            android:id="@+id/btn_suggestion"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="110sp"
+            android:background="@drawable/line" />
+
+        <Button
+
+            android:id="@+id/btn_profile"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="27sp"
+            android:background="@drawable/user1" />
+        <!--end nav bar-->
+    </RelativeLayout>
 
 
 
@@ -25,9 +69,6 @@
         android:layout_height="358dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-
-
-
 
         />
 
@@ -62,17 +103,15 @@
         <!--app:compactCalendarTextSize="12sp" />-->
 
 
-
-
     <TextView
         android:id="@+id/isStress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="73dp"
         android:text="----"
-        android:textColor="#cf5959"
+        android:textColor="@color/main_text2"
         android:textSize="45sp"
         android:textStyle="bold" />
 
@@ -80,11 +119,11 @@
         android:id="@+id/textmood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/calendarView"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="129dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="30dp"
         android:text="MOOD:"
+        android:textColor="#948d8d"
         android:textSize="20sp"
         android:textStyle="bold" />
 
