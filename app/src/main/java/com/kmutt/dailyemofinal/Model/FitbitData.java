@@ -28,7 +28,7 @@ public class FitbitData {
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-19.json";
     private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-19/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4MDE2MDg4LCJpYXQiOjE1Mzc5ODcyODh9.H47AuUlCESEalhhEvQizurPkJgjx8bEOlTmCbyIJMbA";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM4MDY3NDUzLCJpYXQiOjE1MzgwMzg2NTN9.S1HWBbf1bs1sAEqNYceX5z9tW6-kPd0v0jN7BzwBw-k";
 
     public Integer getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();

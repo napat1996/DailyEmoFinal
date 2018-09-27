@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import com.google.firebase.database.ValueEventListener;
 import com.kmutt.dailyemofinal.Model.FitbitData;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
-    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
@@ -94,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnStep = findViewById(R.id.buttom_step);
-//                            txtActivity = getActivity().findViewById(R.id.text_steps);
+        txtStept = findViewById(R.id.text_steps);
 //                            txtActivity.setText(activity);
 
         btnMap = findViewById(R.id.buttom_map2);
@@ -242,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     final int heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
+
 //                    final String activity = trackActivity.setActivity();
 //                    Log.d(TAG, "run: Activity : "+activity);
 
@@ -372,15 +382,17 @@ public class MainActivity extends AppCompatActivity {
             mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    User process = dataSnapshot.child("process").getValue(User.class);
-                    boolean isJam = process.isTraffic();
+                    Log.d("Debugging", "on Data change is running");
+                    Map<String, String> value = (Map<String, String>) dataSnapshot.child("process").getValue();
+                    String process = value.get("Traffic");
+                    String isJam = process;
                     Log.e(TAG, "onDataChange: isJam =" + isJam);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
-
+                    Log.d("Debugging", "on Data change error");
+                    Log.e(TAG, "onCancelled: ", databaseError.toException());
                 }
             });
 

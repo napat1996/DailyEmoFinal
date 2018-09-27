@@ -9,13 +9,13 @@
     tools:context="com.kmutt.dailyemofinal.MainActivity"
     android:background="#F0F0F0">
 
-    <!--//nav bar-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
         android:orientation="vertical">
-
+        <!--//nav bar-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="51dp"
