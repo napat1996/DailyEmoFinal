@@ -72,7 +72,7 @@ public class SlideAdapter extends PagerAdapter {
 
         // suggest-step
          "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
-                 "time to get away from stressors. Getting out of the stressful environment, \n" +
+                 "time to get away from stress. Getting out of the stressful environment, \n" +
                  "breathing the air, and feeling your body move is natural stress-relief.  \n" +
                  "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
                  "stress and give your mind a boost. Whether it’s a slow stroll in the park with\n" +
