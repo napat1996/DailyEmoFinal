@@ -60,7 +60,9 @@ public class SlideAdapter extends PagerAdapter {
 
 
 
-            "Heart rate",
+            "Breathe in for 5-8 seconds, hold that breath for 3-5 seconds, then exhale \n" +
+                    "slowly. Repeat several times. Raising your aortic pressure in this way will \n" +
+                    "lower your heart rate.",
 
 
 
