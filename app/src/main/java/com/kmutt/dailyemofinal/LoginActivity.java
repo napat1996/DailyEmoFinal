@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     private String TAG = LoginActivity.class.getSimpleName();
@@ -89,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
         mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = new User();
                 if(dataSnapshot.child(username).exists()){
                     if(!username.isEmpty()){
-                        User login = dataSnapshot.child(username).getValue(User.class);
-                        if (login.getPassword().equals(password)){
+                        Map<String, String> value = (Map<String, String>) dataSnapshot.child(username).getValue();
+                        User user = new User(value.get("username"), value.get("password"), value.get("email"));
+                        if (user.getPassword().equals(password)){
                             Toast.makeText(LoginActivity.this,"Success Login", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "onDataChange: ++++++++++++ S U C C E S S   F U L L ++++++++++++");
 

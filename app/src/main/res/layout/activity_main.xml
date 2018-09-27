@@ -9,55 +9,56 @@
     tools:context="com.kmutt.dailyemofinal.MainActivity"
     android:background="#F0F0F0">
 
-    <!--//nav bar-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
         android:orientation="vertical">
-
+        <!--//nav bar-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="45sp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:background="#e2e2e2">
 
             <Button
                 android:id="@+id/btn_home"
-                android:layout_width="39dp"
-                android:layout_height="38dp"
+                android:layout_width="50sp"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="40dp"
-                android:background="@drawable/ic_home_black_24dp" />
+                android:layout_marginStart="27sp"
+                android:background="@drawable/menu_daily" />
 
             <Button
                 android:id="@+id/btn_summary"
-                android:layout_width="39dp"
-                android:layout_height="38dp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="50sp"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="124dp"
-                android:background="@drawable/ic_date_range_black_24dp" />
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="110sp"
+                android:background="@drawable/dash" />
 
             <Button
                 android:id="@+id/btn_suggestion"
-                android:layout_width="39dp"
-                android:layout_height="38dp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="50sp"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="129dp"
-                android:background="@drawable/ic_mood_black_24dp" />
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="110sp"
+                android:background="@drawable/line" />
 
             <Button
+
                 android:id="@+id/btn_profile"
-                android:layout_width="39dp"
-                android:layout_height="38dp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="50sp"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="40dp"
-                android:background="@drawable/ic_people_white" />
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="27sp"
+                android:background="@drawable/user1" />
             <!--end nav bar-->
         </RelativeLayout>
 
@@ -76,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/buttom_sleep"
-            android:layout_marginStart="98dp"
+            android:layout_marginStart="91dp"
             android:text="--"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -85,21 +86,21 @@
 
         <Button
             android:id="@+id/buttom_hr"
-            android:layout_width="66dp"
-            android:layout_height="62dp"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="73dp"
-            android:layout_marginTop="187dp"
+            android:layout_marginStart="62dp"
+            android:layout_marginTop="213dp"
             android:background="@drawable/icon_heart" />
 
         <Button
             android:id="@+id/buttom_sleep"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/buttom_hr"
-            android:layout_marginEnd="73dp"
+            android:layout_marginEnd="66dp"
             android:background="@drawable/icon_moon" />
 
         <TextView
@@ -108,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/heart_rate"
-            android:layout_marginEnd="99dp"
+            android:layout_marginEnd="91dp"
             android:text="--"
             android:textAlignment="center"
             android:textColor="#afaa9e"
@@ -117,20 +118,29 @@
 
         <Button
             android:id="@+id/buttom_map2"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
             android:layout_alignStart="@+id/buttom_sleep"
-            android:layout_marginBottom="126dp"
+            android:layout_alignTop="@+id/buttom_step"
             android:background="@drawable/carr" />
+
+        <Switch
+            android:id="@+id/activity_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttom_map2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="77dp"
+            android:gravity="center"
+            android:textOff="Off"
+            android:textOn="On" />
 
         <TextView
             android:id="@+id/text_activity"
-            android:layout_width="wrap_content"
+            android:layout_width="34dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="84dp"
-            android:layout_toStartOf="@+id/buttom_sleep"
+            android:layout_below="@+id/buttom_map2"
+            android:layout_toStartOf="@+id/text_sleep"
             android:text="--"
             android:textAlignment="center"
             android:textColor="#afaa9e"
@@ -140,9 +150,8 @@
             android:id="@+id/text_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/text_activity"
-            android:layout_marginStart="-73dp"
-            android:layout_toEndOf="@+id/buttom_sleep"
+            android:layout_alignEnd="@+id/buttom_sleep"
+            android:layout_below="@+id/buttom_map2"
             android:text="--"
             android:textAlignment="center"
             android:textColor="#afaa9e"
@@ -150,52 +159,71 @@
 
         <Button
             android:id="@+id/buttom_step"
-            android:layout_width="66sp"
-            android:layout_height="62sp"
+            android:layout_width="60sp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/buttom_hr"
-            android:layout_alignTop="@+id/buttom_map2"
+            android:layout_marginBottom="95dp"
             android:background="@drawable/icon_step" />
 
 
-        <Button
-            android:id="@+id/button_mood"
-            android:layout_width="141sp"
-            android:layout_height="150sp"
+        <!--<Button-->
+            <!--android:id="@+id/button_mood"-->
+            <!--android:layout_width="141sp"-->
+            <!--android:layout_height="150sp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="17sp"-->
+            <!--android:background="@drawable/logoja"-->
+            <!--android:text="MOOD"-->
+            <!--android:textColor="@color/white" />-->
+
+        <ImageView
+            android:id="@+id/img_mood"
+            android:layout_width="84dp"
+            android:layout_height="93dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="17sp"
-            android:background="@drawable/logoja"
-            android:text="MOOD"
-            android:textColor="@color/white" />
+            android:layout_marginTop="83dp"
+            app:srcCompat="@drawable/emo_blushing" />
 
         <TextView
             android:id="@+id/text_steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/heart_rate"
-            android:layout_alignTop="@+id/text_activity"
+            android:layout_below="@+id/buttom_map2"
             android:text="--"
             android:textColor="#afaa9e"
             android:textSize="20sp" />
 
+
         <!--line-->
         <View
             android:layout_width="3sp"
-            android:layout_height="237sp"
+            android:layout_height="250sp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="99dp"
+            android:layout_marginBottom="67sp"
             android:background="@color/main_text2" />
 
         <View
-            android:layout_width="275dp"
+            android:layout_width="300sp"
             android:layout_height="3sp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="213dp"
+            android:layout_marginBottom="186dp"
             android:background="@color/main_text2" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="193sp"
+            android:layout_height="90sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/dailyemoo" />
 
 
         <!--<FrameLayout-->
@@ -224,7 +252,7 @@
 
 
 
-
+ <!--delete-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nnnv"
         app:headerLayout="@layout/header"

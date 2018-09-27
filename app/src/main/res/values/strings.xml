@@ -19,4 +19,22 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_traffic">TrafficActivity</string>
+
+    <!--<string name="des_sleep">-->
+    <!--Sufficient sleep is important for your health, well-being and happiness. When you sleep better, you feel better.-->
+    <!--If you’re still having trouble sleeping, try to do some suggestions :-->
+
+    <!--Tip 1 : Exercise during the day which is a great stress reliever and has been shown to improve the quality of-->
+    <!--sleep, particularly for insomniacs.-->
+
+    <!--Tip 2 : Be smart about what you eat and drink. Your daytime eating habits play a role in how well you sleep,-->
+    <!--especially in the hours before bedtime. Try to make dinnertime earlier in the evening, and avoid heavy,-->
+    <!--rich foods within two hours of bed. Also, avoid alcohol, caffeine, and nicotine before bed.-->
+
+    <!--Tip 3 : Wind down and clear your head. Your body needs time to shift into sleep mode, so spend the last hour-->
+    <!--before bed doing a calming activity such as reading, using an electronic device such as a laptop can-->
+    <!--make it hard to fall asleep, because the particular type of light emanating from the screens of these-->
+    <!--devices is activating to the brain</string>-->
+
+
 </resources>

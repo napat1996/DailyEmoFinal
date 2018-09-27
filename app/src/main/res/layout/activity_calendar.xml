@@ -5,11 +5,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calendar"
+    tools:context=".Calendar_g"
     android:background="#F0F0F0"    >
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#e2e2e2">
 
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="27sp"
+            android:background="@drawable/menu_daily" />
+
+        <Button
+            android:id="@+id/btn_summary"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="110sp"
+            android:background="@drawable/dash" />
+
+        <Button
+            android:id="@+id/btn_suggestion"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="110sp"
+            android:background="@drawable/line" />
+
+        <Button
+
+            android:id="@+id/btn_profile"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="27sp"
+            android:background="@drawable/user1" />
+        <!--end nav bar-->
+    </RelativeLayout>
 
 
 
@@ -22,12 +66,41 @@
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="375dp"
-        android:layout_height="358dp"
+        android:layout_height="300dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
 
-
         />
+
+    
+
+    <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+        <!--android:id="@+id/calendarVieww"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="340dp"-->
+        <!--app:mcv_arrowColor="@color/main_text2"-->
+        <!--app:mcv_selectionColor="@color/main_text"-->
+        <!--app:mcv_showOtherDates="defaults">-->
+
+    <!--</com.prolificinteractive.materialcalendarview.MaterialCalendarView>-->
+
+    <!--<com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/compactcalendar_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="283dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="35dp"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--app:compactCalendarBackgroundColor="#ffe95451"-->
+        <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
+        <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
+        <!--app:compactCalendarDisplayOtherMonthDays="true"-->
+        <!--app:compactCalendarMultiEventIndicatorColor="#fff"-->
+        <!--app:compactCalendarTargetHeight="250dp"-->
+        <!--app:compactCalendarTextColor="#fff"-->
+        <!--app:compactCalendarTextSize="12sp" />-->
 
 
     <TextView
@@ -36,23 +109,61 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
-        android:text="----"
-        android:textColor="#cf5959"
-        android:textSize="50sp"
+        android:layout_marginBottom="126sp"
+        android:text="---"
+        android:textColor="@color/main_text2"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textmood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!--<TextView-->
+        <!--android:id="@+id/textmood"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginBottom="169dp"-->
+        <!--android:layout_marginStart="40dp"-->
+        <!--android:text="MOOD:"-->
+        <!--android:textColor="#948d8d"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
+
+    <Button
+        android:id="@+id/btn_graph_hr"
+        android:layout_width="48dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_graph_sleep"
+        android:layout_marginEnd="85dp"
+        android:background="@drawable/btn_heart" />
+
+    <Button
+        android:id="@+id/btn_graph_sleep"
+        android:layout_width="48dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="178dp"
-        android:layout_marginStart="36dp"
-        android:text="MOOD:"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="63dp"
+        android:layout_marginStart="85dp"
+        android:background="@drawable/btn_sleep" />
+
+    <Button
+        android:id="@+id/btn_graph_emo"
+        android:layout_width="48dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/btn_graph_hr"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_emo" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="89dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="159dp"
+        android:layout_marginStart="20dp"
+        app:srcCompat="@drawable/mood2" />
 
 
 </RelativeLayout>

@@ -11,9 +11,16 @@
 
 
     <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="90sp"
+        app:srcCompat="@drawable/dailyemoo" />
+
+    <ImageView
         android:id="@+id/slideimg"
         android:layout_width="130sp"
         android:layout_height="130sp"
+        android:layout_marginTop="10sp"
 
         />
 
@@ -25,23 +32,23 @@
 
          />
 
-    <ImageView
-        android:id="@+id/imgdes"
-        android:layout_width="340sp"
-        android:layout_height="140sp"
-        android:layout_marginTop="10sp"
+    <!--<ImageView-->
+        <!--android:id="@+id/imgdes"-->
+        <!--android:layout_width="350sp"-->
+        <!--android:layout_height="200sp"-->
+        <!--android:layout_marginTop="7sp"-->
 
-        />
-
-    <!--<TextView-->
-        <!--android:id="@+id/txtdescription"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="10sp"-->
-        <!--android:text="Description here"-->
-        <!--android:textAlignment="center"-->
-        <!--android:layout_marginTop="15sp"-->
         <!--/>-->
+
+    <TextView
+        android:id="@+id/txtdescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="Description here"
+
+        android:layout_marginTop="15sp"
+        />
 
 
 </LinearLayout>
