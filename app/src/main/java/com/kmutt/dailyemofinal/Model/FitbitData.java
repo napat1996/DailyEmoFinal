@@ -29,17 +29,17 @@ import static android.content.ContentValues.TAG;
 public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-09-27.json";
-    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-19/1d.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
+    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-29/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4MTA3MTg1LCJpYXQiOjE1MzgwNzgzODV9.L3f6m-HSXWhEWgU_3vyZq1KnvN48T1VAoI2XP_EaZ70";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4Njc1MDIzLCJpYXQiOjE1Mzg2NDYyMjN9.CKDR7FPk8kGRJMlPwDTAvKpax1dhAShvn7LZFHYI1xI";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
     java.util.Calendar calendar = Calendar.getInstance();
     String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-    public Integer getHeartRateValue() throws IOException, ParseException {
+    public long getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -56,9 +56,9 @@ public class FitbitData {
 //        }
         Log.d(TAG, "getHeartRateValue: dataset size" + dataset.size());
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
-        final String heartRateValue = (String)(datasetObject.get("value").toString());
+        final long heartRateValue = (Long) (datasetObject.get("value"));
         Log.d(TAG, "run: ================ Heart Rate: "+heartRateValue);
-        return Integer.parseInt(heartRateValue);
+        return heartRateValue;
     }
 
     public String getHeartRateTime() throws IOException, ParseException {
@@ -215,34 +215,34 @@ public class FitbitData {
         return dateOfSleep;
     }
 
-    public String  getEndTimeOfSleep() throws IOException, ParseException {
-        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
-        connection.setRequestProperty(AUTHORIZATION,BEARER);
-        InputStream response = connection.getInputStream();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
-        JSONArray sleep = (JSONArray) responseObject.get("sleep");
-        JSONObject sleepObject = (JSONObject) sleep.get(0);
-        String endTime = (String) sleepObject.get("endTime") ;
-        System.out.println(endTime);
+//    public String  getEndTimeOfSleep() throws IOException, ParseException {
+//        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
+//        connection.setRequestProperty(AUTHORIZATION,BEARER);
+//        InputStream response = connection.getInputStream();
+//        JSONParser jsonParser = new JSONParser();
+//        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
+//        JSONArray sleep = (JSONArray) responseObject.get("sleep");
+//        JSONObject sleepObject = (JSONObject) sleep.get(0);
+//        String endTime = (String) sleepObject.get("endTime") ;
+//        System.out.println(endTime);
+//
+//        return endTime;
+//    }
+//    public String  getStartTimeOfSleep() throws IOException, ParseException {
+//        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
+//        connection.setRequestProperty(AUTHORIZATION,BEARER);
+//        InputStream response = connection.getInputStream();
+//        JSONParser jsonParser = new JSONParser();
+//        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
+//        JSONArray sleep = (JSONArray) responseObject.get("sleep");
+//        JSONObject sleepObject = (JSONObject) sleep.get(0);
+//        String startTime = (String) sleepObject.get("startTime") ;
+//        System.out.println(startTime);
+//
+//        return startTime;
+//    }
 
-        return endTime;
-    }
-    public String  getStartTimeOfSleep() throws IOException, ParseException {
-        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
-        connection.setRequestProperty(AUTHORIZATION,BEARER);
-        InputStream response = connection.getInputStream();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
-        JSONArray sleep = (JSONArray) responseObject.get("sleep");
-        JSONObject sleepObject = (JSONObject) sleep.get(0);
-        String startTime = (String) sleepObject.get("startTime") ;
-        System.out.println(startTime);
-
-        return startTime;
-    }
-
-    public int getStepsValue() throws IOException, ParseException {
+    public long getStepsValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_STEPS)).openConnection();
         connection.setRequestProperty(AUTHORIZATION,BEARER);
         InputStream response = connection.getInputStream();
@@ -250,7 +250,7 @@ public class FitbitData {
         JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
         JSONArray activities = (JSONArray) responseObject.get("activities-steps");
         JSONObject activitiesObject = (JSONObject)activities.get(0);
-        int value = (Integer)activitiesObject.get("value");
+        long value = Long.parseLong((String)activitiesObject.get("value"));
         Log.d(TAG, "getStepsValue: "+value);
         return value;
 

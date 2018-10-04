@@ -23,6 +23,7 @@ public class SuggestionBackgroundActivity extends AppCompatActivity {
         myadapter = new SlideAdapter(this);
         viewPager.setAdapter(myadapter);
 
+        //start nav bar
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,8 @@ public class SuggestionBackgroundActivity extends AppCompatActivity {
                 startActivity(s);
             }
         });
+
+        //end nav bar
 
     }
 }

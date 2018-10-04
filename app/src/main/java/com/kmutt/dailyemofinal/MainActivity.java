@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private Location thisLocation;
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int INTERVAL = 5 * 1000;
+    private static final int INTERVAL = 300 * 1000;
     private boolean isSterss = false;
 
     private int heartRate = 0, asSleep = 0;
@@ -161,10 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnHeartRate = findViewById(R.id.buttom_hr);
 
-
-
         btnSleep = findViewById(R.id.buttom_sleep);
-
 
         btnStep = findViewById(R.id.buttom_step);
         txtStept = findViewById(R.id.text_steps);
@@ -223,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), isChecked + "", Toast.LENGTH_LONG).show();
 
                     getDeviceLocation("initial");
-                    //ทำทุกๆ interval 1 วิ (1*1000)
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -239,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }, INTERVAL);
+
                 }
             }
         });
@@ -251,8 +248,9 @@ public class MainActivity extends AppCompatActivity {
                 FitbitData data = new FitbitData();
 
                 try {
-                    final int heartRate = data.getHeartRateValue();
+                    final long heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
+                    final long steps = data.getStepsValue();
 
 //                    final String activity = trackActivity.setActivity();
 //                    Log.d(TAG, "run: Activity : "+activity);
@@ -263,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
                         db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
+                        db.updateSteptoDB(getApplicationContext().getApplicationContext());
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
@@ -288,6 +287,8 @@ public class MainActivity extends AppCompatActivity {
                             txtHeartRate = findViewById(R.id.heart_rate);
                             txtHeartRate.setText(heartRate + "");
                             Log.e(TAG, "run: HeartRate = "+heartRate );
+
+                            txtStept.setText(steps+"");
 
 
                         }
@@ -377,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         FitbitData data = new FitbitData();
         boolean isStress;
 
-        int heartRate = data.getHeartRateValue();
+        long heartRate = data.getHeartRateValue();
 //        int heartRate = 101;
         if (heartRate > 100) {
 
@@ -398,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            if (asSleep < 40000) {
+            if (asSleep < 240000) {
                 isStress = true;
                 runOnUiThread(new Runnable() {
                     @Override
@@ -614,6 +615,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         })).start();
+
+
+
+
     }
 }
 

@@ -35,8 +35,8 @@ public class DatabaseService {
 //        long light = data.getlight();
 //        long wake = data.getWake();
         String dateOfSleep = data.getDateOfSleep();
-        String startTime = data.getStartTimeOfSleep();
-        String endTime = data.getEndTimeOfSleep();
+//        String startTime = data.getStartTimeOfSleep();
+//        String endTime = data.getEndTimeOfSleep();
 //        String stages = data.getSleepStage();
 
         SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
@@ -57,7 +57,7 @@ public class DatabaseService {
         SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");
 
-        int heartRateValue = data.getHeartRateValue();
+        long heartRateValue = data.getHeartRateValue();
         String heartRateTime = data.getHeartRateTime();
         database = FirebaseDatabase.getInstance();
 
@@ -72,7 +72,7 @@ public class DatabaseService {
         SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");
 
-        int stepValue = data.getStepsValue();
+        long stepValue = data.getStepsValue();
         String stepsDateTime = data.getStepsDateTime();
         database = FirebaseDatabase.getInstance();
 
