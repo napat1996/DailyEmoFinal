@@ -34,7 +34,7 @@ public class DatabaseService {
 //        long deep = data.getDeep();
 //        long light = data.getlight();
 //        long wake = data.getWake();
-        String dateOfSleep = data.getDateOfSleep();
+//        String dateOfSleep = data.getDateOfSleep();
 //        String startTime = data.getStartTimeOfSleep();
 //        String endTime = data.getEndTimeOfSleep();
 //        String stages = data.getSleepStage();
@@ -44,9 +44,9 @@ public class DatabaseService {
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
 
-        DatabaseReference heartRateDate = mRootRef.child("DateTime").child(dateOfSleep);
+        DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
         heartRateDate.child("Sleep").child("TotalMinute").setValue(sleepMinute);
-        Log.d(TAG, "updateSleepDB: "+dateOfSleep+ " : " + sleepMinute);
+        Log.d(TAG, "updateSleepDB: "+date+ " : " + sleepMinute);
 
 
     }
@@ -73,14 +73,14 @@ public class DatabaseService {
         String username = preferences.getString("username", "");
 
         long stepValue = data.getStepsValue();
-        String stepsDateTime = data.getStepsDateTime();
+        //String stepsDateTime = data.getStepsDateTime();
         database = FirebaseDatabase.getInstance();
 
         mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
 
-        DatabaseReference stepsDate = mRootRef.child("DateTime").child(stepsDateTime);
+        DatabaseReference stepsDate = mRootRef.child("DateTime").child(date);
         stepsDate.child("Steps").setValue(stepValue);
-        Log.d(TAG, "updateSteptoDB: "+stepsDateTime+" : "+stepValue);
+        Log.d(TAG, "updateSteptoDB: "+date+" : "+stepValue);
     }
 
 }

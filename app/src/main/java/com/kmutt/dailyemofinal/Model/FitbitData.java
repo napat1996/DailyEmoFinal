@@ -29,10 +29,10 @@ import static android.content.ContentValues.TAG;
 public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
-    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-09-29/1d.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-05.json";
+    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-10-05/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4Njc1MDIzLCJpYXQiOjE1Mzg2NDYyMjN9.CKDR7FPk8kGRJMlPwDTAvKpax1dhAShvn7LZFHYI1xI";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTM5MDc3MDUwLCJpYXQiOjE1MzkwNDgyNTB9.KFt56O976MZ4__Mvt_yFBjuFgX-HzK6J2eBkIg8nGKs";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -76,46 +76,46 @@ public class FitbitData {
         return heartRateTime;
     }
 
-    public void upAllHeartRateTimeToDB() throws IOException, ParseException {
-        int more = 0,less =0;
-        URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
-        connection.setRequestProperty(AUTHORIZATION,BEARER);
-        InputStream response = connection.getInputStream();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseObject = (JSONObject)jsonParser.parse(
-                new InputStreamReader(response, "UTF-8"));
-        JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
-        JSONArray dataset = (JSONArray) activities.get("dataset");
-        Log.d(TAG, "Debuggung: in size" + dataset.size());
-        int i = 0;
-        while(i<dataset.size()-1){
-            Log.d(TAG, "Debuggung: in while");
-            JSONObject datasetObject = (JSONObject) dataset.get(i);
-            final Long heartRateValue = (Long) (datasetObject.get("value"));
-            final String heartRateTime = (datasetObject.get("time")) + "";
-            Log.d(TAG, "run: Time : " + heartRateTime + "Heart Rate: "+heartRateValue);
-
-            database = FirebaseDatabase.getInstance();
-
-            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
-
-            DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
-            heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
-
-            if(heartRateValue > 100){
-                more++;
-            }
-            else{
-                less++;
-            }
-            heartRateDate.child("HeartRate").child("High").setValue(more);
-            heartRateDate.child("HeartRate").child("Low").setValue(less);
-
-            Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
-            i++;
-        }
-
-    }
+//    public void upAllHeartRateTimeToDB() throws IOException, ParseException {
+//        int more = 0,less =0;
+//        URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
+//        connection.setRequestProperty(AUTHORIZATION,BEARER);
+//        InputStream response = connection.getInputStream();
+//        JSONParser jsonParser = new JSONParser();
+//        JSONObject responseObject = (JSONObject)jsonParser.parse(
+//                new InputStreamReader(response, "UTF-8"));
+//        JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
+//        JSONArray dataset = (JSONArray) activities.get("dataset");
+//        Log.d(TAG, "Debuggung: in size" + dataset.size());
+//        int i = 0;
+//        while(i<dataset.size()-1){
+//            Log.d(TAG, "Debuggung: in while");
+//            JSONObject datasetObject = (JSONObject) dataset.get(i);
+//            final Long heartRateValue = (Long) (datasetObject.get("value"));
+//            final String heartRateTime = (datasetObject.get("time")) + "";
+//            Log.d(TAG, "run: Time : " + heartRateTime + "Heart Rate: "+heartRateValue);
+//
+//            database = FirebaseDatabase.getInstance();
+//
+//            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
+//
+//            DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
+//            heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
+//
+//            if(heartRateValue > 100){
+//                more++;
+//            }
+//            else{
+//                less++;
+//            }
+//            heartRateDate.child("HeartRate").child("High").setValue(more);
+//            heartRateDate.child("HeartRate").child("Low").setValue(less);
+//
+//            Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
+//            i++;
+//        }
+//
+//    }
 
 
     public long getMinutesAsleep() throws IOException, ParseException {
@@ -200,20 +200,20 @@ public class FitbitData {
 //
 //        return wake;
 //    }
-    public String  getDateOfSleep() throws IOException, ParseException {
-        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
-        connection.setRequestProperty(AUTHORIZATION,BEARER);
-        InputStream response = connection.getInputStream();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
-        JSONArray sleep = (JSONArray) responseObject.get("sleep");
-        JSONObject sleepObject = (JSONObject) sleep.get(0);
-        String dateOfSleep = (String) sleepObject.get("dateOfSleep") ;
-        System.out.println(dateOfSleep);
-
-        Log.e(TAG, "run: Date Of Sleep Deep : "+ dateOfSleep );
-        return dateOfSleep;
-    }
+//    public String  getDateOfSleep() throws IOException, ParseException {
+//        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
+//        connection.setRequestProperty(AUTHORIZATION,BEARER);
+//        InputStream response = connection.getInputStream();
+//        JSONParser jsonParser = new JSONParser();
+//        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
+//        JSONArray sleep = (JSONArray) responseObject.get("sleep");
+//        JSONObject sleepObject = (JSONObject) sleep.get(0);
+//        String dateOfSleep = (String) sleepObject.get("dateOfSleep") ;
+//        System.out.println(dateOfSleep);
+//
+//        Log.e(TAG, "run: Date Of Sleep Deep : "+ dateOfSleep );
+//        return dateOfSleep;
+//    }
 
 //    public String  getEndTimeOfSleep() throws IOException, ParseException {
 //        URLConnection connection = new URL(API_PREFIX.concat(URL_SLEEP)).openConnection();
@@ -256,17 +256,4 @@ public class FitbitData {
 
     }
 
-    public String getStepsDateTime() throws IOException, ParseException {
-        URLConnection connection = new URL(API_PREFIX.concat(URL_STEPS)).openConnection();
-        connection.setRequestProperty(AUTHORIZATION,BEARER);
-        InputStream response = connection.getInputStream();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseObject = (JSONObject) jsonParser.parse(new InputStreamReader(response, "UTF-8"));
-        JSONArray activities = (JSONArray) responseObject.get("activities-steps");
-        JSONObject activitiesObject = (JSONObject)activities.get(0);
-        String dateTime = activitiesObject.get("dateTime").toString();
-        Log.d(TAG, "getStepsDateTime: "+dateTime);
-        return dateTime;
-
-    }
 }

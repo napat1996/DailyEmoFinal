@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
+        DatabaseReference process = mRootRef.child("process");
+        process.child("Traffic").setValue(false);
+        process.child("Stress").setValue(false);
         //start nav bar
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +239,21 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }, INTERVAL);
 
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+                            String username = preferences.getString("username", "");
+
+                            database = FirebaseDatabase.getInstance();
+
+                            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/" + username);
+                            DatabaseReference process = mRootRef.child("process");
+                            process.child("Traffic").setValue(false);
+                        }
+                    });
                 }
             }
         });
@@ -273,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                     //ขอ permission โทรศัพท์
                     getLocationPermission();
-                    data.upAllHeartRateTimeToDB();
+//                    data.upAllHeartRateTimeToDB();
 
 
                     runOnUiThread(new Runnable() {
@@ -372,24 +390,79 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String isStress() throws IOException, ParseException {
+    public void isStress() throws IOException, ParseException {
 
         boolean isJam = false;
-        FitbitData data = new FitbitData();
-        boolean isStress;
+        final FitbitData data = new FitbitData();
 
         long heartRate = data.getHeartRateValue();
 //        int heartRate = 101;
-        if (heartRate > 100) {
+        if (heartRate > 65) {
 
             String mood = "Normal";
-            mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            mRootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d("Debugging", "on Data change is running");
                     Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
-                    Boolean isJam = (Boolean)value.get("Traffic");
+                    final Boolean isJam = (Boolean)value.get("Traffic");
                     Log.e(TAG, "onDataChange: isJam =" + isJam);
+                    (new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isStress = false;
+                            long asSleep = 0;
+                            try {
+                                asSleep = data.getMinutesAsleep();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (asSleep < 400) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        imgMood.setImageResource(R.drawable.emo_desperate);
+                                        Log.d(TAG, "Debugging stress because sleep: ");
+                                    }
+                                });
+
+                                stressStr = "Stress";
+                            }
+
+                            if (btnSwitch.isChecked()) {
+                                if (isJam) {
+                                    isStress = true;
+                                    stressStr = "Stress";
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imgMood.setImageResource(imgInt[0]);
+                                            Log.d(TAG, "Debugging stress because Traffic: ");
+                                        }
+                                    });
+                                } else {
+                                    isStress = false;
+                                    stressStr = "Normal";
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imgMood.setImageResource(imgInt[1]);
+                                        }
+                                    });
+                                }
+                            }
+
+                            Log.d(TAG, "Debugging: Sleep"+ asSleep);
+
+                            DatabaseReference process = mRootRef.child("process");
+                            process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                        }
+                    })).start();
+
+
                 }
 
                 @Override
@@ -399,39 +472,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            if (asSleep < 240000) {
-                isStress = true;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imgMood.setImageResource(imgInt[0]);
-                    }
-                });
 
-                stressStr = "Stress";
-            } else if (isJam == true) {
-                isStress = true;
-                stressStr = "Stress";
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imgMood.setImageResource(imgInt[0]);
-                    }
-                });
-            } else {
-                isStress = false;
-                stressStr = "Normal";
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imgMood.setImageResource(imgInt[1]);
-                    }
-                });
-            }
-
+//old
         } else {
-            isStress = false;
-            stressStr = "Normal";
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -440,8 +483,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         DatabaseReference process = mRootRef.child("process");
-        process.child("Stress").setValue(isStress);
-        return stressStr;
+        process.child("HeartRate").setValue(heartRate);
     }
 
 
@@ -521,30 +563,31 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(new Runnable() {
             private void isTrafficJam(double velocity, int count, long distance) {
                 boolean isJam = false;
-                if (velocity < 30) {
+                Log.d(TAG, "Debugging : isTrafficJam: " + velocity);
+                if (velocity < 20) {
                     isJam = true;
                     jamCount++;
 
-                    java.util.Calendar calendar = Calendar.getInstance();
-                    java.util.Date now = calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    Date now = calendar.getTime();
 
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficJam").child(""+jamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficJam").child(""+jamCount).child(now + "").child("Distance").setValue(distance);
 
                 } else {
-                    java.util.Calendar calendar = Calendar.getInstance();
-                    java.util.Date now = calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    Date now = calendar.getTime();
                     isJam = false;
                     notJamCount++;
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficNotJam").child(""+ notJamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficNotJam").child("" + notJamCount).child(now + "").child("Distance").setValue(distance);
                 }
+                Log.e(TAG, "isTrafficJam: Debugging : "+isJam );
                 DatabaseReference process = mRootRef.child("process");
                 process.child("Traffic").setValue(isJam);
 
-                // todo implement database transaction
             }
 
             @Override
@@ -575,12 +618,13 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "run: Lat : "+lat);
 //                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
-                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance);
+                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance/100);
                         Log.d(TAG, "run: " + locationCount + " Duration = " + duration);
 
                         final int t = 5;
-                        final double s = distance;
+                        final double s = distance/100;
                         final double v = s / t;
+//                        final double v = 180.0;
 
                         this.isTrafficJam(v, locationCount, distance);
 
@@ -595,8 +639,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 txtDistance = findViewById(R.id.text_activity);
-                                txtDistance.setText(distance + "");
-                                txtTraffic.setText(v + "");
+                                txtDistance.setText(s + "");
                                 txtTraffic.setText(v + "");
                             }
                         });
@@ -608,7 +651,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            txtTraffic.setText("error!!");
+                            txtTraffic.setText("--");
                         }
                     });
                 }
