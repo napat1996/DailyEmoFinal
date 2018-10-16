@@ -98,6 +98,14 @@
           }
         },
         {
+          "client_id": "857668522687-afshloivknmkhk2sdo3hcrftf0pjh9s9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kmutt.dailyemofinal",
+            "certificate_hash": "b162451cbcba7b4dd301a3a45d996a3aaec5a134"
+          }
+        },
+        {
           "client_id": "857668522687-35ldph4a8bgm0t5h11msltivn48vto0j.apps.googleusercontent.com",
           "client_type": 3
         }

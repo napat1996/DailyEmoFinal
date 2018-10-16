@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private Location thisLocation;
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int INTERVAL = 5 * 1000;
+    private static final int INTERVAL = 300 * 1000;
     private boolean isSterss = false;
 
     private int heartRate = 0, asSleep = 0;
@@ -104,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
+        DatabaseReference process = mRootRef.child("process");
+        process.child("Traffic").setValue(false);
+        process.child("Stress").setValue(false);
+        //start nav bar
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         btnResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent s = new Intent(getApplicationContext(), SummaryActivity.class);
+                Intent s = new Intent(getApplicationContext(), CalendarActivity.class);
                 startActivity(s);
             }
         });
@@ -139,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(s);
             }
         });
+        //end nav bar
 
 
 //        broadcastReceiver = new BroadcastReceiver() {
@@ -159,10 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnHeartRate = findViewById(R.id.buttom_hr);
 
-
-
         btnSleep = findViewById(R.id.buttom_sleep);
-
 
         btnStep = findViewById(R.id.buttom_step);
         txtStept = findViewById(R.id.text_steps);
@@ -221,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), isChecked + "", Toast.LENGTH_LONG).show();
 
                     getDeviceLocation("initial");
-                    //ทำทุกๆ interval 1 วิ (1*1000)
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -237,6 +238,22 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }, INTERVAL);
+
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+                            String username = preferences.getString("username", "");
+
+                            database = FirebaseDatabase.getInstance();
+
+                            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/" + username);
+                            DatabaseReference process = mRootRef.child("process");
+                            process.child("Traffic").setValue(false);
+                        }
+                    });
                 }
             }
         });
@@ -249,8 +266,9 @@ public class MainActivity extends AppCompatActivity {
                 FitbitData data = new FitbitData();
 
                 try {
-                    final int heartRate = data.getHeartRateValue();
+                    final long heartRate = data.getHeartRateValue();
                     final long sleepMinute = data.getMinutesAsleep();
+                    final long steps = data.getStepsValue();
 
 //                    final String activity = trackActivity.setActivity();
 //                    Log.d(TAG, "run: Activity : "+activity);
@@ -261,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
                         db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
+                        db.updateSteptoDB(getApplicationContext().getApplicationContext());
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
@@ -272,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                     //ขอ permission โทรศัพท์
                     getLocationPermission();
+//                    data.upAllHeartRateTimeToDB();
 
 
                     runOnUiThread(new Runnable() {
@@ -286,17 +306,19 @@ public class MainActivity extends AppCompatActivity {
                             txtHeartRate.setText(heartRate + "");
                             Log.e(TAG, "run: HeartRate = "+heartRate );
 
+                            txtStept.setText(steps+"");
 
-                            try {
-                                isStress();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
 
                         }
                     });
+                    try {
+                        isStress();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                 } catch (Exception ex) {
                     Log.e("Debugging", "Errorrrrrrrrrrrrrrrrrrrrrrrr!");
                     ex.printStackTrace();
@@ -368,25 +390,79 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String isStress() throws IOException, ParseException {
+    public void isStress() throws IOException, ParseException {
 
         boolean isJam = false;
-        FitbitData data = new FitbitData();
-        boolean isStress;
+        final FitbitData data = new FitbitData();
 
-//        int heartRate = data.getHeartRateValue();
-        int heartRate = 101;
-        if (heartRate > 100) {
+        long heartRate = data.getHeartRateValue();
+//        int heartRate = 101;
+        if (heartRate > 65) {
 
             String mood = "Normal";
-            mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            mRootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d("Debugging", "on Data change is running");
-                    Map<String, String> value = (Map<String, String>) dataSnapshot.child("process").getValue();
-                    String process = value.get("Traffic");
-                    String isJam = process;
+                    Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                    final Boolean isJam = (Boolean)value.get("Traffic");
                     Log.e(TAG, "onDataChange: isJam =" + isJam);
+                    (new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean isStress = false;
+                            long asSleep = 0;
+                            try {
+                                asSleep = data.getMinutesAsleep();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (asSleep < 400) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        imgMood.setImageResource(R.drawable.emo_desperate);
+                                        Log.d(TAG, "Debugging stress because sleep: ");
+                                    }
+                                });
+
+                                stressStr = "Stress";
+                            }
+
+                            if (btnSwitch.isChecked()) {
+                                if (isJam) {
+                                    isStress = true;
+                                    stressStr = "Stress";
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imgMood.setImageResource(imgInt[0]);
+                                            Log.d(TAG, "Debugging stress because Traffic: ");
+                                        }
+                                    });
+                                } else {
+                                    isStress = false;
+                                    stressStr = "Normal";
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imgMood.setImageResource(imgInt[1]);
+                                        }
+                                    });
+                                }
+                            }
+
+                            Log.d(TAG, "Debugging: Sleep"+ asSleep);
+
+                            DatabaseReference process = mRootRef.child("process");
+                            process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                        }
+                    })).start();
+
+
                 }
 
                 @Override
@@ -396,106 +472,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            if (asSleep < 40000) {
-                isStress = true;
-                imgMood.setImageResource(imgInt[0]);
-                stressStr = "Stress";
-            } else if (isJam == true) {
-                isStress = true;
-                stressStr = "Stress";
-                imgMood.setImageResource(imgInt[0]);
-            } else {
-                isStress = false;
-                stressStr = "Normal";
-                imgMood.setImageResource(imgInt[1]);
-            }
 
+//old
         } else {
-            isStress = false;
-            stressStr = "Normal";
-            imgMood.setImageResource(imgInt[1]);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imgMood.setImageResource(imgInt[1]);
+                }
+            });
         }
         DatabaseReference process = mRootRef.child("process");
-        process.child("Stress").setValue(isStress);
-        return stressStr;
+        process.child("HeartRate").setValue(heartRate);
     }
 
-
-//    //nav bar
-//    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            Fragment selectedFragment = null;
-//            switch (item.getItemId()) {
-//                case R.id.nav_home:
-//                    selectedFragment = bottomNavigationFragments[0];
-//                    break;
-//                case R.id.nav_sleep:
-//                    selectedFragment = bottomNavigationFragments[1];
-//                    break;
-//                case R.id.nav_map:
-//                    selectedFragment = bottomNavigationFragments[2];
-//                    break;
-//                case R.id.nav_dash:
-//                    selectedFragment = bottomNavigationFragments[3];
-//            }
-//            getSupportFragmentManager().beginTransaction().replace(R.id.flcontent, selectedFragment).commit();
-//
-//            return true;
-//
-//        }
-//    };
-//
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (toggle.onOptionsItemSelected(item)) {
-//            return (true);
-//        }
-//
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//
-//    public void selectItemDrawer(MenuItem menuItem) {
-//        Fragment myFragment = null;
-//        Class fragmentClass;
-//        switch (menuItem.getItemId()) {
-//            case R.id.reminder:
-//                fragmentClass = ReminderFragment.class;
-//                break;
-//            case R.id.setting:
-//                fragmentClass = SettingFragment.class;
-//                break;
-//            case R.id.home:
-//                fragmentClass = DhomeFragment.class;
-//                break;
-//            default:
-//                fragmentClass = MainActivity.class;
-//        }
-//
-//        try {
-//            myFragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-////        FragmentManager fragmentManager = getSupportFragmentManager();
-//////        fragmentManager.beginTransaction().replace(R.id.flcontent,myFragment).commit();
-////        menuItem.setChecked(true);
-////        setTitle(menuItem.getTitle());
-////        dl.closeDrawers();
-//    }
-//
-//    private void setupDrawerContent(NavigationView navigationView) {
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                selectItemDrawer(item);
-//                return true;
-//            }
-//        });
-//    }
 
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -573,30 +563,31 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(new Runnable() {
             private void isTrafficJam(double velocity, int count, long distance) {
                 boolean isJam = false;
-                if (velocity < 30) {
+                Log.d(TAG, "Debugging : isTrafficJam: " + velocity);
+                if (velocity < 20) {
                     isJam = true;
                     jamCount++;
 
-                    java.util.Calendar calendar = Calendar.getInstance();
-                    java.util.Date now = calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    Date now = calendar.getTime();
 
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficJam" + jamCount).child(now + "").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficJam").child(""+jamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficJam").child(""+jamCount).child(now + "").child("Distance").setValue(distance);
 
                 } else {
-                    java.util.Calendar calendar = Calendar.getInstance();
-                    java.util.Date now = calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    Date now = calendar.getTime();
                     isJam = false;
                     notJamCount++;
                     DatabaseReference locDate = mRootRef.child("DateTime").child(date);
-                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Velocity").setValue(velocity);
-                    locDate.child("Location").child("TrafficNotJam" + notJamCount).child(now + "").child("Distance").setValue(distance);
+                    locDate.child("Location").child("TrafficNotJam").child(""+ notJamCount).child(now + "").child("Velocity").setValue(velocity);
+                    locDate.child("Location").child("TrafficNotJam").child("" + notJamCount).child(now + "").child("Distance").setValue(distance);
                 }
+                Log.e(TAG, "isTrafficJam: Debugging : "+isJam );
                 DatabaseReference process = mRootRef.child("process");
                 process.child("Traffic").setValue(isJam);
 
-                // todo implement database transaction
             }
 
             @Override
@@ -627,12 +618,13 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "run: Lat : "+lat);
 //                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
-                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance);
+                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance/100);
                         Log.d(TAG, "run: " + locationCount + " Duration = " + duration);
 
                         final int t = 5;
-                        final double s = distance;
+                        final double s = distance/100;
                         final double v = s / t;
+//                        final double v = 180.0;
 
                         this.isTrafficJam(v, locationCount, distance);
 
@@ -647,8 +639,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 txtDistance = findViewById(R.id.text_activity);
-                                txtDistance.setText(distance + "");
-                                txtTraffic.setText(v + "");
+                                txtDistance.setText(s + "");
                                 txtTraffic.setText(v + "");
                             }
                         });
@@ -660,13 +651,17 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            txtTraffic.setText("error!!");
+                            txtTraffic.setText("--");
                         }
                     });
                 }
             }
 
         })).start();
+
+
+
+
     }
 }
 
