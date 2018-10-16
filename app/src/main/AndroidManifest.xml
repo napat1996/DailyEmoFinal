@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".GraphHr">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
-        <activity android:name=".GraphHr" />
+        <!--<activity android:name=".GraphHr" />-->
         <activity android:name=".GraphSleep" />
         <activity android:name=".HomelinkStep" />
         <activity android:name=".GraphTaffic" />
