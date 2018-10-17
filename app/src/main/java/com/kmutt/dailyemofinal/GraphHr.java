@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
@@ -42,7 +43,7 @@ import java.util.Locale;
 
 public class GraphHr extends AppCompatActivity {
 
-    //    private static final String TAG = GraphHr.class.getSimpleName();
+    private static final String TAG = GraphHr.class.getSimpleName();
 //    private RelativeLayout mainlayout;
 //    private LineChart mchart;
 //    private BarChart barChart;
@@ -51,12 +52,52 @@ public class GraphHr extends AppCompatActivity {
 //    private ArrayList<String> mUsernames  = new ArrayList<>();
 //    private ListView mListView;
     private BarChart mChart;
+    DatabaseReference mRootRef, users;
+    FirebaseDatabase database;
     Button btnHome, btnProfile, btnResult, btnSuggesstion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                dataSnapshot
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        // Add event listener for Datetime
+        dateTimeRef.addListenerForSingleValueEvent(valEv);
+
+        //loop for
+        String dateTime;
+        int day,month,cout = 1;
+        for(int i = 1; i < dateTimeRef.getKey().length(); i++){
+//            Log.e(TAG, dateTimeRef.);
+            Log.e(TAG, "Debugging: i : " + i);
+            Log.e(TAG, "Debugging: dateTime : " + dateTimeRef.getKey());
+        }
+
+
+
+        dateTimeRef.child("Heartrate").setValue(false);
         mChart = (BarChart) findViewById(R.id.barchart_hr);
         setData(7);
         mChart.setMaxVisibleValueCount(70);
@@ -103,11 +144,14 @@ public class GraphHr extends AppCompatActivity {
     }
 
     public void setData(int count) {
-        ArrayList<BarEntry> yValues = new ArrayList<>();
+
+
+                ArrayList<BarEntry> yValues = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             int val1 = (int) (Math.random() * count) + 50;
             int val2 = (int) (Math.random() * count) + 50;
+
 
             yValues.add(new BarEntry(i, new float[]{val1, val2}));
         }
@@ -146,6 +190,7 @@ public class GraphHr extends AppCompatActivity {
         return colors;
     }
 }
+
 
 //    Firebase = FirebseDatabase.getInstance.getReference
 //    Firebase firebase = url.child(HeartRate);
