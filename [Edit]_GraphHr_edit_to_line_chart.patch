@@ -1,0 +1,174 @@
+Index: app/src/main/java/com/kmutt/dailyemofinal/GraphHr.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/kmutt/dailyemofinal/GraphHr.java	(revision 43bdf6b681b7331944d88e070bc7c7f3896bef6a)
++++ app/src/main/java/com/kmutt/dailyemofinal/GraphHr.java	(date 1539788282000)
+@@ -63,39 +63,11 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_graph_hr);
+ 
+-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+-        String username = preferences.getString("username", "tk");
+-
+-        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+-        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+-        database = FirebaseDatabase.getInstance();
+-        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+-        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+-
+-        ValueEventListener valEv = new ValueEventListener() {
+-            @Override
+-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+-//                dataSnapshot
+-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+-                    Log.d("debugging", snapshot.getKey());
+-                    Map<String, Integer> heartRate = (Map<String, Integer>) snapshot.child("HeartRate").getValue();
+-                    Log.d("debugging", "hi :" + heartRate.get("High"));
+-                    Log.d("debugging", "lo :" + heartRate.get("Low"));
+-                }
+-            }
+-
+-            @Override
+-            public void onCancelled(@NonNull DatabaseError databaseError) {
+ 
+-            }
+-        };
+-
+-        // Add event listener for Datetime
+-        dateTimeRef.addValueEventListener(valEv);
+ 
+ //        dateTimeRef.child("Heartrate").setValue(false);
+         mChart = (BarChart) findViewById(R.id.barchart_hr);
+-        setData(7);
++        setData();
+         mChart.setMaxVisibleValueCount(70);
+ 
+         //start nav bar
+@@ -139,41 +111,73 @@
+ 
+     }
+ 
+-    public void setData(int count) {
++    public void setData() {
++
++
++        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
++        String username = preferences.getString("username", "tk");
++
++        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
++        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
++        database = FirebaseDatabase.getInstance();
++        mRootRef = database.getReferenceFromUrl(firebaseUrl);
++        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
++
+ 
++
++
++        ValueEventListener valEv = new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
++//                dataSnapshot
+ 
+                 ArrayList<BarEntry> yValues = new ArrayList<>();
+-
+-        for (int i = 0; i < count; i++) {
+-            int high = (int) (Math.random() * count) + 50;
+-            int low = (int) (Math.random() * count) + 50;
++                int count = 0;
++                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
++                    Log.d("debugging", snapshot.getKey());
++                    Map<String, Long> heartRate = (Map<String, Long>) snapshot.child("HeartRate").getValue();
++                    Log.d("debugging", "hi :" + heartRate.get("High"));
++                    Log.d("debugging", "lo :" + heartRate.get("Low"));
+ 
++                    Long high = heartRate.get("High");
++                    Long low = heartRate.get("Low");
+ 
+-            yValues.add(new BarEntry(i, new float[]{high, low}));
+-        }
+-        BarDataSet set1;
++                    yValues.add(new BarEntry(count, new float[]{low.floatValue(), high.floatValue()}));
++                    count ++;
++                }
++
++                BarDataSet set1;
+ 
+-        set1 = new BarDataSet(yValues, "Beats of Heart rate");
+-        set1.setDrawIcons(false);
+-        set1.setColors(getColors());
+-        set1.setStackLabels(new String[]{"Normal", "Higher"});
+-//        set1.setColors(ColorTemplate.PASTEL_COLORS);
++                set1 = new BarDataSet(yValues, "Beats of Heart rate");
++                set1.setDrawIcons(false);
++                set1.setColors(getColors());
++                set1.setStackLabels(new String[]{"Higher", "Normal"});
+ 
+-
+-        BarData data = new BarData(set1);
+-        data.setValueFormatter(new MyValueFormatter());
++                final BarData data = new BarData(set1);
++                data.setValueFormatter(new MyValueFormatter());
+ 
+-        mChart.getAxisLeft().setAxisMaximum(150);
++                mChart.getAxisLeft().setAxisMaximum(150);
+ 
+-        mChart.setData(data);
+-        mChart.setFitBars(true);
+-        mChart.invalidate();
+-        mChart.getDescription().setEnabled(false);
+-        mChart.getAxisRight().setDrawGridLines(false);
+-        mChart.getAxisLeft().setDrawGridLines(false);
+-        mChart.getXAxis().setDrawGridLines(false);
+-    }
++                mChart.setData(data);
++                mChart.setFitBars(true);
++                mChart.invalidate();
++                mChart.getDescription().setEnabled(false);
++                mChart.getAxisRight().setDrawGridLines(false);
++                mChart.getAxisLeft().setDrawGridLines(false);
++                mChart.getXAxis().setDrawGridLines(false);
++            }
+ 
++            @Override
++            public void onCancelled(@NonNull DatabaseError databaseError) {
++
++            }
++        };
++
++        // Add event listener for Datetime
++        dateTimeRef.addValueEventListener(valEv);
++
++    }
++
+     public int[] getColors() {
+         int stacksize = 2;
+ 
+Index: app/src/main/res/layout/activity_graph_hr.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_graph_hr.xml	(revision 43bdf6b681b7331944d88e070bc7c7f3896bef6a)
++++ app/src/main/res/layout/activity_graph_hr.xml	(date 1539795295000)
+@@ -55,7 +55,7 @@
+   <!--end nav bar-->
+  </RelativeLayout>
+ 
+- <com.github.mikephil.charting.charts.BarChart
++ <com.github.mikephil.charting.charts.LineChart
+      android:id="@+id/barchart_hr"
+      android:layout_width="match_parent"
+      android:layout_height="300sp"
+@@ -63,9 +63,7 @@
+      android:layout_alignParentTop="true"
+    >
+ 
+- </com.github.mikephil.charting.charts.BarChart>
+-
+-
++ </com.github.mikephil.charting.charts.LineChart>
+ 
+ </RelativeLayout>
+ 

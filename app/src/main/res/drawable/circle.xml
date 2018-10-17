@@ -4,15 +4,8 @@
 
     android:shape="oval">
 
+    <solid android:color="@color/solidCircle"></solid>
 
-
-
-    <solid android:color="#c1bcb0"/>
-    <size android:height="120sp"
-    android:width="120sp">
-    </size>
-    <stroke android:width="5sp"
-        android:color="#F0F0F0"/>
 
 
 

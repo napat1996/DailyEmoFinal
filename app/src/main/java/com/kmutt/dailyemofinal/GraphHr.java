@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
@@ -39,10 +40,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 public class GraphHr extends AppCompatActivity {
 
-    //    private static final String TAG = GraphHr.class.getSimpleName();
+    private static final String TAG = GraphHr.class.getSimpleName();
 //    private RelativeLayout mainlayout;
 //    private LineChart mchart;
 //    private BarChart barChart;
@@ -51,14 +53,21 @@ public class GraphHr extends AppCompatActivity {
 //    private ArrayList<String> mUsernames  = new ArrayList<>();
 //    private ListView mListView;
     private BarChart mChart;
+    DatabaseReference mRootRef, users;
+    FirebaseDatabase database;
     Button btnHome, btnProfile, btnResult, btnSuggesstion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
+
+
+
+//        dateTimeRef.child("Heartrate").setValue(false);
         mChart = (BarChart) findViewById(R.id.barchart_hr);
-        setData(7);
+        setData();
         mChart.setMaxVisibleValueCount(70);
 
         //start nav bar
@@ -102,34 +111,70 @@ public class GraphHr extends AppCompatActivity {
 
     }
 
-    public void setData(int count) {
-        ArrayList<BarEntry> yValues = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            int val1 = (int) (Math.random() * count) + 50;
-            int val2 = (int) (Math.random() * count) + 50;
-
-            yValues.add(new BarEntry(i, new float[]{val1, val2}));
-        }
-        BarDataSet set1;
-
-        set1 = new BarDataSet(yValues, "Beats of Heart rate");
-        set1.setDrawIcons(false);
-        set1.setColors(getColors());
-        set1.setStackLabels(new String[]{"Higher", "Normal"});
-//        set1.setColors(ColorTemplate.PASTEL_COLORS);
+    public void setData() {
 
 
-        BarData data = new BarData(set1);
-        data.setValueFormatter(new MyValueFormatter());
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
 
-        mChart.getAxisLeft().setAxisMaximum(150);
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
 
-        mChart.setData(data);
-        mChart.setFitBars(true);
-        mChart.invalidate();
-        mChart.getDescription().setEnabled(false);
 
+
+
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                dataSnapshot
+
+                ArrayList<BarEntry> yValues = new ArrayList<>();
+                int count = 0;
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    Log.d("debugging", snapshot.getKey());
+                    Map<String, Long> heartRate = (Map<String, Long>) snapshot.child("HeartRate").getValue();
+                    Log.d("debugging", "hi :" + heartRate.get("High"));
+                    Log.d("debugging", "lo :" + heartRate.get("Low"));
+
+                    Long high = heartRate.get("High");
+                    Long low = heartRate.get("Low");
+
+                    yValues.add(new BarEntry(count, new float[]{low.floatValue(), high.floatValue()}));
+                    count ++;
+                }
+
+                BarDataSet set1;
+
+                set1 = new BarDataSet(yValues, "Beats of Heart rate");
+                set1.setDrawIcons(false);
+                set1.setColors(getColors());
+                set1.setStackLabels(new String[]{"Higher", "Normal"});
+
+                final BarData data = new BarData(set1);
+                data.setValueFormatter(new MyValueFormatter());
+
+                mChart.getAxisLeft().setAxisMaximum(150);
+
+                mChart.setData(data);
+                mChart.setFitBars(true);
+                mChart.invalidate();
+                mChart.getDescription().setEnabled(false);
+                mChart.getAxisRight().setDrawGridLines(false);
+                mChart.getAxisLeft().setDrawGridLines(false);
+                mChart.getXAxis().setDrawGridLines(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        // Add event listener for Datetime
+        dateTimeRef.addValueEventListener(valEv);
 
     }
 
@@ -146,6 +191,7 @@ public class GraphHr extends AppCompatActivity {
         return colors;
     }
 }
+
 
 //    Firebase = FirebseDatabase.getInstance.getReference
 //    Firebase firebase = url.child(HeartRate);
