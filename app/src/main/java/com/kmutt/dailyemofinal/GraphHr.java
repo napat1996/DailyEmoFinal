@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 public class GraphHr extends AppCompatActivity {
 
@@ -63,7 +64,7 @@ public class GraphHr extends AppCompatActivity {
         setContentView(R.layout.activity_graph_hr);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "");
+        String username = preferences.getString("username", "tk");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
         Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
@@ -75,6 +76,12 @@ public class GraphHr extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                dataSnapshot
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    Log.d("debugging", snapshot.getKey());
+                    Map<String, Integer> heartRate = (Map<String, Integer>) snapshot.child("HeartRate").getValue();
+                    Log.d("debugging", "hi :" + heartRate.get("High"));
+                    Log.d("debugging", "lo :" + heartRate.get("Low"));
+                }
             }
 
             @Override
@@ -84,20 +91,9 @@ public class GraphHr extends AppCompatActivity {
         };
 
         // Add event listener for Datetime
-        dateTimeRef.addListenerForSingleValueEvent(valEv);
+        dateTimeRef.addValueEventListener(valEv);
 
-        //loop for
-        String dateTime;
-        int day,month,cout = 1;
-        for(int i = 1; i < dateTimeRef.getKey().length(); i++){
-//            Log.e(TAG, dateTimeRef.);
-            Log.e(TAG, "Debugging: i : " + i);
-            Log.e(TAG, "Debugging: dateTime : " + dateTimeRef.getKey());
-        }
-
-
-
-        dateTimeRef.child("Heartrate").setValue(false);
+//        dateTimeRef.child("Heartrate").setValue(false);
         mChart = (BarChart) findViewById(R.id.barchart_hr);
         setData(7);
         mChart.setMaxVisibleValueCount(70);
@@ -149,11 +145,11 @@ public class GraphHr extends AppCompatActivity {
                 ArrayList<BarEntry> yValues = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            int val1 = (int) (Math.random() * count) + 50;
-            int val2 = (int) (Math.random() * count) + 50;
+            int high = (int) (Math.random() * count) + 50;
+            int low = (int) (Math.random() * count) + 50;
 
 
-            yValues.add(new BarEntry(i, new float[]{val1, val2}));
+            yValues.add(new BarEntry(i, new float[]{high, low}));
         }
         BarDataSet set1;
 

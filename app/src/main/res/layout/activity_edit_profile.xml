@@ -55,13 +55,6 @@
 
     <!--end nav bar-->
 
-    <Button
-        android:id="@+id/edit_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:text="Edit" />
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="197dp"
@@ -71,7 +64,7 @@
         android:layout_marginTop="30dp"
         app:srcCompat="@drawable/profile_new" />
     <TextView
-        android:id="@+id/textView_nme"
+        android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -262,6 +255,14 @@
         android:layout_toEndOf="@+id/textView_weight"
         android:text="TextView" />
 
+    <Button
+        android:id="@+id/save_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_high"
+        android:layout_centerHorizontal="true"
+        android:text="Save" />
 
 </RelativeLayout>
+
 
