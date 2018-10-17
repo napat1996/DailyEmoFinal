@@ -116,7 +116,7 @@ public class GraphHr extends AppCompatActivity {
         set1 = new BarDataSet(yValues, "Beats of Heart rate");
         set1.setDrawIcons(false);
         set1.setColors(getColors());
-        set1.setStackLabels(new String[]{"Higher", "Normal"});
+        set1.setStackLabels(new String[]{"Normal", "Higher"});
 //        set1.setColors(ColorTemplate.PASTEL_COLORS);
 
 
@@ -129,8 +129,9 @@ public class GraphHr extends AppCompatActivity {
         mChart.setFitBars(true);
         mChart.invalidate();
         mChart.getDescription().setEnabled(false);
-
-
+        mChart.getAxisRight().setDrawGridLines(false);
+        mChart.getAxisLeft().setDrawGridLines(false);
+        mChart.getXAxis().setDrawGridLines(false);
     }
 
     public int[] getColors() {
