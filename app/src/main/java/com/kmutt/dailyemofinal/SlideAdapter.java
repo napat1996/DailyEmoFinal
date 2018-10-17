@@ -41,18 +41,21 @@ public class SlideAdapter extends PagerAdapter {
 
 
     public String[] lst_title ={
-         "Sufficient sleep is important for your health, well-being and happiness. \n" +
+
+            // suggest- sleep
+            "Sufficient sleep is important for your health, well-being and happiness. \n" +
           "When you sleep better, you feel better. If you’re still having trouble sleeping, \n" +
           "try to do some suggestions : \n" +
+
                  "\n" +
                  "Tip 1 : Exercise during the day which is a great stress reliever and has been \n" +
-                 "\t\t shown to improve the quality of sleep, particularly for insomniacs.\n" +
+                 "\t\tshown to improve the quality of sleep.\n" +
                  "\n" +
-                 "Tip 2 : Be smart about what you eat and drink. Your daytime eating habits \n" +
-                 "\t\tplay a role in how well you sleep. Try to make dinnertime earlier in \n" +
-                 "\t\tthe evening, and avoid heavy, rich foods within two hours of bed. \n" +
-                 "\t\tMoreover, avoid alcohol, caffeine, and nicotine before bed.   \n" +
-                 "\n" +
+
+                 "Tip 2 : Your daytime eating habits play a role in how well you sleep. Try to make dinnertime earlier\n" +
+                 "\t\tin the evening, and avoid heavy, rich foods within two hours of bed. Also, avoid alcohol, \n" +
+                 "\t\tcaffeine, and nicotine before bed.\n" +
+
                  "Tip 3 : Wind down and clear your head. Your body needs time to shift into \n" +
                  "\t\tsleep mode, so spend the last hour before bed doing a calming \n" +
                  "\t\tactivity such as reading, and avoid using an electronic device. ",
@@ -60,15 +63,16 @@ public class SlideAdapter extends PagerAdapter {
 
 
 
+            //suggest-hr
             "Breathe in for 5-8 seconds, hold that breath for 3-5 seconds, then exhale \n" +
                     "slowly. Repeat several times. Raising your aortic pressure in this way will \n" +
                     "lower your heart rate.",
 
 
 
-
-         "\t\tWalking  can help reduce anxiety and gives you time to think, as well as \n" +
-                 "time to get away from stressors. Getting out of the stressful environment, \n" +
+        // suggest-step
+         "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
+                 "time to get away from stress. Getting out of the stressful environment, \n" +
                  "breathing the air, and feeling your body move is natural stress-relief.  \n" +
                  "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
                  "stress and give your mind a boost. Whether it’s a slow stroll in the park with\n" +
