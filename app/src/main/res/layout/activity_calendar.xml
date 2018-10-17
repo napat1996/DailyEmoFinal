@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calendar_g"
+    tools:context=".CalendarActivity"
     android:background="#F0F0F0"    >
 
 
@@ -70,9 +70,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
 
+
         />
 
-    
 
     <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
         <!--android:id="@+id/calendarVieww"-->

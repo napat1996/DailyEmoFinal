@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -99,12 +101,19 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");
 
+
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
         Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
-        DatabaseReference process = mRootRef.child("process");
+        //Start the currentDate
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        TextView textViewDate = findViewById(R.id.text_date);
+        textViewDate.setText(currentDate);
+        //End the currentDate
+                DatabaseReference process = mRootRef.child("process");
         process.child("Traffic").setValue(false);
         process.child("Stress").setValue(false);
         //start nav bar

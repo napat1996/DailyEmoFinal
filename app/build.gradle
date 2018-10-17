@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.github.marcohc:robotocalendarview:3.0.0'
     implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'sun.bob:mcalendarview:1.0.0'
 
     //implementation 'com.prolificinteractive:material-calendarview:1.4.2'
 
