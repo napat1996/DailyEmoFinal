@@ -63,39 +63,11 @@ public class GraphHr extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "tk");
 
-        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
-        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
-        database = FirebaseDatabase.getInstance();
-        mRootRef = database.getReferenceFromUrl(firebaseUrl);
-        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-
-        ValueEventListener valEv = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                dataSnapshot
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    Log.d("debugging", snapshot.getKey());
-                    Map<String, Integer> heartRate = (Map<String, Integer>) snapshot.child("HeartRate").getValue();
-                    Log.d("debugging", "hi :" + heartRate.get("High"));
-                    Log.d("debugging", "lo :" + heartRate.get("Low"));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        // Add event listener for Datetime
-        dateTimeRef.addValueEventListener(valEv);
 
 //        dateTimeRef.child("Heartrate").setValue(false);
         mChart = (BarChart) findViewById(R.id.barchart_hr);
-        setData(7);
+        setData();
         mChart.setMaxVisibleValueCount(70);
 
         //start nav bar
@@ -139,39 +111,71 @@ public class GraphHr extends AppCompatActivity {
 
     }
 
-    public void setData(int count) {
+    public void setData() {
 
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+
+
+
+
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                dataSnapshot
 
                 ArrayList<BarEntry> yValues = new ArrayList<>();
+                int count = 0;
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    Log.d("debugging", snapshot.getKey());
+                    Map<String, Long> heartRate = (Map<String, Long>) snapshot.child("HeartRate").getValue();
+                    Log.d("debugging", "hi :" + heartRate.get("High"));
+                    Log.d("debugging", "lo :" + heartRate.get("Low"));
 
-        for (int i = 0; i < count; i++) {
-            int high = (int) (Math.random() * count) + 50;
-            int low = (int) (Math.random() * count) + 50;
+                    Long high = heartRate.get("High");
+                    Long low = heartRate.get("Low");
 
+                    yValues.add(new BarEntry(count, new float[]{low.floatValue(), high.floatValue()}));
+                    count ++;
+                }
 
-            yValues.add(new BarEntry(i, new float[]{high, low}));
-        }
-        BarDataSet set1;
+                BarDataSet set1;
 
-        set1 = new BarDataSet(yValues, "Beats of Heart rate");
-        set1.setDrawIcons(false);
-        set1.setColors(getColors());
-        set1.setStackLabels(new String[]{"Normal", "Higher"});
-//        set1.setColors(ColorTemplate.PASTEL_COLORS);
+                set1 = new BarDataSet(yValues, "Beats of Heart rate");
+                set1.setDrawIcons(false);
+                set1.setColors(getColors());
+                set1.setStackLabels(new String[]{"Higher", "Normal"});
 
+                final BarData data = new BarData(set1);
+                data.setValueFormatter(new MyValueFormatter());
 
-        BarData data = new BarData(set1);
-        data.setValueFormatter(new MyValueFormatter());
+                mChart.getAxisLeft().setAxisMaximum(150);
 
-        mChart.getAxisLeft().setAxisMaximum(150);
+                mChart.setData(data);
+                mChart.setFitBars(true);
+                mChart.invalidate();
+                mChart.getDescription().setEnabled(false);
+                mChart.getAxisRight().setDrawGridLines(false);
+                mChart.getAxisLeft().setDrawGridLines(false);
+                mChart.getXAxis().setDrawGridLines(false);
+            }
 
-        mChart.setData(data);
-        mChart.setFitBars(true);
-        mChart.invalidate();
-        mChart.getDescription().setEnabled(false);
-        mChart.getAxisRight().setDrawGridLines(false);
-        mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getXAxis().setDrawGridLines(false);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        // Add event listener for Datetime
+        dateTimeRef.addValueEventListener(valEv);
+
     }
 
     public int[] getColors() {
