@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfileActivity"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#e2e2e2">
+
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="27sp"
+            android:background="@drawable/menu_daily" />
+
+        <Button
+            android:id="@+id/btn_summary"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="110sp"
+            android:background="@drawable/dash" />
+
+        <Button
+            android:id="@+id/btn_suggestion"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="110sp"
+            android:background="@drawable/line" />
+
+        <Button
+            android:id="@+id/btn_profile"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="27sp"
+            android:background="@drawable/user1" />
+
+    </RelativeLayout>
+
+    <!--end nav bar-->
+
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="Edit" />
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="197dp"
+        android:layout_height="185dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/profile_new" />
+    <TextView
+        android:id="@+id/textView_nme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="176dp"
+        android:fontFamily="sans-serif-light"
+        android:text="New C."
+        android:textColor="@color/blue"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/textView_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="223dp"
+        android:text="Username" />
+
+    <EditText
+        android:id="@+id/edit_username"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_username"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
+
+
+    <TextView
+        android:id="@+id/textView_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView_username"
+        android:layout_marginBottom="232dp"
+        android:text="password" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_password"
+        android:layout_marginEnd="-116dp"
+        android:layout_alignStart="@+id/edit_username"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_username"
+        android:layout_below="@+id/edit_password"
+        android:text="email" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_email"
+        android:layout_marginEnd="-114dp"
+        android:layout_alignStart="@+id/edit_password"
+        android:text="TextView" />
+
+
+    <TextView
+        android:id="@+id/textView_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_username"
+        android:layout_below="@+id/edit_email"
+        android:text="Gender" />
+
+    <EditText
+        android:id="@+id/edit_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/edit_email"
+        android:layout_alignBaseline="@+id/textView_gender"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView_gender"
+        android:layout_marginEnd="36dp"
+        android:layout_marginTop="-157dp"
+        android:text="Age" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="27dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView_age"
+        android:text="TextView" />
+
+
+    <TextView
+        android:id="@+id/textView_birthDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_username"
+        android:layout_below="@+id/edit_gender"
+        android:text="BirthDate" />
+
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView_weight"
+        android:layout_below="@+id/edit_gender"
+        android:layout_alignStart="@+id/edit_gender"
+        android:layout_alignBaseline="@+id/textView_birthDate"
+        android:text="DD" />
+
+    <TextView
+        android:id="@+id/textView_dd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_gender"
+        android:layout_alignBaseline="@+id/edit_date"
+        android:layout_toEndOf="@+id/edit_date"
+        android:layout_marginStart="136dp"
+        android:text="/ " />
+
+    <EditText
+        android:id="@+id/edit_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edit_date"
+        android:layout_toEndOf="@+id/textView_dd"
+        android:text="MM" />
+
+    <TextView
+        android:id="@+id/textView_mm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_gender"
+        android:layout_alignBaseline="@+id/textView_birthDate"
+        android:layout_toEndOf="@+id/edit_month"
+        android:text="/" />
+
+    <EditText
+        android:id="@+id/edit_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edit_date"
+        android:layout_toEndOf="@+id/textView_mm"
+        android:text="YYYY" />
+
+
+
+    <TextView
+        android:id="@+id/textView_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_birthDate"
+        android:layout_below="@+id/edit_date"
+        android:text="High" />
+
+    <EditText
+        android:id="@+id/edit_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/edit_date"
+        android:layout_below="@+id/edit_date"
+        android:layout_alignBaseline="@+id/textView_high"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="weight" />
+
+    <EditText
+        android:id="@+id/edit_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_weight"
+        android:layout_below="@+id/edit_year"
+        android:layout_toEndOf="@+id/textView_weight"
+        android:text="TextView" />
+
+
+</RelativeLayout>
+
