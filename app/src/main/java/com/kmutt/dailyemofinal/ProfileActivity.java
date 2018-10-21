@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,7 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
+    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
 
 //    private static final String API_PREFIX = "https://api.fitbit.com";
 //    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
@@ -96,13 +98,21 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
+        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+//        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+
 
 
 
 //        (new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                int more = 0,less =0;
 //                URLConnection connection = null;
 //                URLConnection connectionS = null;
 //                Log.d(TAG, "Debuggung: in Thread");
