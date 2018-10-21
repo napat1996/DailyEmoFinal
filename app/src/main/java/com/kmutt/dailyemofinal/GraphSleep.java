@@ -110,7 +110,7 @@ public class GraphSleep extends AppCompatActivity {
         mChart.setFitBars(true);
         mChart.invalidate();
         mChart.getDescription().setEnabled(false);
-
+        mChart.getXAxis().setDrawGridLines(false);
 
     }
 
