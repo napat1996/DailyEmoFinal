@@ -10,6 +10,13 @@
     android:id="@+id/mainlayout"
     >
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="450sp"
+        android:id="@+id/linechart_hr">
+
+    </com.github.mikephil.charting.charts.LineChart>
+
  <RelativeLayout
      android:layout_width="match_parent"
      android:layout_height="45sp"
@@ -55,15 +62,7 @@
   <!--end nav bar-->
  </RelativeLayout>
 
- <com.github.mikephil.charting.charts.LineChart
-     android:id="@+id/barchart_hr"
-     android:layout_width="match_parent"
-     android:layout_height="300sp"
-     android:layout_alignParentStart="true"
-     android:layout_alignParentTop="true"
-   >
 
- </com.github.mikephil.charting.charts.LineChart>
 
 </RelativeLayout>
 

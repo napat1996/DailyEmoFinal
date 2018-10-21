@@ -65,13 +65,12 @@
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="375dp"
-        android:layout_height="300dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
 
-        />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 
     <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
