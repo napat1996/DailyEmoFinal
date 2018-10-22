@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DailyEmoFinal</string>
+    <string name="app_name">DailyEmo</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="setting">Setting</string>

@@ -24,6 +24,7 @@ public class SlideAdapter extends PagerAdapter {
             R.drawable.icon_moon,
             R.drawable.icon_heart,
             R.drawable.icon_step,
+            R.drawable.carr
 
     };
 // list of titles
@@ -35,7 +36,7 @@ public class SlideAdapter extends PagerAdapter {
 //    };
 
     public int[] lst_title_image ={
-        R.drawable.sleep1, R.drawable.hr1, R.drawable.steps1
+        R.drawable.sleep1, R.drawable.hr1, R.drawable.steps1, R.drawable.trafficc
 
     };
 
@@ -77,7 +78,12 @@ public class SlideAdapter extends PagerAdapter {
                  "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
                  "stress and give your mind a boost. Whether it’s a slow stroll in the park with\n" +
                  "friends or a brisk power-walk around the neighborhood, make walking a \n" +
-                 "part of your daily routine to reduce tension and promote feelings of calm."
+                 "part of your daily routine to reduce tension and promote feelings of calm.",
+
+            // suggest-traffic
+            "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
+                    "time to get away from stress. Getting out of the stressful environment, \n" +
+                    "breathing the air, and feeling your body move is natural stress-relief."
 
     };
 
@@ -99,6 +105,7 @@ public class SlideAdapter extends PagerAdapter {
 
     public int[] lst_bg = {
 
+            Color.rgb(240, 240, 240),
             Color.rgb(240, 240, 240),
             Color.rgb(240, 240, 240),
             Color.rgb(240, 240, 240)
