@@ -108,12 +108,9 @@ public class GraphHr extends AppCompatActivity {
         });
 
         //end nav bar
-
     }
 
     public void setData() {
-
-
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "tk");
 

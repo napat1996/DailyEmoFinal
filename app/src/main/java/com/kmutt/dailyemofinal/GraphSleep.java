@@ -38,8 +38,8 @@ public class GraphSleep extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph_hr);
-        mChart = (BarChart) findViewById(R.id.barchart_hr);
+        setContentView(R.layout.activity_graph_sleep);
+        mChart = findViewById(R.id.barchart_sleep);
         setData(7);
         mChart.setMaxVisibleValueCount(70);
 
@@ -98,7 +98,7 @@ public class GraphSleep extends AppCompatActivity {
         set1.setDrawIcons(false);
         set1.setColors(getColors());
         set1.setStackLabels(new String[]{"Higher", "Normal"});
-//        set1.setColors(ColorTemplate.PASTEL_COLORS);
+        set1.setColors(ColorTemplate.PASTEL_COLORS);
 
 
         BarData data = new BarData(set1);
