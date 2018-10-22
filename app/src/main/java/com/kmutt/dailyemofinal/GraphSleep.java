@@ -39,7 +39,7 @@ public class GraphSleep extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
-        mChart = (BarChart) findViewById(R.id.chart1);
+        mChart = (BarChart) findViewById(R.id.barchart_hr);
         setData(7);
         mChart.setMaxVisibleValueCount(70);
 
@@ -110,7 +110,7 @@ public class GraphSleep extends AppCompatActivity {
         mChart.setFitBars(true);
         mChart.invalidate();
         mChart.getDescription().setEnabled(false);
-        mChart.getXAxis().setDrawGridLines(false);
+
 
     }
 

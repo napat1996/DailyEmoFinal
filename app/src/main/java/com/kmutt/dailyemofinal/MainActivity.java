@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseReference process = mRootRef.child("process");
         process.child("Traffic").setValue(false);
         process.child("Stress").setValue(false);
+
         //start nav bar
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
@@ -434,6 +436,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void run() {
                                         imgMood.setImageResource(R.drawable.emo_desperate);
                                         Log.d(TAG, "Debugging stress because sleep: ");
+
                                     }
                                 });
 
@@ -669,8 +672,8 @@ public class MainActivity extends AppCompatActivity {
         })).start();
 
 
-
-
     }
+
+    
 }
 

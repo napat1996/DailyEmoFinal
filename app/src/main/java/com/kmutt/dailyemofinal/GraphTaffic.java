@@ -22,7 +22,7 @@ public class GraphTaffic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_hr);
-        mChart = (BarChart) findViewById(R.id.barchart_hr);
+        mChart = (BarChart) findViewById(R.id.bar_taf);
         setData(7);
         mChart.setMaxVisibleValueCount(70);
 
