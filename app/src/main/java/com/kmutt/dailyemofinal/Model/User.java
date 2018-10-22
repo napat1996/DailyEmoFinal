@@ -1,10 +1,13 @@
 package com.kmutt.dailyemofinal.Model;
 
+import android.text.Editable;
+
 public class User {
 
     private String username;
     private String password;
     private String email;
+    private String birthDate;
 
     private  String sex;
     private int height, age;
@@ -22,7 +25,18 @@ public class User {
 
     }
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String sex, int height,String birthDate, int age, double weight) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.sex = sex;
+        this.birthDate = birthDate;
+        this.height = height;
+        this.age = age;
+        this.weight = weight;
+    }
+
+    public User(String username, String password, String email, String s, String toString, String string, Editable text, String s1, Editable inputWeightText) {
         this.username = username;
         this.password = password;
         this.email = email;

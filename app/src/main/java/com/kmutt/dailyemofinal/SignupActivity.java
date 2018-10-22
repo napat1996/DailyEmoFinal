@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class SignupActivity extends AppCompatActivity {
 
     private String TAG = SignupActivity.class.getSimpleName();
-    EditText inputUsername, inputEmail, inputPassword, confirmpassword;
+    EditText inputUsername, inputEmail, inputPassword, confirmpassword, inputAge, inputWeight, inputHeight, inputBD, inputSex;
     Button btnRegister;
     DatabaseReference mRootRef, username;
     FirebaseDatabase database;
@@ -50,7 +50,14 @@ public class SignupActivity extends AppCompatActivity {
                 mRootRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users");
                 final User user = new User(inputUsername.getText().toString(),
                         inputPassword.getText().toString(),
-                        inputEmail.getText().toString());
+                        inputEmail.getText().toString(),
+                        inputSex.getText().toString(),
+                        inputHeight.getText().toString(),
+                        inputBD.getText().toString(),
+                        inputAge.getText(),
+                        inputBD.getText().toString(),
+                        inputWeight.getText()
+                        );
                 mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

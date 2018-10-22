@@ -79,11 +79,11 @@
 
     <ImageView
         android:id="@+id/image_profile"
-        android:layout_width="103dp"
-        android:layout_height="91dp"
+        android:layout_width="115dp"
+        android:layout_height="104dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="32dp"
         app:srcCompat="@drawable/prof" />
 
     <TextView
@@ -150,21 +150,22 @@
 
     <EditText
         android:id="@+id/edit_birth_of_date"
-        android:layout_width="121dp"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView_birthDate"
         android:layout_alignParentStart="true"
         android:layout_marginStart="125dp"
         android:ems="10"
         android:hint="YYYY-MM-DD"
-        android:inputType="date" />
+        android:inputType="date"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textView_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView_birthDate"
-        android:layout_toEndOf="@+id/image_profile"
+        android:layout_alignEnd="@+id/image_profile"
+        android:layout_alignTop="@+id/textView_gender"
         android:text="Age"
         android:textSize="15sp" />
 
@@ -181,7 +182,7 @@
         android:id="@+id/textView_high"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edit_birth_of_date"
+        android:layout_alignStart="@+id/textView_age"
         android:layout_alignTop="@+id/textView_weight"
         android:text="High"
         android:textSize="15dp" />
@@ -257,9 +258,9 @@
         android:id="@+id/edit_age"
         android:layout_width="54dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_birthDate"
+        android:layout_alignBaseline="@+id/textView_gender"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="63dp"
+        android:layout_marginEnd="75dp"
         android:ems="10"
         android:hint="years"
         android:inputType="textPersonName" />
@@ -278,8 +279,8 @@
         android:id="@+id/edit_high"
         android:layout_width="77dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edit_age"
         android:layout_below="@+id/edit_birth_of_date"
+        android:layout_toEndOf="@+id/edit_birth_of_date"
         android:ems="10"
         android:hint="cm."
         android:inputType="textPersonName" />
