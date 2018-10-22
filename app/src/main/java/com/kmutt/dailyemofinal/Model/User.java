@@ -25,15 +25,10 @@ public class User {
 
     }
 
-    public User(String username, String password, String email, String sex, int height,String birthDate, int age, double weight) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.sex = sex;
-        this.birthDate = birthDate;
-        this.height = height;
-        this.age = age;
-        this.weight = weight;
     }
 
     public User(String username, String password, String email, String s, String toString, String string, Editable text, String s1, Editable inputWeightText) {

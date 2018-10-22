@@ -77,7 +77,7 @@ public class EditProfileActivity extends AppCompatActivity {
         inputHeight = findViewById(R.id.edit_high);
         inputWeight = findViewById(R.id.edit_weight);
 
-        btnSaveProfile = findViewById(R.id.edit_profile);
+        btnSaveProfile = findViewById(R.id.sign_in_button);
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

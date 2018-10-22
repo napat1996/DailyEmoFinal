@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="#FFFFF">
+    android:background="#FFFFFF">
 
 
     <!--<EditText-->
@@ -188,7 +188,7 @@
         android:textSize="15dp" />
 
     <Button
-        android:id="@+id/save_profile"
+        android:id="@+id/sign_in_button"
         android:layout_width="103sp"
         android:layout_height="38sp"
         android:layout_alignParentBottom="true"

@@ -89,7 +89,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        btnEditProfile = findViewById(R.id.edit_profile);
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -39,10 +39,15 @@ public class SignupActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference("Users");
 
 
-        btnRegister = (Button)findViewById(R.id.sign_in_button);
-        inputEmail = (EditText)findViewById(R.id.inputEmail);
-        inputPassword = (EditText)findViewById(R.id.inputPassword);
-        inputUsername = (EditText) findViewById(R.id.inputUsername);
+        btnRegister = findViewById(R.id.sign_in_button);
+        inputEmail = findViewById(R.id.edit_email);
+        inputPassword = findViewById(R.id.edit_password);
+        inputUsername = findViewById(R.id.edit_username);
+        inputAge = findViewById(R.id.edit_age);
+        inputBD = findViewById(R.id.edit_weight);
+        inputSex = findViewById(R.id.edit_gender);
+        inputWeight = findViewById(R.id.edit_weight);
+        inputHeight = findViewById(R.id.edit_high);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -77,7 +77,7 @@ public class GraphHr extends AppCompatActivity  {
 
 
         //****LINECHART*****
-        mChart = (LineChart) findViewById(R.id.linechart_hr);
+        mChart = findViewById(R.id.linechart_hr);
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
@@ -130,16 +130,14 @@ public class GraphHr extends AppCompatActivity  {
 
                 ArrayList<Entry> yValues = new ArrayList<>();
                 int count = 0;
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                DataSnapshot snapshot = dataSnapshot.child("2018-09-19").child("HeartRate").child("Timestemp");
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Log.d("debugging", snapshot.getKey());
-                    Map<String, Long> time = (Map<String, Long>) snapshot.child("HeartRate").child("Timestamp").getChildren();
-                    Log.d("debugging", "heartRate :" + time.get("High"));
-                    Log.d("debugging", "lo :" + time.get("Low"));
+                    String time = snapshot.getKey();
+//                    String hr = (String)snapshot.getValue();
+//                    Log.d(TAG, "Debugging: "+hr);
 
-                    Long heartRate = time.get("High");
-                    Long low = time.get("Low");
-
-                    yValues.add(new Entry(count, (float)heartRate));
+                    yValues.add(new Entry(count, 30f));
                     count ++;
                 }
 
@@ -166,13 +164,6 @@ public class GraphHr extends AppCompatActivity  {
 
         // Add event listener for Datetime
         dateTimeRef.addValueEventListener(valEv);
-
-
-
-
-
-
-
 
         //setData();
        // mChart.setMaxVisibleValueCount(70);
@@ -220,199 +211,3 @@ public class GraphHr extends AppCompatActivity  {
 
 }
 
-//    public void setData() {
-//
-//
-//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-//        String username = preferences.getString("username", "tk");
-//
-//        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/"+username;
-//        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
-//        database = FirebaseDatabase.getInstance();
-//        mRootRef = database.getReferenceFromUrl(firebaseUrl);
-//        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-//
-//
-//
-//
-//        ValueEventListener valEv = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-////                dataSnapshot
-//
-//                ArrayList<BarEntry> yValues = new ArrayList<>();
-//                int count = 0;
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                    Log.d("debugging", snapshot.getKey());
-//                    Map<String, Long> heartRate = (Map<String, Long>) snapshot.child("HeartRate").getValue();
-//                    Log.d("debugging", "hi :" + heartRate.get("High"));
-//                    Log.d("debugging", "lo :" + heartRate.get("Low"));
-//
-//                    Long high = heartRate.get("High");
-//                    Long low = heartRate.get("Low");
-//
-//                    yValues.add(new BarEntry(count, new float[]{low.floatValue(), high.floatValue()}));
-//                    count ++;
-//                }
-//
-//                BarDataSet set1;
-//
-//                set1 = new BarDataSet(yValues, "Beats of Heart rate");
-//                set1.setDrawIcons(false);
-//                set1.setColors(getColors());
-//                set1.setStackLabels(new String[]{"Higher", "Normal"});
-//
-//                final BarData data = new BarData(set1);
-//                data.setValueFormatter(new MyValueFormatter());
-//
-//                mChart.getAxisLeft().setAxisMaximum(150);
-//
-//                mChart.setData(data);
-//                mChart.setFitBars(true);
-//                mChart.invalidate();
-//                mChart.getDescription().setEnabled(false);
-//                mChart.getAxisRight().setDrawGridLines(false);
-//                mChart.getAxisLeft().setDrawGridLines(false);
-//                mChart.getXAxis().setDrawGridLines(false);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        };
-//
-//        // Add event listener for Datetime
-//        dateTimeRef.addValueEventListener(valEv);
-//
-//    }
-//
-//    public int[] getColors() {
-//        int stacksize = 2;
-//
-//        // have as many colors as stack-values per entry
-//        int[] colors = new int[stacksize];
-//
-//        for (int i = 0; i < colors.length; i++) {
-//            colors[i] = ColorTemplate.PASTEL_COLORS[i];
-//
-//        }
-//        return colors;
-//    }
-//}
-
-
-//    Firebase = FirebseDatabase.getInstance.getReference
-//    Firebase firebase = url.child(HeartRate);
-//    Firebase.push().setvalue(value);
-/////https://www.youtube.com/watch?v=a20EchSQgp
-
-
-
-
-//        database = FirebaseDatabase.getInstance();
-//        mRootRef = database.getReference();
-//
-//        final ArrayAdapter <String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mUsernames);
-//        mListView.setAdapter(arrayAdapter);
-//
-////        getHRFromFirebase();
-//
-//
-//        DatabaseService.mRootRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSanpshot, String s) {
-//                String value = dataSanpshot.getValue(String.class);
-//                mUsernames.add(value);
-//                arrayAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            public void onCancelled(DatabaseError error) {
-//
-//            }
-//        });
-//    }
-//
-//    private void getHRFromFireBase(Context context) {
-//        final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-//        SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
-//        String username = preferences.getString("username", "");
-//
-//        database = FirebaseDatabase.getInstance();
-//
-//        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/"+username);
-//
-//        mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                User heartRate = dataSnapshot.child("DateTime").child(date).child("HeartRate").getValue(User.class);
-//                int heartRateValue =
-//                Log.d(TAG, "onDataChange: Hea");
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//}
-
-
-
-//        mainlayout = (RelativeLayout) findViewById(R.id.mainlayout);
-//        // create line chart
-//        mchart = new LineChart(this);
-//        // add to main layout
-//        mainlayout.addView(mchart);
-//
-//        //customize line chart
-//        mchart.setDescription("");
-//        mchart.setNoDataTextDescription("No data for the moment");
-//
-//        //enable value highlighting
-//        mchart.set
-
-
-
-//        barChart = (BarChart) findViewById(R.id.barchart_hr);
-//        barChart.setDrawBarShadow(false);
-//        barChart.setDrawValueAboveBar(true);
-//        barChart.setMaxVisibleValueCount(50);
-//        barChart.setPinchZoom(false);
-////        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-//
-//       // barChart.setDrawGridBackground(true);
-//
-//
-//        ArrayList<BarEntry> barEntries = new ArrayList<>();
-//
-//        barEntries.add(new BarEntry(1, 40f));
-//        barEntries.add(new BarEntry(2, 30f));
-//        barEntries.add(new BarEntry(3, 20f));
-//
-//
-//        BarDataSet barDataSet = new BarDataSet(barEntries, "Data Set1");
-//       // barDataSet.setColor(Color.parseColor("#FFFFFF"));
-//
-//        BarData data  =  new BarData(barDataSet);
-//        data.setBarWidth(0.9f);
-//
-//        barChart.setData(data) ;
-//    }
-//}
