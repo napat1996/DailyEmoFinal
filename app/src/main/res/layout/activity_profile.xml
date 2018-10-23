@@ -111,8 +111,9 @@
         android:id="@+id/textView_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_gender"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
+        android:layout_marginBottom="240dp"
         android:text="Gender"
         android:textSize="15sp" />
 
@@ -125,18 +126,6 @@
         android:layout_marginBottom="197dp"
         android:text="Birth of Date"
         android:textSize="15sp" />
-
-    <EditText
-        android:id="@+id/edit_birth_of_date"
-        android:layout_width="152dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_birthDate"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="125dp"
-        android:ems="10"
-        android:hint="YYYY-MM-DD"
-        android:inputType="date"
-        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textView_age"
@@ -151,8 +140,9 @@
         android:id="@+id/textView_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_weight"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
+        android:layout_marginBottom="147dp"
         android:text="Weight"
         android:textSize="15sp" />
 
@@ -165,91 +155,79 @@
         android:text="High"
         android:textSize="15dp" />
 
-    <EditText
-        android:id="@+id/edit_username"
-        android:layout_width="190dp"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_username"
-        android:layout_toEndOf="@+id/textView_birthDate"
-        android:ems="10"
-        android:hint="username"
-        android:inputType="textPersonName"
-        android:textAlignment="textStart" />
+        android:layout_alignBottom="@+id/textView_username"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="135dp"
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edit_password"
-        android:layout_width="190dp"
+    <TextView
+        android:id="@+id/textView_password1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_password"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignTop="@+id/textView_password"
+        android:text="TextView" />
 
-        android:layout_toEndOf="@+id/textView_birthDate"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="numberPassword"
-        android:textAlignment="textStart" />
-
-    <EditText
-        android:id="@+id/edit_confirm_password"
-        android:layout_width="190dp"
+    <TextView
+        android:id="@+id/textView_confirm_password1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_confirm_password"
-        android:layout_alignEnd="@+id/edit_email"
-        android:ems="10"
-        android:hint="confirm password"
-        android:inputType="numberPassword" />
+        android:layout_alignTop="@+id/textView_confirm_password"
+        android:layout_toEndOf="@+id/textView3"
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="245dp"
+    <TextView
+        android:id="@+id/textView_email1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/textView_birthDate"
-        android:ems="10"
-        android:hint="example@example.com"
-        android:inputType="textEmailAddress" />
+        android:layout_alignBottom="@+id/textView_email"
+        android:layout_alignStart="@+id/textView3"
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edit_gender"
-        android:layout_width="70dp"
+    <TextView
+        android:id="@+id/textView_gender1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_birth_of_date"
-        android:layout_toEndOf="@+id/textView_birthDate"
-        android:ems="10"
-        android:hint="sex"
-        android:inputType="textPersonName"
-        android:textAlignment="center" />
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignTop="@+id/textView_gender"
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edit_age"
-        android:layout_width="54dp"
+    <TextView
+        android:id="@+id/textView_birthDate1"
+        android:layout_width="94dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_gender"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignTop="@+id/textView_birthDate"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_weight1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignTop="@+id/textView_weight"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_high1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="75dp"
-        android:ems="10"
-        android:hint="years"
-        android:inputType="textPersonName" />
+        android:layout_alignTop="@+id/textView_weight"
+        android:layout_marginEnd="47dp"
+        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edit_weight"
-        android:layout_width="77dp"
+    <TextView
+        android:id="@+id/textView_age1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_birth_of_date"
-        android:layout_toEndOf="@+id/textView_username"
-        android:ems="10"
-        android:hint="kg."
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/edit_high"
-        android:layout_width="77dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_birth_of_date"
-        android:layout_toEndOf="@+id/edit_birth_of_date"
-        android:ems="10"
-        android:hint="cm."
-        android:inputType="textPersonName" />
-
+        android:layout_alignStart="@+id/textView_high1"
+        android:layout_alignTop="@+id/textView_gender"
+        android:text="TextView" />
 
 
     <!--<TextView-->
