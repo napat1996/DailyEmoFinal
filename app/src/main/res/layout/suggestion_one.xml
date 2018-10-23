@@ -39,16 +39,16 @@
 
     <TextView
         android:id="@+id/txtdescription"
-        android:layout_width="335dp"
+        android:layout_width="307dp"
         android:layout_height="300sp"
         android:layout_marginTop="15sp"
         android:text="Description here"
 
-        android:textSize="10sp" />
+        android:textSize="15sp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="59dp">
 
         <LinearLayout
             android:layout_width="match_parent"
