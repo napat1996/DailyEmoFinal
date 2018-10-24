@@ -29,7 +29,7 @@
         android:layout_above="@+id/inputUsername"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-188sp"
-        android:src="@drawable/logo_newww" />
+        android:src="@drawable/dailyemoo" />
 
     <EditText
         android:id="@+id/inputUsername"
