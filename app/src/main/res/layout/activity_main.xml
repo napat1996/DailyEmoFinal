@@ -331,9 +331,9 @@
             android:id="@+id/textView_exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/buttom_sleep"
+            android:layout_alignEnd="@+id/buttom_sleep"
             android:layout_alignTop="@+id/text_incar"
-            android:text="Exercise" />
+            android:text="EXERCISE" />
 
 
         <Switch
