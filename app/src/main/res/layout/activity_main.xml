@@ -325,7 +325,7 @@
             android:layout_height="55dp"
             android:layout_alignStart="@+id/buttom_sleep"
             android:layout_alignTop="@+id/buttom_map2"
-            app:srcCompat="@drawable/dumb" />
+            app:srcCompat="@drawable/runnnn" />
 
         <TextView
             android:id="@+id/textView_exercise"
