@@ -16,40 +16,40 @@
         android:background="#e2e2e2">
 
         <Button
-            android:id="@+id/btn_home"
+            android:id="@+id/ic_home"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="27sp"
-            android:background="@drawable/menu_daily" />
+            android:background="@drawable/ihome" />
 
         <Button
             android:id="@+id/btn_summary"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="110sp"
-            android:background="@drawable/dash" />
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="129dp"
+            android:background="@drawable/igraph" />
 
         <Button
             android:id="@+id/btn_suggestion"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="110sp"
-            android:background="@drawable/line" />
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="127dp"
+            android:background="@drawable/isus2" />
 
         <Button
             android:id="@+id/btn_profile"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="27sp"
-            android:background="@drawable/user1" />
+            android:background="@drawable/iperson" />
 
     </RelativeLayout>
 
@@ -61,7 +61,7 @@
         android:layout_height="104dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         app:srcCompat="@drawable/prof" />
 
     <TextView
@@ -70,11 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="161dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="186dp"
         android:text="Username"
-        android:textSize="15sp"/>
-
+        android:textSize="15sp" />
 
 
     <TextView
@@ -83,9 +82,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="206dp"
+        android:layout_marginTop="236dp"
         android:text="Password"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_confirm_password"
@@ -93,19 +92,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="251dp"
+        android:layout_marginTop="287dp"
         android:text="Confirm password"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="296dp"
+        android:layout_marginBottom="299dp"
         android:text="E-mail"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_gender"
@@ -113,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="240dp"
+        android:layout_marginBottom="246dp"
         android:text="Gender"
         android:textSize="15sp" />
 

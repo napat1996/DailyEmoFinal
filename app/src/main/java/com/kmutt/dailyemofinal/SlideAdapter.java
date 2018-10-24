@@ -53,9 +53,8 @@ public class SlideAdapter extends PagerAdapter {
                  "\t\tshown to improve the quality of sleep.\n" +
                  "\n" +
 
-                 "Tip2 : Your daytime eating habits play a role in how well you sleep. Try to make dinnertime earlier\n" +
-                 "\t\tin the evening, and avoid heavy, rich foods within two hours of bed. Also, avoid alcohol, \n" +
-                 "\t\tcaffeine, and nicotine before bed.\n" +
+                 "Tip2: Eat a healthy, balanced diet: Eating a varied diet rich in fruits, vegetables, lean proteins,\n" +
+                    "nuts, and legumes can help to improve the health of the heart, as well as overall health." +
 
                  "Tip3 : Wind down and clear your head. Your body needs time to shift into \n" +
                  "\t\tsleep mode, so spend the last hour before bed doing a calming \n" +
