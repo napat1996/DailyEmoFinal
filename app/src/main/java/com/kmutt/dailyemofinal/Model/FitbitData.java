@@ -32,7 +32,7 @@ public class FitbitData {
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-05.json";
     private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-10-05/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwMjUwMDY3LCJpYXQiOjE1NDAyMjEyNjd9.f4AGwYZqHrVJz4Q1O0ZA9PIYnbHcqkI1W7J_cU5x5Sc";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNDE5Mzc0LCJpYXQiOjE1NDAzOTA1NzR9.fmjN4VUZHeBQ5DDobyx5b1l3dOba5oPUEtIeTn858vI";
     FirebaseDatabase database;
     DatabaseReference mRootRef;
     java.util.Calendar calendar = Calendar.getInstance();

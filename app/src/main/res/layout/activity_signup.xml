@@ -220,7 +220,7 @@
         android:layout_toEndOf="@+id/textView_birthDate"
         android:ems="10"
         android:hint="password"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:textAlignment="textStart" />
 
     <EditText
@@ -231,7 +231,7 @@
         android:layout_alignEnd="@+id/edit_email"
         android:ems="10"
         android:hint="confirm password"
-        android:inputType="numberPassword" />
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/edit_email"
@@ -265,7 +265,7 @@
         android:layout_marginEnd="75dp"
         android:ems="10"
         android:hint="years"
-        android:inputType="textPersonName" />
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edit_weight"
@@ -275,7 +275,7 @@
         android:layout_toEndOf="@+id/textView_username"
         android:ems="10"
         android:hint="kg."
-        android:inputType="textPersonName" />
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edit_high"
@@ -286,7 +286,7 @@
         android:layout_alignEnd="@+id/edit_confirm_password"
         android:ems="10"
         android:hint="cm."
-        android:inputType="textPersonName" />
+        android:inputType="number" />
 
 
 </RelativeLayout>

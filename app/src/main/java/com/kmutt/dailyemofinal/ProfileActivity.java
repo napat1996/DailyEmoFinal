@@ -107,8 +107,6 @@ public class ProfileActivity extends AppCompatActivity {
 //        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
 
 
-
-
 //        (new Thread(new Runnable() {
 //            @Override
 //            public void run() {
