@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewDate = findViewById(R.id.text_date);
         textViewDate.setText(currentDate);
         //End the currentDate
-        DatabaseReference process = mRootRef.child("process");
+
+                DatabaseReference process = mRootRef.child("process");
         process.child("Traffic").setValue(false);
         process.child("Stress").setValue(false);
 

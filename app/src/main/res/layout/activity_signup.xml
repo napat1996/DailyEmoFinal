@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="#FFFFFF">
+    android:background="#e1d6ce">
 
 
     <!--<EditText-->
@@ -83,7 +83,7 @@
         android:layout_height="104dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="38dp"
         app:srcCompat="@drawable/prof" />
 
     <TextView
@@ -92,11 +92,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="161dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="178dp"
         android:text="Username"
-        android:textSize="15sp"/>
-
+        android:textSize="15sp" />
 
 
     <TextView
@@ -105,9 +104,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="206dp"
+        android:layout_marginTop="235dp"
         android:text="Password"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_confirm_password"
@@ -115,19 +114,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="251dp"
+        android:layout_marginTop="289dp"
         android:text="Confirm password"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="296dp"
+        android:layout_marginBottom="294dp"
         android:text="E-mail"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textView_gender"
@@ -144,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="197dp"
+        android:layout_marginBottom="183dp"
         android:text="Birth of Date"
         android:textSize="15sp" />
 
@@ -153,8 +152,7 @@
         android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView_birthDate"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="125dp"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="YYYY-MM-DD"
         android:inputType="date"
@@ -164,8 +162,9 @@
         android:id="@+id/textView_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/image_profile"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/textView_gender"
+        android:layout_marginEnd="162dp"
         android:text="Age"
         android:textSize="15sp" />
 
@@ -173,8 +172,9 @@
         android:id="@+id/textView_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_weight"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
+        android:layout_marginBottom="125dp"
         android:text="Weight"
         android:textSize="15sp" />
 
@@ -197,7 +197,7 @@
         android:background="@drawable/rounded_button"
         android:elevation="0sp"
         android:text="REGISTER"
-        android:textColor="#c1a2a4"
+        android:textColor="@color/text"
         android:textSize="15sp" />
 
     <EditText
@@ -237,7 +237,7 @@
         android:id="@+id/edit_email"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_alignBaseline="@+id/textView_email"
         android:layout_toEndOf="@+id/textView_birthDate"
         android:ems="10"
         android:hint="example@example.com"
@@ -247,7 +247,9 @@
         android:id="@+id/edit_gender"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_birth_of_date"
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="226dp"
         android:layout_toEndOf="@+id/textView_birthDate"
         android:ems="10"
         android:hint="sex"
@@ -269,7 +271,7 @@
         android:id="@+id/edit_weight"
         android:layout_width="77dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_birth_of_date"
+        android:layout_alignBaseline="@+id/textView_weight"
         android:layout_toEndOf="@+id/textView_username"
         android:ems="10"
         android:hint="kg."
@@ -279,8 +281,9 @@
         android:id="@+id/edit_high"
         android:layout_width="77dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_birth_of_date"
-        android:layout_toEndOf="@+id/edit_birth_of_date"
+
+        android:layout_alignBaseline="@+id/textView_weight"
+        android:layout_alignEnd="@+id/edit_confirm_password"
         android:ems="10"
         android:hint="cm."
         android:inputType="number" />
