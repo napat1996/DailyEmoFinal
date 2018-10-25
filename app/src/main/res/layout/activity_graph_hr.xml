@@ -9,13 +9,45 @@
     android:background="#F0F0F0"
     android:id="@+id/mainlayout"
     >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
 
     <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechart_hr"
         android:layout_width="match_parent"
-        android:layout_height="450sp"
-        android:id="@+id/linechart_hr">
-
+        android:layout_height="200sp"
+        android:layout_weight="1"
+        android:background="@color/fah">
     </com.github.mikephil.charting.charts.LineChart>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechart_hr1"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_weight="1"
+        android:background="@color/main_bg">
+    </com.github.mikephil.charting.charts.LineChart>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechart_hr2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        android:background="@color/fah">
+    </com.github.mikephil.charting.charts.LineChart>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +57,7 @@
         android:background="#e2e2e2">
 
         <Button
-            android:id="@+id/ic_home"
+            android:id="@+id/btn_home"
             android:layout_width="50sp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
