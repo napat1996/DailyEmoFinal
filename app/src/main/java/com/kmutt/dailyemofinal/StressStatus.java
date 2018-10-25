@@ -46,10 +46,10 @@ public class StressStatus extends AppCompatActivity {
         l.setYOffset(5);
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTextSize(12f);
-        setData(2, 100);
+        setData(4, 100);
     }
 
-    String[] stress = new String[]{ "7hr", "9hr"};
+    String[] stress = new String[]{ "Normal", "","7hr", "Stress"};
 
     private void setData(int count, int range) {
         ArrayList<PieEntry> values = new ArrayList<>();
