@@ -409,6 +409,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void isStress() throws IOException, ParseException {
 
+        Date currentTime = Calendar.getInstance().getTime();
         boolean isJam = false;
         final FitbitData data = new FitbitData();
 
@@ -448,6 +449,7 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_desperate);
+//                                                    mRootRef.child("Stress").child
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }

@@ -26,7 +26,7 @@ public class StressStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mChart = (PieChart) findViewById(R.id.chart1);
+        mChart = findViewById(R.id.pichart);
         mChart.setBackgroundColor(Color.WHITE);
         moveOffscreen();
         mChart.setUsePercentValues(true);
@@ -46,16 +46,16 @@ public class StressStatus extends AppCompatActivity {
         l.setYOffset(5);
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTextSize(12f);
-        setData(4, 100);
+        setData(2, 100);
     }
 
-    String[] sleep = new String[]{"2hr", "7hr", "9hr", "10hr"};
+    String[] stress = new String[]{ "7hr", "9hr"};
 
     private void setData(int count, int range) {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, sleep[i]));
+            values.add(new PieEntry(val, stress[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);

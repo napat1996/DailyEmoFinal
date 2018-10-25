@@ -75,46 +75,46 @@ public class FitbitData {
         return heartRateTime;
     }
 
-//    public void upAllHeartRateTimeToDB() throws IOException, ParseException {
-//        int more = 0,less =0;
-//        URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
-//        connection.setRequestProperty(AUTHORIZATION,BEARER);
-//        InputStream response = connection.getInputStream();
-//        JSONParser jsonParser = new JSONParser();
-//        JSONObject responseObject = (JSONObject)jsonParser.parse(
-//                new InputStreamReader(response, "UTF-8"));
-//        JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
-//        JSONArray dataset = (JSONArray) activities.get("dataset");
-//        Log.d(TAG, "Debuggung: in size" + dataset.size());
-//        int i = 0;
-//        while(i<dataset.size()-1){
-//            Log.d(TAG, "Debuggung: in while");
-//            JSONObject datasetObject = (JSONObject) dataset.get(i);
-//            final Long heartRateValue = (Long) (datasetObject.get("value"));
-//            final String heartRateTime = (datasetObject.get("time")) + "";
-//            Log.d(TAG, "run: Time : " + heartRateTime + "Heart Rate: "+heartRateValue);
-//
-//            database = FirebaseDatabase.getInstance();
-//
-//            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
-//
-//            DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
-//            heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
-//
-//            if(heartRateValue > 100){
-//                more++;
-//            }
-//            else{
-//                less++;
-//            }
-//            heartRateDate.child("HeartRate").child("High").setValue(more);
-//            heartRateDate.child("HeartRate").child("Low").setValue(less);
-//
-//            Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
-//            i++;
-//        }
-//
-//    }
+    public void upAllHeartRateTimeToDB() throws IOException, ParseException {
+        int more = 0,less =0;
+        URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
+        connection.setRequestProperty(AUTHORIZATION,BEARER);
+        InputStream response = connection.getInputStream();
+        JSONParser jsonParser = new JSONParser();
+        JSONObject responseObject = (JSONObject)jsonParser.parse(
+                new InputStreamReader(response, "UTF-8"));
+        JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
+        JSONArray dataset = (JSONArray) activities.get("dataset");
+        Log.d(TAG, "Debuggung: in size" + dataset.size());
+        int i = 0;
+        while(i<dataset.size()-1){
+            Log.d(TAG, "Debuggung: in while");
+            JSONObject datasetObject = (JSONObject) dataset.get(i);
+            final Long heartRateValue = (Long) (datasetObject.get("value"));
+            final String heartRateTime = (datasetObject.get("time")) + "";
+            Log.d(TAG, "run: Time : " + heartRateTime + "Heart Rate: "+heartRateValue);
+
+            database = FirebaseDatabase.getInstance();
+
+            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
+
+            DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
+            heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
+
+            if(heartRateValue > 100){
+                more++;
+            }
+            else{
+                less++;
+            }
+            heartRateDate.child("HeartRate").child("High").setValue(more);
+            heartRateDate.child("HeartRate").child("Low").setValue(less);
+
+            Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
+            i++;
+        }
+
+    }
 
 
     public long getMinutesAsleep() throws IOException, ParseException {
