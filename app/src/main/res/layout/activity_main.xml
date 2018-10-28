@@ -33,7 +33,7 @@
             android:background="#e2e2e2">
 
             <Button
-                android:id="@+id/ic_home"
+                android:id="@+id/btn_home"
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -82,7 +82,7 @@
 
         <TextView
             android:id="@+id/heart_rate"
-            android:layout_width="38dp"
+            android:layout_width="41dp"
             android:layout_height="wrap_content"
 
             android:layout_alignParentBottom="true"
@@ -99,8 +99,7 @@
             android:id="@+id/buttom_hr"
             android:layout_width="55sp"
             android:layout_height="55sp"
-            android:layout_marginLeft="-9dp"
-            android:layout_alignStart="@+id/activity_switch"
+            android:layout_alignStart="@+id/heart_rate"
             android:layout_alignTop="@+id/buttom_sleep"
             android:background="@drawable/icon_heart" />
 
@@ -108,9 +107,10 @@
             android:id="@+id/buttom_sleep"
             android:layout_width="55sp"
             android:layout_height="55sp"
-            android:layout_alignEnd="@+id/textView5"
+
+            android:layout_alignEnd="@+id/text_sleep"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="274dp"
+            android:layout_marginTop="224dp"
             android:background="@drawable/icon_moon" />
 
         <TextView
@@ -185,7 +185,7 @@
         <!--line-->
         <View
             android:layout_width="3dp"
-            android:layout_height="390dp"
+            android:layout_height="370dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
@@ -205,9 +205,8 @@
             android:id="@+id/text_date"
             android:layout_width="143dp"
             android:layout_height="35dp"
-            android:layout_alignParentTop="true"
 
-            android:layout_marginTop="11dp"
+            android:layout_above="@+id/textView6"
             android:layout_toStartOf="@+id/img_mood"
             android:text="Date"
             android:textSize="10sp" />
@@ -218,7 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="179dp"
+            android:layout_marginTop="20dp"
             android:text="THASVARIN T."
             android:textColor="@color/text"
             android:textSize="25sp"
@@ -261,7 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/text_hr"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="246dp"
+            android:layout_marginTop="191dp"
             android:gravity="center_vertical"
             android:text="HEARTRATE" />
 
@@ -355,8 +354,8 @@
             android:layout_width="31dp"
             android:layout_height="36dp"
 
-            android:layout_alignTop="@+id/text_steps"
-            android:layout_toStartOf="@+id/text_sleep"
+
+            android:layout_alignEnd="@+id/text_goal_sleep"
             android:text="Button" />
         <!--<FrameLayout-->
         <!--android:id="@+id/flcontent"-->

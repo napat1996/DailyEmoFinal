@@ -54,7 +54,7 @@ public class GraphHr extends AppCompatActivity {
 
     private static final String TAG = GraphHr.class.getSimpleName();
 
-    private LineChart mChart;
+    private LineChart mChart,mChart1, mChart2;
 
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -73,9 +73,18 @@ public class GraphHr extends AppCompatActivity {
 
         //****LINECHART*****
         mChart = findViewById(R.id.linechart_hr);
+//        mChart1 = findViewById(R.id.linechart_hr1);
+//        mChart2 = findViewById(R.id.linechart_hr2);
+
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
+
+//        mChart1.setDragEnabled(true);
+//        mChart1.setScaleEnabled(false);
+//
+//        mChart2.setDragEnabled(true);
+//        mChart2.setScaleEnabled(false);
 
 
         LimitLine upper_limit = new LimitLine(65f, "Danger");
@@ -98,6 +107,9 @@ public class GraphHr extends AppCompatActivity {
         leftAxis.setAxisMinimum(40f);
         leftAxis.enableGridDashedLine(10f, 10f, 10);
         leftAxis.setDrawLimitLinesBehindData(true);
+
+
+
 
         //delete line on the right side
         mChart.getAxisRight().setEnabled(false);
@@ -129,7 +141,7 @@ public class GraphHr extends AppCompatActivity {
 
                     Log.d(TAG, "onDataChange: "+s.getValue());
 
-                    if (count % 151l == 0) {
+                    if (count % 15 == 0) {
                         yValues.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
                     count++;
@@ -156,6 +168,12 @@ public class GraphHr extends AppCompatActivity {
                 LineData data = new LineData(dataSets);
                 mChart.setData(data);
                 mChart.invalidate();
+
+                mChart1.setData(data);
+                mChart1.invalidate();
+
+                mChart2.setData(data);
+                mChart2.invalidate();
 
                 XAxis xData = mChart.getXAxis();
                 xData.setGranularity(10f); // minimum axis-step (interval) is 5

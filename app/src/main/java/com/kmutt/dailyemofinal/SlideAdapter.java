@@ -80,9 +80,9 @@ public class SlideAdapter extends PagerAdapter {
                  "part of your daily routine to reduce tension and promote feelings of calm.",
 
             // suggest-traffic
-            "Driving can be an incredibly stressful activity, especially when you're \n" +
-                    "dealing with stop-and-go highway traffic or navigating chaotic city \n" +
-                    "streets. And because you're trapped in a confined space, that pent-up\n" +
+            "Driving can be an incredibly stressful activity, especially when you're dealing with\n" +
+                    "stop-and-go highway traffic or navigating chaotic city streets.  \n" +
+                    "And because you're trapped in a confined space, that pent-up\n" +
                     "stress can often turn into full-on road rage, which can put you and \n" +
                     "other drivers at risk. Here are some key tips to help you manage \n" +
                     "stress while driving:\n" +

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="#e1d6ce">
+    android:background="#F0F0F0">
 
 
     <!--<EditText-->
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="235dp"
+        android:layout_marginTop="226dp"
         android:text="Password"
         android:textSize="15sp" />
 
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="289dp"
+        android:layout_marginTop="274dp"
         android:text="Confirm password"
         android:textSize="15sp" />
 
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="294dp"
+        android:layout_marginBottom="261dp"
         android:text="E-mail"
         android:textSize="15sp" />
 
@@ -132,8 +132,9 @@
         android:id="@+id/textView_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_gender"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
+        android:layout_marginBottom="213dp"
         android:text="Gender"
         android:textSize="15sp" />
 
@@ -143,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="183dp"
+        android:layout_marginBottom="166dp"
         android:text="Birth of Date"
         android:textSize="15sp" />
 
@@ -174,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="125dp"
+        android:layout_marginBottom="121dp"
         android:text="Weight"
         android:textSize="15sp" />
 
@@ -193,7 +194,7 @@
         android:layout_height="38sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="41dp"
         android:background="@drawable/rounded_button"
         android:elevation="0sp"
         android:text="REGISTER"
@@ -215,8 +216,8 @@
         android:id="@+id/edit_password"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_password"
 
+        android:layout_alignBaseline="@+id/textView_password"
         android:layout_toEndOf="@+id/textView_birthDate"
         android:ems="10"
         android:hint="password"
@@ -248,8 +249,7 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="226dp"
+        android:layout_alignBaseline="@+id/textView_gender"
         android:layout_toEndOf="@+id/textView_birthDate"
         android:ems="10"
         android:hint="sex"
