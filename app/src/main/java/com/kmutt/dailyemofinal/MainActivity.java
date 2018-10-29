@@ -10,13 +10,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,12 +46,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import com.google.firebase.database.ValueEventListener;
+import com.kmutt.dailyemofinal.Model.DatabaseService;
 import com.kmutt.dailyemofinal.Model.FitbitData;
-import com.kmutt.dailyemofinal.Model.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -86,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
     private Location thisLocation;
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int INTERVAL = 300 * 1000;
+    private static final int INTERVAL = 120 * 1000;
     private boolean isSterss = false;
 
     private int heartRate = 0, asSleep = 0;
     public String stressStr = "Normal";
     public String activity = "";
+
+    private boolean shouldRun = true;
 
 
     @Override
@@ -102,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");
 
-
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
-        Log.d(TAG, "onCreate: debugging firebaseurl " + firebaseUrl);
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
@@ -276,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     Toast.makeText(getApplicationContext(), isChecked + "", Toast.LENGTH_LONG).show();
+                    shouldRun = !shouldRun;
                 }
             }
         });
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                             //ขอ permission โทรศัพท์
                             getLocationPermission();
-//                    data.upAllHeartRateTimeToDB();
+                    data.upAllHeartRateTimeToDB();
 
 
                             runOnUiThread(new Runnable() {
@@ -326,11 +326,11 @@ public class MainActivity extends AppCompatActivity {
 
                                     txtSleep = findViewById(R.id.text_sleep);
                                     txtSleep.setText(sleepMinute + "");
-                                    Log.e(TAG, "run: sleep =" + sleepMinute);
+                                    Log.e(TAG, "debugging: sleep =" + sleepMinute);
 
                                     txtHeartRate = findViewById(R.id.heart_rate);
                                     txtHeartRate.setText(heartRate + "");
-                                    Log.e(TAG, "run: HeartRate = " + heartRate);
+                                    Log.e(TAG, "debugging: HeartRate = " + heartRate);
 
                                     txtStept.setText(steps + "");
 
@@ -338,7 +338,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             try {
-                                isStress();
+                                if (shouldRun) {
+                                    isStress();
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
@@ -420,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
     public void isStress() throws IOException, ParseException {
 
         final Date currentTime = Calendar.getInstance().getTime();
+        final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         boolean isJam = false;
         final FitbitData data = new FitbitData();
 
@@ -455,14 +458,19 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
+                                        Log.d(TAG, "debugging: assleep : "+asSleep);
                                         if (asSleep < 400) {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
                                                 }
                                             });
 
@@ -477,6 +485,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -486,7 +500,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
                                                         imgMood.setImageResource(imgInt[0]);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "debugging: Normal");
                                                     }
                                                 });
                                             }
@@ -536,9 +556,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -553,6 +577,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -563,12 +592,17 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
                                         }
 
-                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
 
                                         DatabaseReference process = mRootRef.child("process");
                                         process.child("Stress").setValue(isStress);
@@ -612,7 +646,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -629,6 +667,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -639,6 +682,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -668,8 +717,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -703,9 +756,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -720,6 +777,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -730,6 +792,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -779,9 +847,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    t++;
                                                 }
                                             });
 
@@ -796,6 +867,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -806,6 +883,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -855,7 +938,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -872,6 +959,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -882,6 +974,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -911,8 +1009,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because sleep: ");
                             }
                         });
                     }
@@ -946,9 +1048,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -963,6 +1069,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -973,6 +1085,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1022,9 +1140,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1039,6 +1159,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1049,12 +1174,15 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     }
                                                 });
                                             }
                                         }
-
-                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
 
                                         DatabaseReference process = mRootRef.child("process");
                                         process.child("Stress").setValue(isStress);
@@ -1098,9 +1226,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1115,6 +1245,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1125,6 +1260,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1154,8 +1295,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -1189,9 +1334,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1206,6 +1354,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1216,6 +1369,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1265,9 +1424,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1282,6 +1444,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1292,6 +1459,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1341,8 +1514,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
 
                                                 }
                                             });
@@ -1358,6 +1535,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1368,6 +1550,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1397,14 +1585,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-                } else if (age > 55 && age <= 65) {final int t = 0;
+                } else if (age > 55 && age <= 65) {
+                    final int t = 0;
                     if (heartRate >= 76 && heartRate < 82) {
                         level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
@@ -1431,9 +1624,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1448,6 +1643,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1458,6 +1658,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1507,9 +1713,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1524,6 +1733,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1534,6 +1748,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1583,8 +1803,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
 
                                                 }
                                             });
@@ -1600,6 +1824,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1610,6 +1839,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1639,8 +1874,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -1674,9 +1913,13 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 imgMood.setImageResource(R.drawable.emo_level1);
-                                                mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
                                                 Log.d(TAG, "Debugging stress because sleep: ");
-                                                t++;
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 1);
+                                                stressLevel.put("time", currentTime);
+
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                Log.d(TAG, "Debugging stress because : Nomal");
                                             }
                                         });
 
@@ -1691,6 +1934,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[1]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because Traffic: ");
                                                 }
                                             });
@@ -1701,6 +1949,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                 }
                                             });
                                         }
@@ -1750,9 +2004,12 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 imgMood.setImageResource(R.drawable.emo_level2);
-                                                mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                 Log.d(TAG, "Debugging stress because sleep: ");
-                                                t++;
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 2);
+                                                stressLevel.put("time", currentTime);
+
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                             }
                                         });
 
@@ -1767,6 +2024,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[2]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because Traffic: ");
                                                 }
                                             });
@@ -1777,6 +2039,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                 }
                                             });
                                         }
@@ -1826,8 +2094,13 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 imgMood.setImageResource(R.drawable.emo_level3);
-                                                mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                 Log.d(TAG, "Debugging stress because sleep: ");
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 3);
+                                                stressLevel.put("time", currentTime);
+
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                Log.d(TAG, "Debugging stress because : Nomal");
 
                                             }
                                         });
@@ -1843,6 +2116,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[3]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                     Log.d(TAG, "Debugging stress because Traffic: ");
                                                 }
                                             });
@@ -1853,6 +2132,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                 }
                                             });
                                         }
@@ -1882,8 +2167,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             imgMood.setImageResource(imgInt[0]);
-                            mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                            Log.d(TAG, "Debugging  Normal");
+                            Map<String, Object> stressLevel = new HashMap<>();
+                            stressLevel.put("level", 0);
+                            stressLevel.put("time", currentTime);
+
+                            mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                            Log.d(TAG, "Debugging stress because : Nomal");
                         }
                     });
                 }
@@ -1917,14 +2206,19 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
+                                        Log.d(TAG, "debugging: assleep : "+asSleep);
                                         if (asSleep < 400) {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
                                                 }
                                             });
 
@@ -1939,6 +2233,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1948,7 +2248,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
                                                         imgMood.setImageResource(imgInt[0]);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "debugging: Normal");
                                                     }
                                                 });
                                             }
@@ -1998,9 +2304,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -2015,6 +2325,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2025,12 +2340,17 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
                                         }
 
-                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
 
                                         DatabaseReference process = mRootRef.child("process");
                                         process.child("Stress").setValue(isStress);
@@ -2074,7 +2394,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -2091,6 +2415,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2101,6 +2430,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2130,8 +2465,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -2165,9 +2504,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -2182,6 +2525,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2192,6 +2540,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2241,9 +2595,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    t++;
                                                 }
                                             });
 
@@ -2258,6 +2615,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2268,6 +2631,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2317,7 +2686,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -2334,6 +2707,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2344,6 +2722,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2373,8 +2757,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because sleep: ");
                             }
                         });
                     }
@@ -2408,9 +2796,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+//                                                    t++;
                                                 }
                                             });
 
@@ -2425,6 +2817,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2435,6 +2833,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2484,9 +2888,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2501,6 +2907,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2511,12 +2922,15 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     }
                                                 });
                                             }
                                         }
-
-                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
 
                                         DatabaseReference process = mRootRef.child("process");
                                         process.child("Stress").setValue(isStress);
@@ -2560,9 +2974,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2577,6 +2993,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2587,6 +3008,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2616,8 +3043,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -2651,9 +3082,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2668,6 +3102,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2678,6 +3117,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2727,9 +3172,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2744,6 +3192,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2754,6 +3207,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2803,8 +3262,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
 
                                                 }
                                             });
@@ -2820,6 +3283,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2830,6 +3298,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2859,14 +3333,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-                } else if (age > 55 && age <= 65) {final int t = 0;
+                } else if (age > 55 && age <= 65) {
+                    final int t = 0;
                     if (heartRate >= 76 && heartRate < 82) {
                         level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
@@ -2893,9 +3372,11 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2910,6 +3391,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2920,6 +3406,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -2969,9 +3461,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -2986,6 +3481,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -2996,6 +3496,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -3045,8 +3551,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
 
                                                 }
                                             });
@@ -3062,6 +3572,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -3072,6 +3587,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -3101,8 +3622,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
@@ -3136,9 +3661,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level1);
-                                                    mRootRef.child("Stress").child("Level1").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                 }
                                             });
 
@@ -3153,6 +3682,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -3163,6 +3697,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -3212,9 +3752,12 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level2);
-                                                    mRootRef.child("Stress").child("Level2").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
-                                                    t++;
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -3229,6 +3772,11 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -3239,6 +3787,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -3288,8 +3842,13 @@ public class MainActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     imgMood.setImageResource(R.drawable.emo_level3);
-                                                    mRootRef.child("Stress").child("Level3").child("start"+t).setValue(currentTime);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
 
                                                 }
                                             });
@@ -3305,6 +3864,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -3315,6 +3880,12 @@ public class MainActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -3344,8 +3915,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 imgMood.setImageResource(imgInt[0]);
-                                mRootRef.child("Stress").child("Level0").child("start"+t).setValue(currentTime);
-                                Log.d(TAG, "Debugging  Normal");
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }

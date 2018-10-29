@@ -58,21 +58,23 @@ public class SignupActivity extends AppCompatActivity {
                         inputEmail.getText().toString(),
                         inputSex.getText().toString(),
                         inputHeight.getText().toString(),
+                        inputAge.getText().toString(),
                         inputBD.getText().toString(),
-                        inputAge.getText(),
-                        inputBD.getText().toString(),
-                        inputWeight.getText()
+                        inputWeight.getText().toString()
                         );
+                mRootRef.child(user.getUsername()).setValue(user);
                 mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(user.getUsername()).exists())
+                        if(dataSnapshot.child(user.getUsername()).exists()) {
+
                             Toast.makeText(SignupActivity.this, "The Username is Already Exist!", Toast.LENGTH_SHORT).show();
+                        }
                         else {
                             mRootRef.child(user.getUsername()).setValue(user);
                             Toast.makeText(SignupActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
 
-                            mUsername = inputUsername.toString();
+                            mUsername = inputUsername.getText().toString();
                             SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username", mUsername);

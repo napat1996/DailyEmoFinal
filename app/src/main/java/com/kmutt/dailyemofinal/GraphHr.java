@@ -176,7 +176,7 @@ public class GraphHr extends AppCompatActivity {
                 mChart.invalidate();
 
                 ///////////// mChart1////////////
-                
+
 //                mChart1.setData(data);
 //                mChart1.invalidate();
 //

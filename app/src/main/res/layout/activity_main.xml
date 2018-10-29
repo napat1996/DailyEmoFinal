@@ -116,6 +116,7 @@
         <TextView
             android:id="@+id/text_sleep"
             android:layout_width="51dp"
+            android:layout_below="@+id/buttom_sleep"
             android:layout_height="wrap_content"
 
 
@@ -166,7 +167,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="62dp"
-            app:srcCompat="@drawable/emo_level3" />
+            app:srcCompat="@drawable/emo_level0" />
 
         <TextView
             android:id="@+id/text_steps"

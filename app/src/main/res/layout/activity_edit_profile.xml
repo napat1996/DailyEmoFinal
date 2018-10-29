@@ -67,7 +67,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/profile_new" />
+        app:srcCompat="@drawable/prof" />
 
 
     <TextView
