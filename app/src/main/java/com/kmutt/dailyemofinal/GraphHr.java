@@ -45,6 +45,7 @@ import com.kmutt.dailyemofinal.Model.User;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -128,10 +129,15 @@ public class GraphHr extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                dataSnapshot
 
+                Date d = new Date();
+                int day = d.getDay();
+                int month = d.getMonth();
+                int year = d.getYear();
+
                 ArrayList<Entry> yValues = new ArrayList<>();
                 int count = 0;
                 ArrayList<String> xAxisFormat = new ArrayList<>();
-                DataSnapshot snapshot = dataSnapshot.child("2018-09-19").child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot = dataSnapshot.child("2018-10-20").child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot.getChildren()) {
                     Log.d("debugging", snapshot.getKey());
                     String time = s.getKey();
@@ -169,11 +175,13 @@ public class GraphHr extends AppCompatActivity {
                 mChart.setData(data);
                 mChart.invalidate();
 
-                mChart1.setData(data);
-                mChart1.invalidate();
-
-                mChart2.setData(data);
-                mChart2.invalidate();
+                ///////////// mChart1////////////
+                
+//                mChart1.setData(data);
+//                mChart1.invalidate();
+//
+//                mChart2.setData(data);
+//                mChart2.invalidate();
 
                 XAxis xData = mChart.getXAxis();
                 xData.setGranularity(10f); // minimum axis-step (interval) is 5
