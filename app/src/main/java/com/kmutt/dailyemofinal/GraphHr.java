@@ -169,11 +169,11 @@ public class GraphHr extends AppCompatActivity {
                 mChart.setData(data);
                 mChart.invalidate();
 
-                mChart1.setData(data);
-                mChart1.invalidate();
-
-                mChart2.setData(data);
-                mChart2.invalidate();
+//                mChart1.setData(data);
+//                mChart1.invalidate();
+//
+//                mChart2.setData(data);
+//                mChart2.invalidate();
 
                 XAxis xData = mChart.getXAxis();
                 xData.setGranularity(10f); // minimum axis-step (interval) is 5

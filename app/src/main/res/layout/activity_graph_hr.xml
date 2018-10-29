@@ -22,9 +22,9 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart_hr"
         android:layout_width="match_parent"
-        android:layout_height="200sp"
+        android:layout_height="270sp"
         android:layout_weight="1"
-        android:background="@color/fah">
+        android:background="@color/main_bg">
     </com.github.mikephil.charting.charts.LineChart>
 
     <com.github.mikephil.charting.charts.LineChart
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="200sp"
         android:layout_weight="1"
-        android:background="@color/main_bg">
+        android:background="#F0F0F0">
     </com.github.mikephil.charting.charts.LineChart>
 
     <com.github.mikephil.charting.charts.LineChart
@@ -40,8 +40,48 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_weight="1"
-        android:background="@color/fah">
+        android:background="#F0F0F0">
     </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart_hr3"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#F0F0F0">
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart_hr4"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#F0F0F0">
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart_hr5"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#F0F0F0">
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart_hr6"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#F0F0F0">
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/linechart_hr7"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="#F0F0F0">
+            </com.github.mikephil.charting.charts.LineChart>
 
 
         </LinearLayout>
