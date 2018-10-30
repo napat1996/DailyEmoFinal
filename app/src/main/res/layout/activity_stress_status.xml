@@ -10,21 +10,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:background="#e1d6ce"
+      android:text="Stress Level"
+      android:layout_gravity="center"
+      android:textAlignment="center"
+      android:textSize="30sp"
+      android:textColor="#FFFF"
 
+      />
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:id="@+id/pichart">
+        android:id="@+id/pieChart"
+        android:background="#e1d6ce">
 
     </com.github.mikephil.charting.charts.PieChart>
 
+    <!--<com.github.mikephil.charting.charts.BarChart-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="270dp"-->
+        <!--android:id="@+id/stresschart">-->
 
-</LinearLayout>
+    <!--</com.github.mikephil.charting.charts.BarChart>-->
+
+
+
+
+    </LinearLayout>
 </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45sp"
