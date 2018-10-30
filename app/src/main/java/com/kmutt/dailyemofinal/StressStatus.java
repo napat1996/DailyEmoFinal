@@ -228,7 +228,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress1[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -249,7 +249,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress2[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -270,7 +270,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress3[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -291,7 +291,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress4[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -312,7 +312,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress5[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -333,7 +333,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress6[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
@@ -355,7 +355,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress[i]));
+            values.add(new PieEntry(val, stress7[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);
