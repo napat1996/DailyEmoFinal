@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".GraphHr" />
-        <activity android:name=".GraphSleep" />
+         <activity android:name=".GraphSleep" />
         <activity android:name=".HomelinkStep" />
         <activity android:name=".GraphTaffic" />
         <activity android:name=".SummaryActivity" />
@@ -35,14 +35,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".SuggestionBackgroundActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".StressStatus"></activity>
-
-        <service android:name="com.kmutt.dailyemofinal.Service.MyFirebaseInstanceService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
+        <!--<activity android:name=".StressStatus" />-->
+        <!--<activity android:name=".MyAxis" />-->
+        <!--<activity android:name=".MyValue"></activity>-->
     </application>
 
 </manifest>

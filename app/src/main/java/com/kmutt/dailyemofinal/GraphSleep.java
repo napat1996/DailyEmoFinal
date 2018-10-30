@@ -44,10 +44,9 @@ public class GraphSleep extends AppCompatActivity {
 
 
         mChart = findViewById(R.id.barchart_sleep);
-        bChart = findViewById(R.id.barchart1) ;
+//        bChart = findViewById(R.id.barchart1) ;
 
-        setData2(7, 10);
-        bChart.setMaxVisibleValueCount(10);
+//        setData2(7, 12);
 
 
 
@@ -94,23 +93,26 @@ public class GraphSleep extends AppCompatActivity {
         //end nav bar
 
     }
-        private void setData2 (int count, int range){
-
-            ArrayList<BarEntry> yVals = new ArrayList<>();
-            float barWidth = 10f ;
-            float spaceForBar= 10f;
-
-            for (int i = 0; i<count; i++){
-                float val  = (float) (Math.random()*range);
-                yVals.add(new BarEntry(i*spaceForBar, val));
-            }
-            BarDataSet set1 ;
-            set1 = new BarDataSet(yVals, "Data1");
-            BarData data = new BarData(set1);
-            data.setBarWidth(barWidth);
-            bChart.setData(data);
-
-        }
+//        private void setData2 (int count, int range){
+//
+//            ArrayList<BarEntry> yVals = new ArrayList<>();
+//            float barWidth = 9f ;
+//            float spaceForBar= 10f;
+//
+//            for (int i = 0; i<count; i++){
+//                float val  = (float) (Math.random()*range);
+//                yVals.add(new BarEntry(i*spaceForBar, val));
+//            }
+//            BarDataSet set1 ;
+//            set1 = new BarDataSet(yVals, "Data1");
+//            BarData data = new BarData(set1);
+//            data.setBarWidth(barWidth);
+//            bChart.setData(data);
+//            set1.setColors(ColorTemplate.PASTEL_COLORS);
+//
+//
+//
+//        }
 
 
     public void setData(int count) {

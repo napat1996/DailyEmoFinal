@@ -10,21 +10,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:background="#e1d6ce"
+      android:text="Stress Level"
+      android:layout_gravity="center"
+      android:textAlignment="center"
+      android:textSize="28sp"
+      android:textColor="#FFFF"
 
+      />
     <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:id="@+id/pichart">
+        android:id="@+id/pieChart"
+        android:background="#e1d6ce">
 
     </com.github.mikephil.charting.charts.PieChart>
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/pieChart1">
+    </com.github.mikephil.charting.charts.PieChart>
 
-</LinearLayout>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart2">
+        </com.github.mikephil.charting.charts.PieChart>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart3">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart4">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart5">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart6">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart7">
+        </com.github.mikephil.charting.charts.PieChart>
+
+
+    </LinearLayout>
 </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45sp"
