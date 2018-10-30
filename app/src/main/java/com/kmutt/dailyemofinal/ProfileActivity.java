@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -27,18 +28,21 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
+    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
 
 //    private static final String API_PREFIX = "https://api.fitbit.com";
-//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
-//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
+//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-18/1d/5min/time/00:00/23:59.json";
+//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-18.json";
 //    private static final String AUTHORIZATION = "Authorization";
-//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2VzdESDQiLCJhdWQiOiIyMkQ2UkYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTM4MTA3MTg1LCJpYXQiOjE1MzgwNzgzODV9.L3f6m-HSXWhEWgU_3vyZq1KnvN48T1VAoI2XP_EaZ70";
+//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNzQ4Nzg3LCJpYXQiOjE1NDA3MTk5ODd9.K1aPl3D9k7f-Nn_vpYALvJoEAzVqSy6uX-C1h35eGOY";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -52,13 +56,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         btnHome = findViewById(R.id.btn_home);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent s = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(s);
-            }
-        });
+//        btnHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent s = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(s);
+//            }
+//        });
 
         btnProfile = findViewById(R.id.btn_profile);
         btnProfile.setOnClickListener(new View.OnClickListener() {
@@ -87,22 +91,30 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        btnEditProfile = findViewById(R.id.edit_profile);
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent s = new Intent(getApplicationContext(), EditProfileActivity.class);
-                startActivity(s);
-            }
-        });
+//        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent s = new Intent(getApplicationContext(), EditProfileActivity.class);
+//                startActivity(s);
+//            }
+//        });
 
 
 
-
+//        /////////////ADD DATA TO FIREBASE////////////
+//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+//        String username = preferences.getString("username", "tk");
+//
+//        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/tk";
+//        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
+//        database = FirebaseDatabase.getInstance();
+//        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+//        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+//
+//
 //        (new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                int more = 0,less =0;
 //                URLConnection connection = null;
 //                URLConnection connectionS = null;
 //                Log.d(TAG, "Debuggung: in Thread");
@@ -125,6 +137,8 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONArray dataset = (JSONArray) activities.get("dataset");
 //                    Log.d(TAG, "Debuggung: in size" + dataset.size());
 //                    int i = 0;
+//                    int lv1 = 0, lv2 = 0, lv3 = 0, lv0 = 0;
+//                    int high = 0, low = 0;
 //                    while(i<dataset.size()-1){
 //                        Log.d(TAG, "Debuggung: in while");
 //                        JSONObject datasetObject = (JSONObject) dataset.get(i);
@@ -136,17 +150,56 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-09-26");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-10-28");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
-//                        if(heartRateValue > 100){
-//                            more++;
+//                        if (heartRateValue >= 74 && heartRateValue < 82) {
+//                            Map<String, Object> stressLevel = new HashMap<>();
+//                            stressLevel.put("level", 1);
+//                            stressLevel.put("time", heartRateTime);
+//
+//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                            lv1++;
+//                            heartRateDate.child("StressLevel").child("Level1").setValue(lv1);
+//                            low++;
+//                            heartRateDate.child("HeartRate").child("Low").setValue(low);
+//                        }
+//                        else if (heartRateValue >= 82 && heartRateValue < 100) {
+//                            Map<String, Object> stressLevel = new HashMap<>();
+//                            stressLevel.put("level", 2);
+//                            stressLevel.put("time", heartRateTime);
+//
+//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//                            lv2++;
+//                            heartRateDate.child("StressLevel").child("Level2").setValue(lv2);
+//                            high++;
+//                            heartRateDate.child("HeartRate").child("High").setValue(low);
+//                        }
+//                        else if(heartRateValue > 100){
+//                            Map<String, Object> stressLevel = new HashMap<>();
+//                            stressLevel.put("level", 3);
+//                            stressLevel.put("time", heartRateTime);
+//
+//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                            lv3++;
+//                            heartRateDate.child("StressLevel").child("Level3").setValue(lv3);
+//                            high++;
+//                            heartRateDate.child("HeartRate").child("High").setValue(low);
 //                        }
 //                        else{
-//                            less++;
+//                            Map<String, Object> stressLevel = new HashMap<>();
+//                            stressLevel.put("level", 0);
+//                            stressLevel.put("time", heartRateTime);
+//
+//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                            lv0++;
+//                            heartRateDate.child("StressLevel").child("Level0").setValue(lv0);
+//                            low++;
+//                            heartRateDate.child("HeartRate").child("Low").setValue(low);
 //                        }
-//                        heartRateDate.child("HeartRate").child("High").setValue(more);
-//                        heartRateDate.child("HeartRate").child("Low").setValue(less);
 //
 //                        Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
 //                        i++;
@@ -157,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-09-26");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-10-28");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //

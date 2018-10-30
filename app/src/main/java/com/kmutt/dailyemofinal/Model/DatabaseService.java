@@ -1,4 +1,4 @@
-package com.kmutt.dailyemofinal;
+package com.kmutt.dailyemofinal.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;

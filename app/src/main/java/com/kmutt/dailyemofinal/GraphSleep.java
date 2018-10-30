@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
@@ -33,13 +34,23 @@ import java.util.ArrayList;
 public class GraphSleep extends AppCompatActivity {
 
     private BarChart mChart;
+    HorizontalBarChart bChart;
     Button btnHome, btnProfile, btnResult, btnSuggesstion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_sleep);
+
+
         mChart = findViewById(R.id.barchart_sleep);
+        bChart = findViewById(R.id.barchart1) ;
+
+        setData2(7, 10);
+        bChart.setMaxVisibleValueCount(10);
+
+
+
         setData(7);
         mChart.setMaxVisibleValueCount(70);
 
@@ -83,6 +94,24 @@ public class GraphSleep extends AppCompatActivity {
         //end nav bar
 
     }
+        private void setData2 (int count, int range){
+
+            ArrayList<BarEntry> yVals = new ArrayList<>();
+            float barWidth = 10f ;
+            float spaceForBar= 10f;
+
+            for (int i = 0; i<count; i++){
+                float val  = (float) (Math.random()*range);
+                yVals.add(new BarEntry(i*spaceForBar, val));
+            }
+            BarDataSet set1 ;
+            set1 = new BarDataSet(yVals, "Data1");
+            BarData data = new BarData(set1);
+            data.setBarWidth(barWidth);
+            bChart.setData(data);
+
+        }
+
 
     public void setData(int count) {
         ArrayList<BarEntry> yValues = new ArrayList<>();

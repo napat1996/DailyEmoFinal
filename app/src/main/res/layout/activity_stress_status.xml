@@ -5,43 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GraphSleep"
-    android:background="#F0F0F0"
-    >
+    tools:context=".StressStatus">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="270dp"
+        android:id="@+id/pichart">
+
+    </com.github.mikephil.charting.charts.PieChart>
 
 
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barchart_sleep"
-        android:layout_width="match_parent"
-        android:layout_height="270sp"
-        android:background="#e1d6ce"
-        >
-
-    </com.github.mikephil.charting.charts.BarChart>
-
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/barchart1">
-
-        </com.github.mikephil.charting.charts.HorizontalBarChart>
-
-
-
-
-    </LinearLayout>
+</LinearLayout>
 </ScrollView>
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45sp"
@@ -86,5 +69,7 @@
             android:background="@drawable/iperson" />
 
     </RelativeLayout>
+
+
 
 </RelativeLayout>

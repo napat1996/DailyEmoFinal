@@ -1,12 +1,17 @@
 package com.kmutt.dailyemofinal.Model;
 
+import android.text.Editable;
+
 public class User {
 
     private String username;
     private String password;
     private String email;
+    private String birthDate;
 
-
+    private  String sex;
+    private int height, age;
+    private double weight;
 
     private String process;
     private boolean traffic;
@@ -16,7 +21,7 @@ public class User {
     private int sleepMinute;
 
 
-    public User(){
+    public User(String s, String toString, String string, String s1, String toString1, String string1){
 
     }
 
@@ -26,17 +31,17 @@ public class User {
         this.email = email;
     }
 
-    public User(String username, String password, String email, String process, boolean traffic, boolean mood, int heartRateValue, String heartTime, int sleepMinute) {
+    public User(String username, String password, String email, String sex, String high, String age, String bd, String inputWeightText) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.process = process;
-        this.traffic = traffic;
-        this.mood = mood;
-        this.heartRateValue = heartRateValue;
-        this.heartTime = heartTime;
-        this.sleepMinute = sleepMinute;
+        this.sex = sex;
+        this.height = Integer.parseInt(high);
+        this.age = Integer.parseInt(age);
+        this.birthDate = bd;
+        this.weight = Integer.parseInt(inputWeightText);
     }
+
 
     public String getUsername() {
         return username;
@@ -62,52 +67,33 @@ public class User {
         this.email = email;
     }
 
-    public boolean getMood(){
-        return mood;
+   public String getSex(){
+        return sex;
+   }
+   public void setSex(String sex){
+        this.sex = sex;
+   }
+   public int getHeight(){
+        return height;
+   }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
-    public String getProcess() {
-        return process;
+    public double getWeight(){
+        return weight;
     }
 
-    public void setProcess(String process) {
-        this.process = process;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
-    public boolean isTraffic() {
-        return traffic;
+    public int getAge(){
+        return age;
     }
 
-    public void setTraffic(boolean traffic) {
-        this.traffic = traffic;
+    public void setAge(int age) {
+        this.age = age;
     }
-
-    public void setMood(boolean mood) {
-        this.mood = mood;
-    }
-
-    public int getHeartRateValue() {
-        return heartRateValue;
-    }
-
-    public void setHeartRateValue(int heartRateValue) {
-        this.heartRateValue = heartRateValue;
-    }
-
-    public String getHeartTime() {
-        return heartTime;
-    }
-
-    public void setHeartTime(String heartTime) {
-        this.heartTime = heartTime;
-    }
-
-    public int getSleepMinute() {
-        return sleepMinute;
-    }
-
-    public void setSleepMinute(int sleepMinute) {
-        this.sleepMinute = sleepMinute;
-    }
-
 }

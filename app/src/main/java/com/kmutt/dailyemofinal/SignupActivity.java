@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class SignupActivity extends AppCompatActivity {
 
     private String TAG = SignupActivity.class.getSimpleName();
-    EditText inputUsername, inputEmail, inputPassword, confirmpassword;
+    EditText inputUsername, inputEmail, inputPassword, confirmpassword, inputAge, inputWeight, inputHeight, inputBD, inputSex;
     Button btnRegister;
     DatabaseReference mRootRef, username;
     FirebaseDatabase database;
@@ -39,10 +39,15 @@ public class SignupActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference("Users");
 
 
-        btnRegister = (Button)findViewById(R.id.sign_in_button);
-        inputEmail = (EditText)findViewById(R.id.inputEmail);
-        inputPassword = (EditText)findViewById(R.id.inputPassword);
-        inputUsername = (EditText) findViewById(R.id.inputUsername);
+        btnRegister = findViewById(R.id.sign_in_button);
+        inputEmail = findViewById(R.id.edit_email);
+        inputPassword = findViewById(R.id.edit_password);
+        inputUsername = findViewById(R.id.edit_username);
+        inputAge = findViewById(R.id.edit_age);
+        inputBD = findViewById(R.id.edit_weight);
+        inputSex = findViewById(R.id.edit_gender);
+        inputWeight = findViewById(R.id.edit_weight);
+        inputHeight = findViewById(R.id.edit_high);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,17 +55,26 @@ public class SignupActivity extends AppCompatActivity {
                 mRootRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users");
                 final User user = new User(inputUsername.getText().toString(),
                         inputPassword.getText().toString(),
-                        inputEmail.getText().toString());
+                        inputEmail.getText().toString(),
+                        inputSex.getText().toString(),
+                        inputHeight.getText().toString(),
+                        inputAge.getText().toString(),
+                        inputBD.getText().toString(),
+                        inputWeight.getText().toString()
+                        );
+                mRootRef.child(user.getUsername()).setValue(user);
                 mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(user.getUsername()).exists())
+                        if(dataSnapshot.child(user.getUsername()).exists()) {
+
                             Toast.makeText(SignupActivity.this, "The Username is Already Exist!", Toast.LENGTH_SHORT).show();
+                        }
                         else {
                             mRootRef.child(user.getUsername()).setValue(user);
                             Toast.makeText(SignupActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
 
-                            mUsername = inputUsername.toString();
+                            mUsername = inputUsername.getText().toString();
                             SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username", mUsername);

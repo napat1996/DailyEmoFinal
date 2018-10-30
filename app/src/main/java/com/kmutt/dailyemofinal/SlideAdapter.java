@@ -49,15 +49,14 @@ public class SlideAdapter extends PagerAdapter {
           "try to do some suggestions : \n" +
 
                  "\n" +
-                 "Tip 1 : Exercise during the day which is a great stress reliever and has been \n" +
+                 "Tip1 : Exercise during the day which is a great stress reliever and has been \n" +
                  "\t\tshown to improve the quality of sleep.\n" +
                  "\n" +
 
-                 "Tip 2 : Your daytime eating habits play a role in how well you sleep. Try to make dinnertime earlier\n" +
-                 "\t\tin the evening, and avoid heavy, rich foods within two hours of bed. Also, avoid alcohol, \n" +
-                 "\t\tcaffeine, and nicotine before bed.\n" +
+                 "Tip2: Eat a healthy, balanced diet: Eating a varied diet rich in fruits, vegetables, lean proteins,\n" +
+                    "nuts, and legumes can help to improve the health of the heart, as well as overall health." +
 
-                 "Tip 3 : Wind down and clear your head. Your body needs time to shift into \n" +
+                 "Tip3 : Wind down and clear your head. Your body needs time to shift into \n" +
                  "\t\tsleep mode, so spend the last hour before bed doing a calming \n" +
                  "\t\tactivity such as reading, and avoid using an electronic device. ",
 
@@ -72,7 +71,7 @@ public class SlideAdapter extends PagerAdapter {
 
 
         // suggest-step
-         "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
+            "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
                  "time to get away from stress. Getting out of the stressful environment, \n" +
                  "breathing the air, and feeling your body move is natural stress-relief.  \n" +
                  "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
@@ -81,9 +80,25 @@ public class SlideAdapter extends PagerAdapter {
                  "part of your daily routine to reduce tension and promote feelings of calm.",
 
             // suggest-traffic
-            "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
-                    "time to get away from stress. Getting out of the stressful environment, \n" +
-                    "breathing the air, and feeling your body move is natural stress-relief."
+            "Driving can be an incredibly stressful activity, especially when you're dealing with\n" +
+                    "stop-and-go highway traffic or navigating chaotic city streets.  \n" +
+                    "And because you're trapped in a confined space, that pent-up\n" +
+                    "stress can often turn into full-on road rage, which can put you and \n" +
+                    "other drivers at risk. Here are some key tips to help you manage \n" +
+                    "stress while driving:\n" +
+                    "\n" +
+                    "Tip1 : Pick the right playlist. Listened the classical or pop music were \n" +
+                    "\t\ttless stressed out during their car rides. Turn on a playlist of \n" +
+                    "\t\tsongs that will lift your spirits and take your mind off any traffic \n" +
+                    "\t\ttstandstill.\n" +
+                    "\n" +
+                    "Tip2 : Ride with a passenger. Set up a carpool with a coworker or bring\n" +
+                    "\t\tyour partner along when running errands. You’ll have another \n" +
+                    "\t\tset of eyes on the road and someone to chat with while you \n" +
+                    "\t\tdrive.\n" +
+                    "Tip3 : Make sure you’re comfortable. Use the heat or air conditioning \n" +
+                    "\t\tas necessary to keep yourself comfortable. If your car feels stuffy,\n" +
+                    "\t\tconsider opening the windows if the weather is nice. "
 
     };
 
