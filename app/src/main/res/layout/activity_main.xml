@@ -116,6 +116,7 @@
         <TextView
             android:id="@+id/text_sleep"
             android:layout_width="51dp"
+            android:layout_below="@+id/buttom_sleep"
             android:layout_height="wrap_content"
 
 
@@ -166,7 +167,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="62dp"
-            app:srcCompat="@drawable/emo_blushing" />
+            app:srcCompat="@drawable/emo_level0" />
 
         <TextView
             android:id="@+id/text_steps"
@@ -321,7 +322,7 @@
             android:text="IN CAR" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/exercise"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_alignStart="@+id/buttom_sleep"

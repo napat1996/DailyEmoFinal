@@ -31,10 +31,15 @@ public class User {
         this.email = email;
     }
 
-    public User(String username, String password, String email, String s, String toString, String string, Editable text, String s1, Editable inputWeightText) {
+    public User(String username, String password, String email, String sex, String high, String age, String bd, String inputWeightText) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.sex = sex;
+        this.height = Integer.parseInt(high);
+        this.age = Integer.parseInt(age);
+        this.birthDate = bd;
+        this.weight = Integer.parseInt(inputWeightText);
     }
 
 

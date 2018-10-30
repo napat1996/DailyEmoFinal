@@ -10,13 +10,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,12 +46,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import com.google.firebase.database.ValueEventListener;
+import com.kmutt.dailyemofinal.Model.DatabaseService;
 import com.kmutt.dailyemofinal.Model.FitbitData;
-import com.kmutt.dailyemofinal.Model.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
-    private Switch btnSwitch;
+    private Switch btnSwitch, btnSwitchEx;
 
-    private int imgInt[] = {R.drawable.emo_desperate, R.drawable.emo_blushing};
+    private int imgInt[] = {R.drawable.emo_level0, R.drawable.emo_level1,R.drawable.emo_level2,R.drawable.emo_level3};
     Button btnRegister;
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
@@ -86,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
     private Location thisLocation;
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int INTERVAL = 300 * 1000;
+    private static final int INTERVAL = 120 * 1000;
     private boolean isSterss = false;
 
     private int heartRate = 0, asSleep = 0;
     public String stressStr = "Normal";
     public String activity = "";
+
+    private boolean shouldRun = true;
 
 
     @Override
@@ -102,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
         String username = preferences.getString("username", "");
 
-
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
-        Log.d(TAG, "onCreate: debugging firebaseurl " + firebaseUrl);
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
 
@@ -226,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnSwitch = findViewById(R.id.activity_switch);
+        btnSwitchEx = findViewById(R.id.exercise_switch);
 
         btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -270,6 +270,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnSwitchEx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getApplicationContext(), isChecked + "", Toast.LENGTH_LONG).show();
+                    shouldRun = !shouldRun;
+                }
+            }
+        });
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -307,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                             //ขอ permission โทรศัพท์
                             getLocationPermission();
-//                    data.upAllHeartRateTimeToDB();
+                    data.upAllHeartRateTimeToDB();
 
 
                             runOnUiThread(new Runnable() {
@@ -316,11 +326,11 @@ public class MainActivity extends AppCompatActivity {
 
                                     txtSleep = findViewById(R.id.text_sleep);
                                     txtSleep.setText(sleepMinute + "");
-                                    Log.e(TAG, "run: sleep =" + sleepMinute);
+                                    Log.e(TAG, "debugging: sleep =" + sleepMinute);
 
                                     txtHeartRate = findViewById(R.id.heart_rate);
                                     txtHeartRate.setText(heartRate + "");
-                                    Log.e(TAG, "run: HeartRate = " + heartRate);
+                                    Log.e(TAG, "debugging: HeartRate = " + heartRate);
 
                                     txtStept.setText(steps + "");
 
@@ -328,7 +338,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             try {
-                                isStress();
+                                if (shouldRun) {
+                                    isStress();
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
@@ -409,10 +421,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void isStress() throws IOException, ParseException {
 
-        Date currentTime = Calendar.getInstance().getTime();
+        final Date currentTime = Calendar.getInstance().getTime();
+        final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         boolean isJam = false;
         final FitbitData data = new FitbitData();
 
+        int level = 0;
         int age = 20;
         String sex = "man";
         long heartRate = data.getHeartRateValue();
@@ -421,10 +435,103 @@ public class MainActivity extends AppCompatActivity {
         switch (sex) {
             case "man": {
                 if (age >= 18 && age <= 25) {
+                    String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 74 && heartRate < 82) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Log.d(TAG, "debugging: assleep : "+asSleep);
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
 
-                    if (heartRate > 82) {
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
-                        String mood = "Normal";
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[1]);
+
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+                                                        imgMood.setImageResource(imgInt[0]);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "debugging: Normal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -448,8 +555,102 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-//                                                    mRootRef.child("Stress").child
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -465,7 +666,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -475,7 +681,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -498,20 +710,28 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
                 } else if (age > 25 && age <= 35) {
-                    if (heartRate > 82) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 75 && heartRate < 82) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -535,9 +755,14 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
                                                 }
                                             });
 
@@ -551,7 +776,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -561,7 +791,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -584,21 +820,210 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    t++;
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because sleep: ");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 35 && age <= 45) {
-                    if (heartRate > 83) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 76 && heartRate < 83) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -622,9 +1047,14 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
                                                 }
                                             });
 
@@ -638,7 +1068,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -648,7 +1084,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -671,21 +1113,203 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 83 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 45 && age <= 55) {
-                    if (heartRate > 84) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 77 && heartRate < 84) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -709,9 +1333,13 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -725,7 +1353,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -735,7 +1368,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -758,22 +1397,209 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
 
-                    } else {
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 55 && age <= 65) {
-                    if (heartRate > 82) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 76 && heartRate < 82) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -797,9 +1623,12 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -813,7 +1642,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -823,7 +1657,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -846,109 +1686,600 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
                 } else {
-                    if (heartRate > 80) {
+                    final int t = 0;
+                if (heartRate >= 74 && heartRate < 82) {
+                    level = 0;
+                    mRootRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.d("Debugging", "on Data change is running");
+                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                            final Boolean isJam = (Boolean) value.get("Traffic");
+                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+                            (new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean isStress = false;
+                                    long asSleep = 0;
+                                    try {
+                                        asSleep = data.getMinutesAsleep();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (asSleep < 400) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                imgMood.setImageResource(R.drawable.emo_level1);
+                                                Log.d(TAG, "Debugging stress because sleep: ");
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 1);
+                                                stressLevel.put("time", currentTime);
 
-                        String mood = "Normal";
-                        mRootRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Log.d("Debugging", "on Data change is running");
-                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
-                                final Boolean isJam = (Boolean) value.get("Traffic");
-                                Log.e(TAG, "onDataChange: isJam =" + isJam);
-                                (new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        boolean isStress = false;
-                                        long asSleep = 0;
-                                        try {
-                                            asSleep = data.getMinutesAsleep();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-                                        if (asSleep < 400) {
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                Log.d(TAG, "Debugging stress because : Nomal");
+                                            }
+                                        });
+
+                                        stressStr = "Stress";
+                                    }
+
+                                    if (btnSwitch.isChecked()) {
+                                        if (isJam) {
+                                            isStress = true;
+                                            stressStr = "Stress";
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(imgInt[1]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because Traffic: ");
                                                 }
                                             });
+                                        } else {
+                                            isStress = false;
+                                            stressStr = "Normal";
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
 
-                                            stressStr = "Stress";
+                                                    mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
+                                                }
+                                            });
                                         }
-
-                                        if (btnSwitch.isChecked()) {
-                                            if (isJam) {
-                                                isStress = true;
-                                                stressStr = "Stress";
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
-                                                        Log.d(TAG, "Debugging stress because Traffic: ");
-                                                    }
-                                                });
-                                            } else {
-                                                isStress = false;
-                                                stressStr = "Normal";
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
-
-                                        DatabaseReference process = mRootRef.child("process");
-                                        process.child("Stress").setValue(isStress);
-//                            process.child("Traffic").setValue(false);
                                     }
-                                })).start();
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("Debugging", "on Data change error");
-                                Log.e(TAG, "onCancelled: ", databaseError.toException());
-                            }
-                        });
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imgMood.setImageResource(imgInt[1]);
-                            }
-                        });
-                    }
-                    DatabaseReference process = mRootRef.child("process");
-                    process.child("HeartRate").setValue(heartRate);
+                                    Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                    DatabaseReference process = mRootRef.child("process");
+                                    process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                }
+                            })).start();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d("Debugging", "on Data change error");
+                            Log.e(TAG, "onCancelled: ", databaseError.toException());
+                        }
+                    });
                 }
+                else if (heartRate >= 82 && heartRate < 100) {
+                    level = 0;
+                    mRootRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.d("Debugging", "on Data change is running");
+                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                            final Boolean isJam = (Boolean) value.get("Traffic");
+                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+                            (new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean isStress = false;
+                                    long asSleep = 0;
+                                    try {
+                                        asSleep = data.getMinutesAsleep();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (asSleep < 400) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                imgMood.setImageResource(R.drawable.emo_level2);
+                                                Log.d(TAG, "Debugging stress because sleep: ");
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 2);
+                                                stressLevel.put("time", currentTime);
+
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                            }
+                                        });
+
+                                        stressStr = "Stress";
+                                    }
+
+                                    if (btnSwitch.isChecked()) {
+                                        if (isJam) {
+                                            isStress = true;
+                                            stressStr = "Stress";
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(imgInt[2]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because Traffic: ");
+                                                }
+                                            });
+                                        } else {
+                                            isStress = false;
+                                            stressStr = "Normal";
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                    DatabaseReference process = mRootRef.child("process");
+                                    process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                }
+                            })).start();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d("Debugging", "on Data change error");
+                            Log.e(TAG, "onCancelled: ", databaseError.toException());
+                        }
+                    });
+                }
+                else if (heartRate >= 100) {
+                    level = 0;
+                    mRootRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.d("Debugging", "on Data change is running");
+                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                            final Boolean isJam = (Boolean) value.get("Traffic");
+                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+                            (new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean isStress = false;
+                                    long asSleep = 0;
+                                    try {
+                                        asSleep = data.getMinutesAsleep();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (asSleep < 400) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                imgMood.setImageResource(R.drawable.emo_level3);
+                                                Log.d(TAG, "Debugging stress because sleep: ");
+                                                Map<String, Object> stressLevel = new HashMap<>();
+                                                stressLevel.put("level", 3);
+                                                stressLevel.put("time", currentTime);
+
+                                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                Log.d(TAG, "Debugging stress because : Nomal");
+
+                                            }
+                                        });
+
+                                        stressStr = "Stress";
+                                    }
+
+                                    if (btnSwitch.isChecked()) {
+                                        if (isJam) {
+                                            isStress = true;
+                                            stressStr = "Stress";
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(imgInt[3]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
+                                                    Log.d(TAG, "Debugging stress because Traffic: ");
+                                                }
+                                            });
+                                        } else {
+                                            isStress = false;
+                                            stressStr = "Normal";
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(imgInt[0]);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 0);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                    DatabaseReference process = mRootRef.child("process");
+                                    process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                }
+                            })).start();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.d("Debugging", "on Data change error");
+                            Log.e(TAG, "onCancelled: ", databaseError.toException());
+                        }
+                    });
+                }
+
+                else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imgMood.setImageResource(imgInt[0]);
+                            Map<String, Object> stressLevel = new HashMap<>();
+                            stressLevel.put("level", 0);
+                            stressLevel.put("time", currentTime);
+
+                            mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                            Log.d(TAG, "Debugging stress because : Nomal");
+                        }
+                    });
+                }
+                DatabaseReference process = mRootRef.child("process");
+                process.child("HeartRate").setValue(heartRate);
+            }
                 break;
             }
             case "woman": {
                 if (age >= 18 && age <= 25) {
+                    String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 74 && heartRate < 82) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Log.d(TAG, "debugging: assleep : "+asSleep);
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
 
-                    if (heartRate > 82) {
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
-                        String mood = "Normal";
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[1]);
+
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+                                                        imgMood.setImageResource(imgInt[0]);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "debugging: Normal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -972,7 +2303,102 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -988,7 +2414,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -998,7 +2429,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1021,20 +2458,28 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
                 } else if (age > 25 && age <= 35) {
-                    if (heartRate > 83) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 75 && heartRate < 82) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1058,9 +2503,14 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
                                                 }
                                             });
 
@@ -1074,7 +2524,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1084,7 +2539,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1107,21 +2568,210 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    t++;
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because sleep: ");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 35 && age <= 45) {
-                    if (heartRate > 85) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 76 && heartRate < 83) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1145,9 +2795,14 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    t++;
                                                 }
                                             });
 
@@ -1161,7 +2816,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1171,7 +2832,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1194,21 +2861,203 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 83 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 45 && age <= 55) {
-                    if (heartRate > 84) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 77 && heartRate < 84) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1232,9 +3081,13 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1248,7 +3101,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1258,7 +3116,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1281,22 +3145,209 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
 
-                    } else {
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
-
                 } else if (age > 55 && age <= 65) {
-                    if (heartRate > 84) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 76 && heartRate < 82) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1320,9 +3371,12 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
-                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");                                Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                 }
                                             });
 
@@ -1336,7 +3390,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1346,7 +3405,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1369,20 +3434,209 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
-                    } else {
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }
                     DatabaseReference process = mRootRef.child("process");
                     process.child("HeartRate").setValue(heartRate);
                 } else {
-                    if (heartRate > 84) {
-
-                        String mood = "Normal";
+                    final int t = 0;
+                    if (heartRate >= 74 && heartRate < 82) {
+                        level = 0;
                         mRootRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1406,9 +3660,14 @@ public class MainActivity extends AppCompatActivity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    imgMood.setImageResource(R.drawable.emo_desperate);
+                                                    imgMood.setImageResource(R.drawable.emo_level1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 1);
+                                                    stressLevel.put("time", currentTime);
 
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
                                                 }
                                             });
 
@@ -1422,7 +3681,12 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[0]);
+                                                        imgMood.setImageResource(imgInt[1]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 1);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -1432,7 +3696,13 @@ public class MainActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        imgMood.setImageResource(imgInt[1]);
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
                                                     }
                                                 });
                                             }
@@ -1455,14 +3725,202 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onCancelled: ", databaseError.toException());
                             }
                         });
+                    }
+                    else if (heartRate >= 82 && heartRate < 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level2);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 2);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[2]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 2);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
 
 
-//old
-                    } else {
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+                    else if (heartRate >= 100) {
+                        level = 0;
+                        mRootRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d("Debugging", "on Data change is running");
+                                Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                final Boolean isJam = (Boolean) value.get("Traffic");
+                                Log.e(TAG, "onDataChange: isJam =" + isJam);
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        boolean isStress = false;
+                                        long asSleep = 0;
+                                        try {
+                                            asSleep = data.getMinutesAsleep();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (asSleep < 400) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    imgMood.setImageResource(R.drawable.emo_level3);
+                                                    Log.d(TAG, "Debugging stress because sleep: ");
+                                                    Map<String, Object> stressLevel = new HashMap<>();
+                                                    stressLevel.put("level", 3);
+                                                    stressLevel.put("time", currentTime);
+
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    Log.d(TAG, "Debugging stress because : Nomal");
+
+                                                }
+                                            });
+
+                                            stressStr = "Stress";
+                                        }
+
+                                        if (btnSwitch.isChecked()) {
+                                            if (isJam) {
+                                                isStress = true;
+                                                stressStr = "Stress";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[3]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 3);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                        Log.d(TAG, "Debugging stress because Traffic: ");
+                                                    }
+                                                });
+                                            } else {
+                                                isStress = false;
+                                                stressStr = "Normal";
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        imgMood.setImageResource(imgInt[0]);
+                                                        Map<String, Object> stressLevel = new HashMap<>();
+                                                        stressLevel.put("level", 0);
+                                                        stressLevel.put("time", currentTime);
+
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        Log.d(TAG, "Debugging stress because : Nomal");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                        DatabaseReference process = mRootRef.child("process");
+                                        process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                    }
+                                })).start();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("Debugging", "on Data change error");
+                                Log.e(TAG, "onCancelled: ", databaseError.toException());
+                            }
+                        });
+                    }
+
+                    else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imgMood.setImageResource(imgInt[1]);
+                                imgMood.setImageResource(imgInt[0]);
+                                Map<String, Object> stressLevel = new HashMap<>();
+                                stressLevel.put("level", 0);
+                                stressLevel.put("time", currentTime);
+
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
                     }

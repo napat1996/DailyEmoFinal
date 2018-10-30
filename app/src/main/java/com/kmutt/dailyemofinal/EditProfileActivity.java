@@ -98,7 +98,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             mRootRef.child(user.getUsername()).setValue(user);
                             Toast.makeText(EditProfileActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
 
-                            mUsername = inputUsername.toString();
+                            mUsername = inputUsername.getText().toString();
                             SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username", mUsername);
