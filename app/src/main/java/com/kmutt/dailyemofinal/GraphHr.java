@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -62,6 +63,7 @@ public class GraphHr extends AppCompatActivity {
     DatabaseReference mRootRef, users;
     FirebaseDatabase database;
     Button btnHome, btnProfile, btnResult, btnSuggesstion;
+    TextView txtDay1, txtDay2, txtDay3, txtDay4, txtDay5, txtDay6, txtDay7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,14 @@ public class GraphHr extends AppCompatActivity {
 //        dateTimeRef.child("Heartrate").setValue(false);
         //mChart = (BarChart) findViewById(R.id.barchart_hr);
 
+
+        txtDay1 = findViewById(R.id.day1);
+        txtDay2 = findViewById(R.id.day2);
+        txtDay3 = findViewById(R.id.day3);
+        txtDay4 = findViewById(R.id.day4);
+        txtDay5 = findViewById(R.id.day5);
+        txtDay6 = findViewById(R.id.day6);
+        txtDay7 = findViewById(R.id.day7);
 
         //****LINECHART*****
         mChart0 = findViewById(R.id.linechart_hr);
@@ -272,6 +282,8 @@ public class GraphHr extends AppCompatActivity {
                 xData0.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData0.setValueFormatter(formatter0);
 
+                txtDay1.setText(today);
+
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
                 String dateBeforeString = year+"-"+month+"-"+day;
@@ -324,6 +336,8 @@ public class GraphHr extends AppCompatActivity {
                 xData1.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData1.setValueFormatter(formatter1);
 
+                txtDay1.setText(dateBeforeString);
+
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
                 dateBeforeString = year+"-"+month+"-"+day;
@@ -375,6 +389,8 @@ public class GraphHr extends AppCompatActivity {
                 xData2.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData2.setValueFormatter(formatter2);
 
+                txtDay2.setText(dateBeforeString);
+
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
 
@@ -424,6 +440,8 @@ public class GraphHr extends AppCompatActivity {
                 XAxis xData3 = mChart3.getXAxis();
                 xData3.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData3.setValueFormatter(formatter3);
+
+                txtDay3.setText(dateBeforeString);
 
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
@@ -475,6 +493,8 @@ public class GraphHr extends AppCompatActivity {
                 xData4.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData4.setValueFormatter(formatter4);
 
+                txtDay4.setText(dateBeforeString);
+
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
 
@@ -524,6 +544,8 @@ public class GraphHr extends AppCompatActivity {
                 XAxis xData5 = mChart5.getXAxis();
                 xData5.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData5.setValueFormatter(formatter5);
+
+                txtDay5.setText(dateBeforeString);
 
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
@@ -576,6 +598,8 @@ public class GraphHr extends AppCompatActivity {
                 xData6.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData6.setValueFormatter(formatter6);
 
+                txtDay6.setText(dateBeforeString);
+
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
 
@@ -626,6 +650,8 @@ public class GraphHr extends AppCompatActivity {
                 XAxis xData7 = mChart7.getXAxis();
                 xData7.setGranularity(10f); // minimum axis-step (interval) is 5
                 xData7.setValueFormatter(formatter7);
+
+                txtDay7.setText(dateBeforeString);
 
             }
 
