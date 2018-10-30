@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
-    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept, txtUsername;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentDate);
         //End the currentDate
 
-                DatabaseReference process = mRootRef.child("process");
+        DatabaseReference process = mRootRef.child("process");
         process.child("Traffic").setValue(false);
         process.child("Stress").setValue(false);
 
@@ -170,6 +170,28 @@ public class MainActivity extends AppCompatActivity {
 ////
 ////        startTracking();
 
+        txtUsername = findViewById(R.id.text_name);
+
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
+
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot snapshot = dataSnapshot.child("username:");
+                String name = snapshot.getValue().toString();
+                txtUsername.setText(name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+//
+
+
         imgMood = findViewById(R.id.img_mood);
         imgMood.setImageResource(imgInt[1]);
 
@@ -177,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
 
         btnSleep = findViewById(R.id.buttom_sleep);
 
-        btnStep = findViewById(R.id.buttom_step);
         txtStept = findViewById(R.id.text_steps);
 //                            txtActivity.setText(activity);
 
@@ -204,15 +225,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnStep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("go to step graph page");
-                Intent myIntent = new Intent(getApplicationContext(), HomelinkStep.class);
-                startActivity(myIntent);
-
-            }
-        });
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,6 +291,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FitbitData data = new FitbitData();
+                DatabaseService db = new DatabaseService();
+                try {
+                    data.upAllHeartRateTimeToDB();
+                    db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        })).start();
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -304,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
                             Log.e(TAG, "onCreateView: sleep : " + sleepMinute);
                             try {
                                 db.updateHeartRatetoDB(getApplicationContext().getApplicationContext());
-                                db.updateSleepDataToDB(getApplicationContext().getApplicationContext());
                                 db.updateSteptoDB(getApplicationContext().getApplicationContext());
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -317,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
                             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
                             //ขอ permission โทรศัพท์
                             getLocationPermission();
-                    data.upAllHeartRateTimeToDB();
+
 
 
                             runOnUiThread(new Runnable() {
@@ -721,7 +747,7 @@ public class MainActivity extends AppCompatActivity {
                                 stressLevel.put("level", 0);
                                 stressLevel.put("time", currentTime);
 
-                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                 Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });
@@ -2469,7 +2495,7 @@ public class MainActivity extends AppCompatActivity {
                                 stressLevel.put("level", 0);
                                 stressLevel.put("time", currentTime);
 
-                                mRootRef.child("DateTime").child("StressLevel").push().setValue(stressLevel);
+                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
                                 Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });

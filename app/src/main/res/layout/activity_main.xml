@@ -89,7 +89,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="290dp"
             android:layout_toStartOf="@+id/text_name"
-            android:text="50"
+            android:text="--"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/main_text2"
@@ -123,7 +123,7 @@
             android:layout_alignTop="@+id/heart_rate"
             android:layout_gravity="center"
             android:layout_toEndOf="@+id/text_name"
-            android:text="238"
+            android:text="--"
             android:textAlignment="center"
             android:textColor="@color/main_text2"
             android:textSize="20sp" />
@@ -219,7 +219,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="THASVARIN T."
+            android:text="username"
             android:textColor="@color/text"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -350,14 +350,7 @@
             android:textOff="Off"
             android:textOn="On" />
 
-        <Button
-            android:id="@+id/buttom_step"
-            android:layout_width="31dp"
-            android:layout_height="36dp"
 
-
-            android:layout_alignEnd="@+id/text_goal_sleep"
-            android:text="Button" />
         <!--<FrameLayout-->
         <!--android:id="@+id/flcontent"-->
         <!--android:layout_width="match_parent"-->

@@ -22,17 +22,19 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-05/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-05.json";
-    private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-10-05/1d.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/today/1d/5min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/today.json";
+    private static final String URL_STEPS = "/1/user/-/activities/steps/date/today/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNTc5OTg0LCJpYXQiOjE1NDA1NTExODR9.l-p3kezSFLZDqDCJv99Ap4Rcs2-FrI8xx7kf8lGT2kY";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwOTMwMTE3LCJpYXQiOjE1NDA5MDEzMTd9.adlmR8lUQ9oX2s6uMiOHpeHJvmqDjf9tTrsMmXGlyNY";
     FirebaseDatabase database;
     DatabaseReference mRootRef;
     java.util.Calendar calendar = Calendar.getInstance();
@@ -87,6 +89,8 @@ public class FitbitData {
         JSONArray dataset = (JSONArray) activities.get("dataset");
         Log.d(TAG, "Debuggung: in size" + dataset.size());
         int i = 0;
+        int lv1 = 0, lv2 = 0, lv3 = 0, lv0 = 0;
+        int high = 0, low = 0;
         while(i<dataset.size()-1){
             Log.d(TAG, "Debuggung: in while");
             JSONObject datasetObject = (JSONObject) dataset.get(i);
@@ -101,20 +105,66 @@ public class FitbitData {
             DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
             heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 
-            if(heartRateValue > 100){
-                more++;
-            }
-            else{
-                less++;
-            }
-            heartRateDate.child("HeartRate").child("High").setValue(more);
-            heartRateDate.child("HeartRate").child("Low").setValue(less);
+//            if (heartRateValue >= 74 && heartRateValue < 82) {
+//                Map<String, Object> stressLevel = new HashMap<>();
+//                stressLevel.put("level", 1);
+//                stressLevel.put("time", heartRateTime);
+//                 heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                 lv1++;
+//                 heartRateDate.child("StressLevel").child("Level1").setValue(lv1);
+//                 low++;
+//                 heartRateDate.child("HeartRate").child("Low").setValue(low);
+//            }
+//            else if (heartRateValue >= 82 && heartRateValue < 100) {
+//                Map<String, Object> stressLevel = new HashMap<>();
+//                stressLevel.put("level", 2);
+//                stressLevel.put("time", heartRateTime);
+//                heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//                lv2++;
+//                heartRateDate.child("StressLevel").child("Level2").setValue(lv2);
+//                high++;
+//                heartRateDate.child("HeartRate").child("High").setValue(low);
+//            }
+//                else if(heartRateValue > 100){
+//                Map<String, Object> stressLevel = new HashMap<>();
+//                stressLevel.put("level", 3);
+//                stressLevel.put("time", heartRateTime);
+//
+//                heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                lv3++;
+//                heartRateDate.child("StressLevel").child("Level3").setValue(lv3);
+//                high++;
+//                heartRateDate.child("HeartRate").child("High").setValue(low);
+//            }
+//            else{
+//                Map<String, Object> stressLevel = new HashMap<>();
+//                stressLevel.put("level", 0);
+//                stressLevel.put("time", heartRateTime);
+//
+//                heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//
+//                lv0++;
+//                heartRateDate.child("StressLevel").child("Level0").setValue(lv0);
+//                low++;
+//                heartRateDate.child("HeartRate").child("Low").setValue(low);
+//            }
 
+            if(heartRateValue>100){
+                high++;
+                heartRateDate.child("HeartRate").child("Low").setValue(high);
+            }
+            else {
+                low++;
+                heartRateDate.child("HeartRate").child("Low").setValue(low);
+            }
             Log.d(TAG, "updateHeartRatetoDB: "+date+ " Time : " + heartRateTime + " : " + heartRateValue);
             i++;
         }
 
     }
+
 
 
     public long getMinutesAsleep() throws IOException, ParseException {

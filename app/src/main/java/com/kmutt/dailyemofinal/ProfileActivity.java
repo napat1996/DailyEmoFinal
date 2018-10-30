@@ -39,10 +39,10 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
 
 //    private static final String API_PREFIX = "https://api.fitbit.com";
-//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-18/1d/5min/time/00:00/23:59.json";
-//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-18.json";
+//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-29/1d/5min/time/00:00/23:59.json";
+//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-29.json";
 //    private static final String AUTHORIZATION = "Authorization";
-//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNzQ4Nzg3LCJpYXQiOjE1NDA3MTk5ODd9.K1aPl3D9k7f-Nn_vpYALvJoEAzVqSy6uX-C1h35eGOY";
+//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQxNDI5Mzk3LCJpYXQiOjE1NDA4MjQ1OTd9.0JAIYRltWgGFNwr9ygDOScVuC5kBwEJ_oxuIUC_x59Y";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -101,17 +101,17 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-//        /////////////ADD DATA TO FIREBASE////////////
+        /////////////ADD DATA TO FIREBASE////////////
 //        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
 //        String username = preferences.getString("username", "tk");
-//
+
 //        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/tk";
 //        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
 //        database = FirebaseDatabase.getInstance();
 //        mRootRef = database.getReferenceFromUrl(firebaseUrl);
 //        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-//
-//
+//        dateTimeRef.child("2018-10-29").removeValue();
+
 //        (new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -150,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-10-28");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-10-29");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
@@ -210,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-10-28");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-10-29");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //
