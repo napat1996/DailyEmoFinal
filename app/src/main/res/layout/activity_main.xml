@@ -351,35 +351,7 @@
             android:textOn="On" />
 
 
-        <!--<FrameLayout-->
-        <!--android:id="@+id/flcontent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-
-        <!--</FrameLayout>-->
-
-        <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/main_nav"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="57sp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="@color/white"-->
-        <!--app:itemIconTint="@color/front"-->
-        <!--app:itemTextColor="@color/front"-->
-        <!--app:menu="@menu/buttom_nav">-->
-
-        <!--</android.support.design.widget.BottomNavigationView>-->
-
     </RelativeLayout>
-
-
-
-
-
-
-
- <!--delete-->
 
 
 </android.support.v4.widget.DrawerLayout>
