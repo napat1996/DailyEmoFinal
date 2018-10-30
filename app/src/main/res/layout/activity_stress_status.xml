@@ -21,7 +21,7 @@
       android:text="Stress Level"
       android:layout_gravity="center"
       android:textAlignment="center"
-      android:textSize="30sp"
+      android:textSize="28sp"
       android:textColor="#FFFF"
 
       />
@@ -33,14 +33,43 @@
 
     </com.github.mikephil.charting.charts.PieChart>
 
-    <!--<com.github.mikephil.charting.charts.BarChart-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="270dp"-->
-        <!--android:id="@+id/stresschart">-->
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/pieChart1">
+    </com.github.mikephil.charting.charts.PieChart>
 
-    <!--</com.github.mikephil.charting.charts.BarChart>-->
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart2">
+        </com.github.mikephil.charting.charts.PieChart>
 
-
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart3">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart4">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart5">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart6">
+        </com.github.mikephil.charting.charts.PieChart>
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/pieChart7">
+        </com.github.mikephil.charting.charts.PieChart>
 
 
     </LinearLayout>
