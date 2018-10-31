@@ -129,7 +129,8 @@ public class GraphSleep extends AppCompatActivity {
         set1.setDrawIcons(false);
         set1.setColors(getColors());
         set1.setStackLabels(new String[]{"Higher", "Normal"});
-        set1.setColors(ColorTemplate.PASTEL_COLORS);
+//        set1.setColors(ColorTemplate.PASTEL_COLORS);
+        set1.setColor(Color.rgb(36,71,143));
 
 
         BarData data = new BarData(set1);
