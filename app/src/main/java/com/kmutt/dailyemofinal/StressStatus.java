@@ -56,7 +56,7 @@ public class StressStatus extends AppCompatActivity {
 
         mChart1.setUsePercentValues(true);
         mChart1.getDescription().setEnabled(false);
-        mChart1.setDrawHoleEnabled(true);
+        mChart1.setDrawHoleEnabled(false);
         mChart1.setCenterTextOffset(0, -20);
 //        mChart1.setMaxAngle(180);
 //        mChart1.setRotationAngle(180);

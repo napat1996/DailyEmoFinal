@@ -125,6 +125,7 @@ public class GraphSleep extends AppCompatActivity {
                 Date dateInstance = new Date();
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dateInstance);
+                cal.add(Calendar.DATE,-3);
                 Integer day = cal.get(Calendar.DATE);
                 Integer month = cal.get(Calendar.MONTH) + 1;
                 Integer year = cal.get(Calendar.YEAR);

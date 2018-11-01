@@ -5,9 +5,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarActivity"
-    android:background="#F0F0F0"    >
+    tools:context=".StressStatus">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#e1d6ce"
+                android:text="Stress Level"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="28sp"
+                android:textColor="#FFFF"
+
+                />
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:id="@+id/pieChart"
+                android:background="#e1d6ce">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s1"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:text="DD-MM-YYYY"
+                android:textColor="@color/text"
+                android:textSize="10sp"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart1">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s2"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:textSize="10sp"
+                android:textColor="@color/text"
+                android:text="DD-MM-YYYY"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart2">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s3"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:textColor="@color/text"
+                android:text="DD-MM-YYYY"
+                android:textSize="10sp"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart3">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s4"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:textSize="10sp"
+                android:textColor="@color/text"
+                android:text="DD-MM-YYYY"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart4">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s5"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:text="DD-MM-YYYY"
+                android:textColor="@color/text"
+                android:textSize="10sp"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart5">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s6"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:textSize="10sp"
+                android:textColor="@color/text"
+                android:text="DD-MM-YYYY"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart6">
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/day_s7"
+                android:layout_width="match_parent"
+                android:layout_height="13sp"
+                android:textColor="@color/text"
+                android:textSize="10sp"
+                android:text="DD-MM-YYYY"
+                />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/pieChart7">
+            </com.github.mikephil.charting.charts.PieChart>
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,109 +146,41 @@
         <Button
             android:id="@+id/btn_home"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="27sp"
-            android:background="@drawable/menu_daily" />
+            android:background="@drawable/ihome" />
 
         <Button
             android:id="@+id/btn_summary"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="110sp"
-            android:background="@drawable/dash" />
+            android:layout_marginStart="129dp"
+            android:background="@drawable/igraph" />
 
         <Button
             android:id="@+id/btn_suggestion"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="110sp"
-            android:background="@drawable/line" />
+            android:layout_marginEnd="127dp"
+            android:background="@drawable/isus2" />
 
         <Button
-
             android:id="@+id/btn_profile"
             android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
             android:layout_marginEnd="27sp"
-            android:background="@drawable/user1" />
-        <!--end nav bar-->
+            android:background="@drawable/iperson" />
+
     </RelativeLayout>
 
-
-
-            <!--<ImageView-->
-                <!--android:layout_width="341sp"-->
-                <!--android:layout_height="344dp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:background="@drawable/calen" />-->
-
-
-    <!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
-        <!--android:id="@+id/calendarVieww"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="340dp"-->
-        <!--app:mcv_arrowColor="@color/main_text2"-->
-        <!--app:mcv_selectionColor="@color/main_text"-->
-        <!--app:mcv_showOtherDates="defaults">-->
-
-    <!--</com.prolificinteractive.materialcalendarview.MaterialCalendarView>-->
-
-    <!--<com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/compactcalendar_view"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="283dp"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginTop="35dp"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingRight="10dp"-->
-        <!--app:compactCalendarBackgroundColor="#ffe95451"-->
-        <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
-        <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
-        <!--app:compactCalendarDisplayOtherMonthDays="true"-->
-        <!--app:compactCalendarMultiEventIndicatorColor="#fff"-->
-        <!--app:compactCalendarTargetHeight="250dp"-->
-        <!--app:compactCalendarTextColor="#fff"-->
-        <!--app:compactCalendarTextSize="12sp" />-->
-
-
-    <TextView
-        android:id="@+id/isStress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="126dp"
-        android:text="---"
-        android:textColor="@color/main_text2"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-    <com.github.mikephil.charting.charts.PieChart
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-    </com.github.mikephil.charting.charts.PieChart>
-
-    <!--<TextView-->
-        <!--android:id="@+id/textmood"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginBottom="169dp"-->
-        <!--android:layout_marginStart="40dp"-->
-        <!--android:text="MOOD:"-->
-        <!--android:textColor="#948d8d"-->
-        <!--android:textSize="20sp"-->
-        <!--android:textStyle="bold" />-->
 
 
 </RelativeLayout>

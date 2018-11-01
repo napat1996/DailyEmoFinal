@@ -452,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isJam = false;
         final FitbitData data = new FitbitData();
 
-        int level = 0;
+        int level = 0, lv1=0, lv2=0, lv3=0, lv0 =0;
         int age = 20;
         String sex = "man";
         long heartRate = data.getHeartRateValue();
@@ -495,8 +495,11 @@ public class MainActivity extends AppCompatActivity {
                                                     stressLevel.put("level", 1);
                                                     stressLevel.put("time", currentTime);
 
-                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level1").setValue(1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    lv1++;
+
                                                 }
                                             });
 
@@ -516,7 +519,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("level", 1);
                                                         stressLevel.put("time", currentTime);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level1").setValue(1);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -531,7 +535,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("time", currentTime);
                                                         imgMood.setImageResource(imgInt[0]);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(1);
                                                         Log.d(TAG, "debugging: Normal");
                                                     }
                                                 });
@@ -586,7 +591,8 @@ public class MainActivity extends AppCompatActivity {
                                                     stressLevel.put("level", 2);
                                                     stressLevel.put("time", currentTime);
 
-                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level2").setValue(1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 //                                                    t++;
                                                 }
@@ -607,7 +613,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("level", 2);
                                                         stressLevel.put("time", currentTime);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level2").setValue(1);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -622,7 +629,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("level", 0);
                                                         stressLevel.put("time", currentTime);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(1);
                                                         Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
@@ -676,7 +684,8 @@ public class MainActivity extends AppCompatActivity {
                                                     stressLevel.put("level", 3);
                                                     stressLevel.put("time", currentTime);
 
-                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                    mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level3").setValue(1);
                                                     Log.d(TAG, "Debugging stress because sleep: ");
 
                                                 }
@@ -697,7 +706,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("level", 3);
                                                         stressLevel.put("time", currentTime);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level3").setValue(1);
                                                         Log.d(TAG, "Debugging stress because Traffic: ");
                                                     }
                                                 });
@@ -712,7 +722,8 @@ public class MainActivity extends AppCompatActivity {
                                                         stressLevel.put("level", 0);
                                                         stressLevel.put("time", currentTime);
 
-                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                                        mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                                        mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(120);
                                                         Log.d(TAG, "Debugging: stress because : Nomal");
                                                     }
                                                 });
@@ -747,7 +758,8 @@ public class MainActivity extends AppCompatActivity {
                                 stressLevel.put("level", 0);
                                 stressLevel.put("time", currentTime);
 
-                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+//                                mRootRef.child("DateTime").child(today).child("StressLevel").push().setValue(stressLevel);
+                                mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(150);
                                 Log.d(TAG, "Debugging stress because : Nomal");
                             }
                         });

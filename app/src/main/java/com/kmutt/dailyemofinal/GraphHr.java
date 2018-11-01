@@ -228,8 +228,8 @@ public class GraphHr extends AppCompatActivity {
                 Integer day = cal.get(Calendar.DATE);
                 Integer month = cal.get(Calendar.MONTH) + 1;
                 Integer year = cal.get(Calendar.YEAR);
-                String today =  year+"-"+month+"-"+day;
-
+//                String today =  year+"-"+month+"-"+day;
+                String today = "2018-10-29";
 //                Date d = new Date();
 //                int day = d.getDay();
 //                int month = d.getMonth();
@@ -284,7 +284,7 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay1.setText(today);
 
-                cal.add(Calendar.DATE, -1);
+                cal.add(Calendar.DATE, -3);
                 day = cal.get(Calendar.DATE);
                 String dateBeforeString = year+"-"+month+"-"+day;
 

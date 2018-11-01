@@ -38,11 +38,11 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
     TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
 
-//    private static final String API_PREFIX = "https://api.fitbit.com";
-//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-29/1d/5min/time/00:00/23:59.json";
-//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-29.json";
-//    private static final String AUTHORIZATION = "Authorization";
-//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQxNDI5Mzk3LCJpYXQiOjE1NDA4MjQ1OTd9.0JAIYRltWgGFNwr9ygDOScVuC5kBwEJ_oxuIUC_x59Y";
+    private static final String API_PREFIX = "https://api.fitbit.com";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-29/1d/5min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-29.json";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQxNDI5Mzk3LCJpYXQiOjE1NDA4MjQ1OTd9.0JAIYRltWgGFNwr9ygDOScVuC5kBwEJ_oxuIUC_x59Y";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
