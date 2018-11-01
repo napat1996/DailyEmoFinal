@@ -126,6 +126,7 @@ public class GraphHr extends AppCompatActivity {
         upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         upper_limit.setTextSize(15f);
 
+
         LimitLine lower_limit = new LimitLine(45f, "Too low");
         upper_limit.setLineWidth(4f);
         upper_limit.enableDashedLine(10f, 10f, 0f);
@@ -267,10 +268,10 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set0 = new LineDataSet(yValues0, "Data Set 0");
 //                set1.setFillAlpha(110);
 
-                set0.setColor(Color.BLUE);
+                set0.setColor(Color.rgb(36,71,143));
                 set0.setLineWidth(3f);
                 set0.setValueTextSize(10f);
-                set0.setValueTextColor(Color.GREEN);
+                set0.setValueTextColor(Color.rgb(255,255,255));
 
                 ArrayList<ILineDataSet> dataSets0 = new ArrayList<>();
                 dataSets0.add(set0);
@@ -320,10 +321,10 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set1 = new LineDataSet(yValues1, "Data Set 1");
 //                set1.setFillAlpha(110);
 
-                set1.setColor(Color.BLUE);
+                set1.setColor(Color.rgb(36,71,143));
                 set1.setLineWidth(3f);
                 set1.setValueTextSize(10f);
-                set1.setValueTextColor(Color.GREEN);
+                set1.setValueTextColor(Color.rgb(161,134,116));
 
                 ArrayList<ILineDataSet> dataSets1 = new ArrayList<>();
                 dataSets1.add(set1);
@@ -373,10 +374,10 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set2 = new LineDataSet(yValues2, "Data Set 2");
 //                set1.setFillAlpha(110);
 
-                set2.setColor(Color.BLUE);
+                set2.setColor(Color.rgb(36,71,143));
                 set2.setLineWidth(3f);
                 set2.setValueTextSize(10f);
-                set2.setValueTextColor(Color.GREEN);
+                set2.setValueTextColor(Color.rgb(161,134,161));
 
                 ArrayList<ILineDataSet> dataSets2 = new ArrayList<>();
                 dataSets2.add(set2);
@@ -425,10 +426,11 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set3 = new LineDataSet(yValues3, "Data Set 3");
 //                set1.setFillAlpha(110);
 
-                set3.setColor(Color.BLUE);
+
                 set3.setLineWidth(3f);
                 set3.setValueTextSize(10f);
-                set3.setValueTextColor(Color.GREEN);
+                set3.setValueTextColor(Color.rgb(161,134,161));
+                set3.setColor(Color.rgb(36,71,143));
 
                 ArrayList<ILineDataSet> dataSets3 = new ArrayList<>();
                 dataSets3.add(set3);
@@ -477,10 +479,11 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set4 = new LineDataSet(yValues4, "Data Set 4");
 //                set1.setFillAlpha(110);
 
-                set4.setColor(Color.BLUE);
+
                 set4.setLineWidth(3f);
                 set4.setValueTextSize(10f);
-                set4.setValueTextColor(Color.GREEN);
+                set4.setValueTextColor(Color.rgb(161,134,161));
+                set4.setColor(Color.rgb(36,71,143));
 
                 ArrayList<ILineDataSet> dataSets4 = new ArrayList<>();
                 dataSets4.add(set4);
@@ -529,10 +532,11 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set5 = new LineDataSet(yValues5, "Data Set 5");
 //                set1.setFillAlpha(110);
 
-                set5.setColor(Color.BLUE);
+
                 set5.setLineWidth(3f);
                 set5.setValueTextSize(10f);
-                set5.setValueTextColor(Color.GREEN);
+                set5.setValueTextColor(Color.rgb(161,134,161));
+                set5.setColor(Color.rgb(36,71,143));
 
                 ArrayList<ILineDataSet> dataSets5 = new ArrayList<>();
                 dataSets5.add(set5);
@@ -582,10 +586,11 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set6 = new LineDataSet(yValues6, "Data Set 6");
 //                set1.setFillAlpha(110);
 
-                set6.setColor(Color.BLUE);
+
                 set6.setLineWidth(3f);
                 set6.setValueTextSize(10f);
-                set6.setValueTextColor(Color.GREEN);
+                set6.setValueTextColor(Color.rgb(161,134,161));
+                set6.setColor(Color.rgb(36,71,143));
 
                 ArrayList<ILineDataSet> dataSets6 = new ArrayList<>();
                 dataSets6.add(set6);
@@ -635,10 +640,10 @@ public class GraphHr extends AppCompatActivity {
                 LineDataSet set7 = new LineDataSet(yValues7, "Data Set 7");
 //                set1.setFillAlpha(110);
 
-                set7.setColor(Color.BLUE);
                 set7.setLineWidth(3f);
                 set7.setValueTextSize(10f);
-                set7.setValueTextColor(Color.GREEN);
+                set7.setValueTextColor(Color.rgb(161,134,161));
+                set7.setColor(Color.rgb(36,71,143));
 
                 ArrayList<ILineDataSet> dataSets7 = new ArrayList<>();
                 dataSets7.add(set7);
