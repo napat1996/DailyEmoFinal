@@ -58,50 +58,50 @@ public class StressStatus extends AppCompatActivity {
         mChart1.getDescription().setEnabled(false);
         mChart1.setDrawHoleEnabled(false);
         mChart1.setCenterTextOffset(0, -20);
-//        mChart1.setMaxAngle(180);
-//        mChart1.setRotationAngle(180);
+        mChart1.setMaxAngle(180);
+        mChart1.setRotationAngle(180);
 
         mChart2.setUsePercentValues(true);
         mChart2.getDescription().setEnabled(false);
-        mChart2.setDrawHoleEnabled(true);
+        mChart2.setDrawHoleEnabled(false);
         mChart2.setCenterTextOffset(0, -20);
-//        mChart2.setMaxAngle(180);
-//        mChart2.setRotationAngle(180);
+        mChart2.setMaxAngle(180);
+        mChart2.setRotationAngle(180);
 
         mChart3.setUsePercentValues(true);
         mChart3.getDescription().setEnabled(false);
-        mChart3.setDrawHoleEnabled(true);
+        mChart3.setDrawHoleEnabled(false);
         mChart3.setCenterTextOffset(0, -20);
-//        mChart3.setMaxAngle(180);
-//        mChart3.setRotationAngle(180);
+        mChart3.setMaxAngle(180);
+        mChart3.setRotationAngle(180);
 
         mChart4.setUsePercentValues(true);
         mChart4.getDescription().setEnabled(false);
-        mChart4.setDrawHoleEnabled(true);
+        mChart4.setDrawHoleEnabled(false);
         mChart4.setCenterTextOffset(0, -20);
-//        mChart4.setMaxAngle(180);
-//        mChart4.setRotationAngle(180);
+        mChart4.setMaxAngle(180);
+        mChart4.setRotationAngle(180);
 
         mChart5.setUsePercentValues(true);
         mChart5.getDescription().setEnabled(false);
-        mChart5.setDrawHoleEnabled(true);
+        mChart5.setDrawHoleEnabled(false);
         mChart5.setCenterTextOffset(0, -20);
-//        mChart5.setMaxAngle(180);
-//        mChart5.setRotationAngle(180);
+        mChart5.setMaxAngle(180);
+        mChart5.setRotationAngle(180);
 
         mChart6.setUsePercentValues(true);
         mChart6.getDescription().setEnabled(false);
-        mChart6.setDrawHoleEnabled(true);
+        mChart6.setDrawHoleEnabled(false);
         mChart6.setCenterTextOffset(0, -20);
-//        mChart6.setMaxAngle(180);
-//        mChart6.setRotationAngle(180);
+        mChart6.setMaxAngle(180);
+        mChart6.setRotationAngle(180);
 
         mChart7.setUsePercentValues(true);
         mChart7.getDescription().setEnabled(false);
-        mChart7.setDrawHoleEnabled(true);
+        mChart7.setDrawHoleEnabled(false);
         mChart7.setCenterTextOffset(0, -20);
-//        mChart7.setMaxAngle(180);
-//        mChart7.setRotationAngle(180);
+        mChart7.setMaxAngle(180);
+        mChart7.setRotationAngle(180);
 
 
 
@@ -200,6 +200,7 @@ public class StressStatus extends AppCompatActivity {
     }
 
 
+
     String[] stress = new String[]{"level1", "level2","level3","level4"};
 
     private void setData(int count, int range) {
@@ -216,6 +217,16 @@ public class StressStatus extends AppCompatActivity {
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(15f);
         data.setValueTextColor(Color.WHITE);
+
+
+        // สีแต่ละอันในพาย
+        final int[] MY_COLORS = {   Color.rgb(132,139,91),
+                                    Color.rgb(230,197,112),
+                                    Color.rgb(232,153,74),
+                                    Color.rgb(197,95,78), };
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        for(int c: MY_COLORS) colors.add(c);
+        dataSet.setColors(colors);
 
         mChart.setData(data);
         mChart.invalidate();
@@ -239,6 +250,10 @@ public class StressStatus extends AppCompatActivity {
         data.setValueTextSize(15f);
         data.setValueTextColor(Color.WHITE);
 
+
+
+
+
         mChart1.setData(data);
         mChart1.invalidate();
     }
@@ -255,6 +270,7 @@ public class StressStatus extends AppCompatActivity {
         dataSet.setSelectionShift(5f);
         dataSet.setSliceSpace(3f); //เส้นห่างระหว่างตัวแบ่ง
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(15f);
