@@ -25,13 +25,13 @@
       android:textColor="#FFFF"
 
       />
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:id="@+id/pieChart"
         android:background="#e1d6ce">
 
-    </com.github.mikephil.charting.charts.PieChart>
+    </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:layout_width="match_parent"
@@ -52,11 +52,11 @@
         android:textColor="@color/text"
         android:textSize="10sp"/>
 
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id="@+id/pieChart1">
-    </com.github.mikephil.charting.charts.PieChart>
+    </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s2"
@@ -66,11 +66,11 @@
             android:textColor="@color/text"
             android:text="DD-MM-YYYY"/>
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart2">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s3"
@@ -80,11 +80,11 @@
             android:text="DD-MM-YYYY"
             android:textSize="10sp"/>
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart3">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s4"
@@ -94,11 +94,11 @@
             android:textColor="@color/text"
             android:text="DD-MM-YYYY"/>
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart4">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s5"
@@ -108,11 +108,11 @@
             android:textColor="@color/text"
             android:textSize="10sp"/>
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart5">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s6"
@@ -122,11 +122,11 @@
             android:textColor="@color/text"
             android:text="DD-MM-YYYY"/>
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart6">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:id="@+id/day_s7"
@@ -137,11 +137,11 @@
             android:text="DD-MM-YYYY"
             />
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/pieChart7">
-        </com.github.mikephil.charting.charts.PieChart>
+        </com.github.mikephil.charting.charts.LineChart>
 
 
     </LinearLayout>
