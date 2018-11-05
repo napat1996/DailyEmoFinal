@@ -355,7 +355,7 @@ public class StressStatus extends AppCompatActivity {
         ArrayList<PieEntry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) ((Math.random() * range) + range / 5);
-            values.add(new PieEntry(val, stress7[i]));
+            values.add(new PieEntry(val, qstress7[i]));
         }
         PieDataSet dataSet = new PieDataSet(values, "Partner ");
         dataSet.setSelectionShift(5f);

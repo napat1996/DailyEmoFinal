@@ -32,7 +32,7 @@
         <activity android:name=".GraphTaffic" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MainActivity" />
+        <!--<activity android:name=".MainActivity" />-->
         <activity android:name=".SuggestionBackgroundActivity" />
         <!--<activity android:name=".CalendarActivity" />-->
         <!--<activity android:name=".StressStatus" />-->
