@@ -5,235 +5,293 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity"
-    android:background="@color/white">
+    android:background="#f9f8f7">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45sp"
+        android:layout_height="40sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="#e2e2e2">
 
         <Button
             android:id="@+id/btn_home"
-            android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_width="33dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="27sp"
-            android:background="@drawable/menu_daily" />
+            android:layout_marginStart="40dp"
+            android:background="@drawable/ho" />
 
         <Button
             android:id="@+id/btn_summary"
-            android:layout_width="50sp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_width="33sp"
+            android:layout_height="30sp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="110sp"
-            android:background="@drawable/dash" />
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="65dp"
+            android:background="@drawable/statistics" />
 
         <Button
             android:id="@+id/btn_suggestion"
-            android:layout_width="50sp"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_width="33sp"
+            android:layout_height="29dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="110sp"
-            android:background="@drawable/line" />
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="65dp"
+            android:background="@drawable/iiii" />
 
         <Button
             android:id="@+id/btn_profile"
-            android:layout_width="50sp"
-            android:layout_height="match_parent"
+            android:layout_width="33sp"
+            android:layout_height="29sp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="27sp"
-            android:background="@drawable/user1" />
+            android:layout_gravity="center"
+            android:layout_marginStart="50sp"
+            android:background="@drawable/ue" />
 
-    </RelativeLayout>
+    </LinearLayout>
+
 
     <!--end nav bar-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
 
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/prof" />
-
-
-    <TextView
-        android:id="@+id/textView_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView5"
-        android:layout_toEndOf="@+id/textView_weight"
-        android:text="Username" />
-
-    <EditText
-        android:id="@+id/edit_username"
-        android:layout_width="173dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_username"
-        android:layout_alignEnd="@+id/edit_email"
-        android:hint="username" />
+        <ImageView
+            android:id="@+id/image_edit_profile"
+            android:layout_width="115dp"
+            android:layout_height="104dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            app:srcCompat="@drawable/prof" />
 
 
-    <TextView
-        android:id="@+id/textView_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_below="@+id/textView_username"
-        android:layout_alignBaseline="@+id/edit_password"
-        android:text="password" />
+        <TextView
+            android:id="@+id/textView_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_username"
+            android:layout_alignStart="@+id/textView_password"
+            android:text="Username"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_password"
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView_username"
-        android:layout_marginEnd="56dp"
-        android:hint="password" />
-
-    <TextView
-        android:id="@+id/textView_confirm_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_below="@+id/edit_password"
-        android:text="Confirm password" />
-
-    <EditText
-        android:id="@+id/edit_confirm_password"
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_password"
-        android:layout_below="@+id/edit_password"
-        android:hint="confirm password" />
-
-    <TextView
-        android:id="@+id/textView_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="259dp"
-        android:text="email" />
-
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_email"
-        android:layout_alignStart="@+id/edit_password"
-        android:hint="example@example.com" />
+        <EditText
+            android:id="@+id/edit_username"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_marginTop="162dp"
+            android:hint="username"
+            android:textSize="15sp" />
 
 
-    <TextView
-        android:id="@+id/textView_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_below="@+id/edit_email"
-        android:text="Gender" />
+        <TextView
+            android:id="@+id/textView_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_password"
+            android:layout_alignStart="@+id/textView_confirm_password"
+            android:text="password"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_email"
-        android:layout_alignBaseline="@+id/textView_gender"
-        android:hint="sex" />
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_username"
+            android:hint="password"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/textView_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_age"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="43dp"
-        android:text="Age" />
+        <TextView
+            android:id="@+id/textView_confirm_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_confirm_password"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:text="Confirm password"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edit_gender"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="161dp"
-        android:hint="years" />
+        <EditText
+            android:id="@+id/edit_confirm_password"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_password"
+            android:hint="confirm password"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_username"
+            android:layout_centerVertical="true"
+            android:text="E-mail"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_confirm_password"
+            android:hint="example@example.com"
+            android:textSize="15sp" />
 
 
-    <TextView
-        android:id="@+id/textView_birthDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_below="@+id/textView_gender"
-        android:text="BirthDate" />
+        <TextView
+            android:id="@+id/textView_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_gender"
+            android:layout_alignStart="@+id/textView_username"
+            android:text="Gender"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_age"
-        android:layout_below="@+id/textView_gender"
-        android:hint="YYYY-MM-DD" />
+        <EditText
+            android:id="@+id/edit_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_email"
+            android:hint="sex"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_gender"
+            android:layout_toEndOf="@+id/textView_high"
+            android:text="Age"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
+
+        <EditText
+            android:id="@+id/edit_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/edit_password"
+            android:layout_below="@+id/edit_email"
+            android:hint="years"
+            android:textSize="15sp" />
 
 
+        <TextView
+            android:id="@+id/textView_birthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textView_username"
+            android:layout_marginBottom="206dp"
+            android:text="BirthDate"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
+
+        <EditText
+            android:id="@+id/edit_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_gender"
+            android:hint="YYYY-MM-DD"
+            android:textSize="15sp" />
 
 
-    <TextView
-        android:id="@+id/textView_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_birthDate"
-        android:layout_below="@+id/edit_date"
-        android:text="High" />
+        <TextView
+            android:id="@+id/textView_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/edit_date"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="165dp"
+            android:text="High"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_date"
-        android:layout_below="@+id/edit_date"
-        android:layout_alignBaseline="@+id/textView_high"
-        android:hint="(cm.)" />
+        <EditText
+            android:id="@+id/edit_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/edit_username"
+            android:layout_below="@+id/edit_date"
+            android:hint="(cm.)"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/textView_weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/high"
-        android:text="weight" />
+        <TextView
+            android:id="@+id/textView_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_username"
+            android:layout_alignTop="@+id/textView_high"
+            android:text="weight"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
 
-    <EditText
-        android:id="@+id/edit_weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView_weight"
-        android:layout_below="@+id/edit_high"
-        android:layout_toEndOf="@+id/textView_weight"
-        android:hint="(kg.)" />
+        <EditText
+            android:id="@+id/edit_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_below="@+id/edit_date"
+            android:hint="(kg.)"
+            android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/save_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:text="Sign Up" />
+        <Button
+            android:id="@+id/save_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="58dp"
+            android:text="Sign Up" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edit_percenincrease"
+            android:layout_alignStart="@+id/textView_username"
+            android:text="Percentage increase"
+            android:textStyle="bold"
+            android:textColor="#79593b"/>
+
+        <EditText
+            android:id="@+id/edit_percenincrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignStart="@+id/save_profile"
+            android:layout_below="@+id/edit_high"
+            android:hint="10%"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 </RelativeLayout>
