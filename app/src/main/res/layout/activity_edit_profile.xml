@@ -83,17 +83,18 @@
             android:layout_alignBaseline="@+id/edit_username"
             android:layout_alignStart="@+id/textView_password"
             android:text="Username"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_username"
             android:layout_width="173dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="162dp"
+            android:layout_toEndOf="@+id/textView_password"
             android:hint="username"
             android:textSize="15sp" />
 
@@ -105,16 +106,17 @@
             android:layout_alignBaseline="@+id/edit_password"
             android:layout_alignStart="@+id/textView_confirm_password"
             android:text="password"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_password"
-            android:layout_width="175dp"
+            android:layout_width="159dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_alignStart="@+id/edit_username"
             android:layout_below="@+id/edit_username"
+            android:layout_alignEnd="@+id/edit_username"
             android:hint="password"
             android:textSize="15sp" />
 
@@ -126,16 +128,17 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
             android:text="Confirm password"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_confirm_password"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
+            android:layout_alignEnd="@+id/edit_username"
             android:layout_below="@+id/edit_password"
+            android:layout_marginStart="@+id/edit_password"
             android:hint="confirm password"
             android:textSize="15sp" />
 
@@ -146,9 +149,9 @@
             android:layout_alignStart="@+id/textView_username"
             android:layout_centerVertical="true"
             android:text="E-mail"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_email"
@@ -167,9 +170,9 @@
             android:layout_alignBaseline="@+id/edit_gender"
             android:layout_alignStart="@+id/textView_username"
             android:text="Gender"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_gender"
@@ -187,9 +190,9 @@
             android:layout_alignBaseline="@+id/edit_gender"
             android:layout_toEndOf="@+id/textView_high"
             android:text="Age"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_age"
@@ -208,10 +211,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView_username"
             android:layout_marginBottom="206dp"
-            android:text="BirthDate"
+            android:text="Birth of Date"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_date"
@@ -230,10 +233,10 @@
             android:layout_alignEnd="@+id/edit_date"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="165dp"
-            android:text="High"
+            android:text="Height"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_high"
@@ -251,9 +254,9 @@
             android:layout_alignStart="@+id/textView_username"
             android:layout_alignTop="@+id/textView_high"
             android:text="weight"
+            android:textColor="#79593b"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_weight"
@@ -280,8 +283,8 @@
             android:layout_alignBaseline="@+id/edit_percenincrease"
             android:layout_alignStart="@+id/textView_username"
             android:text="Percentage increase"
-            android:textStyle="bold"
-            android:textColor="#79593b"/>
+            android:textColor="#79593b"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_percenincrease"
