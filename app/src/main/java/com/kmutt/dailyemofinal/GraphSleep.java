@@ -37,6 +37,7 @@ import com.kmutt.dailyemofinal.Model.FitbitData;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,31 +123,23 @@ public class GraphSleep extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(dateInstance);
-                cal.add(Calendar.DATE,-3);
-                Integer day = cal.get(Calendar.DATE);
-                Integer month = cal.get(Calendar.MONTH) + 1;
-                Integer year = cal.get(Calendar.YEAR);
-                String today =  year+"-"+month+"-"+day;
 
                 ArrayList<BarEntry> yValues = new ArrayList<>();
 
-                for (int i = 1; i <= 7; i++) {
-                    String dateBefore = today;
+                for (int i = 0; i <= 6; i++) {
+                    dateInstance.setDate(8 - i);
+                    String dateBefore = sdf.format(dateInstance);
+
+                    Log.d("Debugging dateBefore", dateBefore);
+
                     DataSnapshot snapshot = dataSnapshot.child(dateBefore).child("Sleep").child("TotalMinute");
 //                    Integer dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                    Log.d("", "debugging: "+dateBefore);
                     long val1 = (long)snapshot.getValue();
                     Log.d("", "debugging: "+val1);
 
                     yValues.add(new BarEntry(i, new float[]{val1}));
-
-                    cal.add(Calendar.DATE, -1);
-                    day = cal.get(Calendar.DATE);
-                    dateBefore = year+"-"+month+"-"+day;
-                    today = dateBefore;
                 }
                 BarDataSet set1;
 

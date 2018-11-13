@@ -120,14 +120,14 @@ public class GraphHr extends AppCompatActivity {
         mChart7.setScaleEnabled(false);
 
 
-        LimitLine upper_limit = new LimitLine(65f, "Danger");
+        LimitLine upper_limit = new LimitLine(100f, "Danger");
         upper_limit.setLineWidth(4f);
         upper_limit.enableDashedLine(10f, 10f, 0f);
         upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         upper_limit.setTextSize(15f);
 
 
-        LimitLine lower_limit = new LimitLine(45f, "Too low");
+//        LimitLine lower_limit = new LimitLine(4f, "Too low");
         upper_limit.setLineWidth(4f);
         upper_limit.enableDashedLine(10f, 10f, 0f);
         upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
@@ -136,7 +136,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis0 = mChart0.getAxisLeft();
         leftAxis0.removeAllLimitLines();
         leftAxis0.addLimitLine(upper_limit);
-        leftAxis0.addLimitLine(lower_limit);
+//        leftAxis0.addLimitLine(lower_limit);
         leftAxis0.setAxisMaximum(130f);
         leftAxis0.setAxisMinimum(40f);
         leftAxis0.enableGridDashedLine(10f, 10f, 10);
@@ -146,7 +146,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis1 = mChart1.getAxisLeft();
         leftAxis1.removeAllLimitLines();
         leftAxis1.addLimitLine(upper_limit);
-        leftAxis1.addLimitLine(lower_limit);
+//        leftAxis1.addLimitLine(lower_limit);
         leftAxis1.setAxisMaximum(130f);
         leftAxis1.setAxisMinimum(40f);
         leftAxis1.enableGridDashedLine(10f, 10f, 10);
@@ -155,7 +155,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis2 = mChart2.getAxisLeft();
         leftAxis2.removeAllLimitLines();
         leftAxis2.addLimitLine(upper_limit);
-        leftAxis2.addLimitLine(lower_limit);
+//        leftAxis2.addLimitLine(lower_limit);
         leftAxis2.setAxisMaximum(130f);
         leftAxis2.setAxisMinimum(40f);
         leftAxis2.enableGridDashedLine(10f, 10f, 10);
@@ -164,7 +164,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis3 = mChart3.getAxisLeft();
         leftAxis3.removeAllLimitLines();
         leftAxis3.addLimitLine(upper_limit);
-        leftAxis3.addLimitLine(lower_limit);
+//        leftAxis3.addLimitLine(lower_limit);
         leftAxis3.setAxisMaximum(130f);
         leftAxis3.setAxisMinimum(40f);
         leftAxis3.enableGridDashedLine(10f, 10f, 10);
@@ -173,7 +173,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis4 = mChart4.getAxisLeft();
         leftAxis4.removeAllLimitLines();
         leftAxis4.addLimitLine(upper_limit);
-        leftAxis4.addLimitLine(lower_limit);
+//        leftAxis4.addLimitLine(lower_limit);
         leftAxis4.setAxisMaximum(130f);
         leftAxis4.setAxisMinimum(40f);
         leftAxis4.enableGridDashedLine(10f, 10f, 10);
@@ -182,7 +182,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis5 = mChart5.getAxisLeft();
         leftAxis5.removeAllLimitLines();
         leftAxis5.addLimitLine(upper_limit);
-        leftAxis5.addLimitLine(lower_limit);
+//        leftAxis5.addLimitLine(lower_limit);
         leftAxis5.setAxisMaximum(130f);
         leftAxis5.setAxisMinimum(40f);
         leftAxis5.enableGridDashedLine(10f, 10f, 10);
@@ -191,7 +191,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis6 = mChart6.getAxisLeft();
         leftAxis6.removeAllLimitLines();
         leftAxis6.addLimitLine(upper_limit);
-        leftAxis6.addLimitLine(lower_limit);
+//        leftAxis6.addLimitLine(lower_limit);
         leftAxis6.setAxisMaximum(130f);
         leftAxis6.setAxisMinimum(40f);
         leftAxis6.enableGridDashedLine(10f, 10f, 10);
@@ -200,7 +200,7 @@ public class GraphHr extends AppCompatActivity {
         YAxis leftAxis7 = mChart7.getAxisLeft();
         leftAxis7.removeAllLimitLines();
         leftAxis7.addLimitLine(upper_limit);
-        leftAxis7.addLimitLine(lower_limit);
+//        leftAxis7.addLimitLine(lower_limit);
         leftAxis7.setAxisMaximum(130f);
         leftAxis7.setAxisMinimum(40f);
         leftAxis7.enableGridDashedLine(10f, 10f, 10);
@@ -226,11 +226,11 @@ public class GraphHr extends AppCompatActivity {
                 Date dateInstance = new Date();
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dateInstance);
-                Integer day = cal.get(Calendar.DATE);
-                Integer month = cal.get(Calendar.MONTH) + 1;
+                Integer day = cal.get(Calendar.DATE) - 2;
+                Integer month = cal.get(Calendar.MONTH) +1;
                 Integer year = cal.get(Calendar.YEAR);
 //                String today =  year+"-"+month+"-"+day;
-                String today = "2018-10-29";
+                String today = "2018-11-07";
 //                Date d = new Date();
 //                int day = d.getDay();
 //                int month = d.getMonth();
@@ -243,13 +243,13 @@ public class GraphHr extends AppCompatActivity {
                 //today
                 DataSnapshot snapshot0 = dataSnapshot.child(today).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot0.getChildren()) {
-                    Log.d("debugging", snapshot0.getKey());
+                    Log.d("debugging in TimeStamp", s.getKey());
                     String time = s.getKey();
                     xAxisFormat0.add(time);
 //                    String hr = (String)snapshot.getValue();
 //                    Log.d(TAG, "Debugging: "+hr);
 
-                    Log.d(TAG, "onDataChange: "+s.getValue());
+                    Log.d(TAG, "Debugging : "+s.getValue());
 
                     if (count % 15 == 0) {
                         yValues0.add(new Entry(count, (Long)s.getValue() * 1f));
@@ -285,9 +285,11 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay1.setText(today);
 
-                cal.add(Calendar.DATE, -3);
+                cal.set(2018, 10, 29);
+                cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
-                String dateBeforeString = year+"-"+month+"-"+day;
+//                String dateBeforeString = year+"-"+month+"-"+day;
+                String dateBeforeString = "2018-10-28";
 
 //                ///////////// mChart1////////////
                 ArrayList<Entry> yValues1 = new ArrayList<>();
@@ -341,8 +343,8 @@ public class GraphHr extends AppCompatActivity {
 
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
-                dateBeforeString = year+"-"+month+"-"+day;
-
+//                dateBeforeString = year+"-"+month+"-"+day;
+                dateBeforeString = "2018-11-08";
                 ///////////// mChart2////////////
                 ArrayList<Entry> yValues2 = new ArrayList<>();
                 int count2 = 0;
@@ -399,7 +401,7 @@ public class GraphHr extends AppCompatActivity {
                 ArrayList<Entry> yValues3 = new ArrayList<>();
                 int count3 = 0;
                 ArrayList<String> xAxisFormat3 = new ArrayList<>();
-                DataSnapshot snapshot3 = dataSnapshot.child(year+"-"+month+"-"+day).child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot3 = dataSnapshot.child("2018-11-04").child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot3.getChildren()) {
                     Log.d("debugging", snapshot3.getKey());
                     String time = s.getKey();
@@ -447,12 +449,14 @@ public class GraphHr extends AppCompatActivity {
 
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
+//                dateBeforeString = year+"-"+month+"-"+day;
+                dateBeforeString = "2018-11-03";
 
                 ///////////// mChart4////////////
                 ArrayList<Entry> yValues4 = new ArrayList<>();
                 int count4 = 0;
                 ArrayList<String> xAxisFormat4 = new ArrayList<>();
-                DataSnapshot snapshot4 = dataSnapshot.child(year+"-"+month+"-"+day).child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot4 = dataSnapshot.child(dateBeforeString).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot4.getChildren()) {
                     Log.d("debugging", snapshot4.getKey());
                     String time = s.getKey();
@@ -500,12 +504,13 @@ public class GraphHr extends AppCompatActivity {
 
                 cal.add(Calendar.DATE, -1);
                 day = cal.get(Calendar.DATE);
-
+//                dateBeforeString = year+"-"+month+"-"+day;
+                dateBeforeString = "2018-11-02";
                     ///////////// mChart5////////////
                 ArrayList<Entry> yValues5 = new ArrayList<>();
                 int count5 = 0;
                 ArrayList<String> xAxisFormat5 = new ArrayList<>();
-                DataSnapshot snapshot5 = dataSnapshot.child(year+"-"+month+"-"+day).child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot5 = dataSnapshot.child(dateBeforeString).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot5.getChildren()) {
                     Log.d("debugging", snapshot5.getKey());
                     String time = s.getKey();
@@ -559,7 +564,7 @@ public class GraphHr extends AppCompatActivity {
                 ArrayList<Entry> yValues6 = new ArrayList<>();
                 int count6 = 0;
                 ArrayList<String> xAxisFormat6 = new ArrayList<>();
-                DataSnapshot snapshot6 = dataSnapshot.child(year+"-"+month+"-"+day).child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot6 = dataSnapshot.child("2018-11-03").child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot6.getChildren()) {
                     Log.d("debugging", snapshot6.getKey());
                     String time = s.getKey();
@@ -613,7 +618,7 @@ public class GraphHr extends AppCompatActivity {
                 ArrayList<Entry> yValues7 = new ArrayList<>();
                 int count7 = 0;
                 ArrayList<String> xAxisFormat7 = new ArrayList<>();
-                DataSnapshot snapshot7 = dataSnapshot.child(year+"-"+month+"-"+day).child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot7 = dataSnapshot.child("2018-11-01").child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot7.getChildren()) {
                     Log.d("debugging", snapshot7.getKey());
                     String time = s.getKey();

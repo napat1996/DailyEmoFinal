@@ -81,37 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mRootRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users");
-                final User user = new User(inputUsername.getText().toString(),
-                        inputPassword.getText().toString(),
-                        inputEmail.getText().toString(),
-                        inputAge.getText().toString(),
-                        inputHeight.getText().toString(),
-                        inputWeight.getText().toString());
-                mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(user.getUsername()).exists())
-                            Toast.makeText(EditProfileActivity.this, "The Username is Already Exist!", Toast.LENGTH_SHORT).show();
-                        else {
-                            mRootRef.child(user.getUsername()).setValue(user);
-                            Toast.makeText(EditProfileActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
-
-                            mUsername = inputUsername.getText().toString();
-                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("username", mUsername);
-                            editor.commit();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("", "onCancelled: !!!!!!!!!!!!N O T   W O R K K K K!!!!!!!!" );
-                    }
-                });
-                Intent s = new Intent(getApplicationContext(), MainActivity.class);
+                Intent s = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(s);
             }
         });
