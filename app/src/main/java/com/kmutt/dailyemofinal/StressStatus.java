@@ -263,9 +263,7 @@ public class StressStatus extends AppCompatActivity {
 //        mChart7.setCenterTextOffset(0, -20);
 //        mChart7.setMaxAngle(180);
 //        mChart7.setRotationAngle(180);
-//
-//
-//
+
 //
 //        // คลิกสไลด์กางออกมา
 //        mChart.animateY(1000, Easing.EasingOption.EaseInCubic);
@@ -356,9 +354,6 @@ public class StressStatus extends AppCompatActivity {
 //        mChart7.setEntryLabelColor(Color.WHITE);//color level text
 //        mChart7.setEntryLabelTextSize(12f);
 //        setData7(4, 100);
-//
-//
-//    }
 //
 //
 //

@@ -289,13 +289,14 @@ public class CalendarActivity extends AppCompatActivity{
                 Integer day = cal.get(Calendar.DATE);
                 Integer month = cal.get(Calendar.MONTH) + 1;
                 Integer year = cal.get(Calendar.YEAR);
-                String today =  year+"-"+month+"-"+day;
+//                String today =  year+"-"+month+"-"+day;
+                String today = "2018-10-29";
                 ArrayList<PieEntry> values = new ArrayList<>();
 
                 for (int i = 0; i < 4; i++) {
 
                     DataSnapshot snapshot = dataSnapshot.child(today).child("StressLevel");
-                    long val =  (long) snapshot.child("level"+i).getValue();
+                    float val =  (long) snapshot.child("level"+i).getValue()*1f;
                     values.add(new PieEntry(val, stress[i]));
                 }
                 PieDataSet dataSet = new PieDataSet(values, "Partner ");
