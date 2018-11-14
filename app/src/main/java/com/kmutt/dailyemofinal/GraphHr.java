@@ -262,14 +262,13 @@ public class GraphHr extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                dataSnapshot
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(dateInstance);
-                Integer day = cal.get(Calendar.DATE) - 2;
-                Integer month = cal.get(Calendar.MONTH) +1;
-                Integer year = cal.get(Calendar.YEAR);
+                int day =8;
+                dateInstance.setDate(day);
+                String today = sdf.format(dateInstance);
 //                String today =  year+"-"+month+"-"+day;
-                String today = "2018-11-07";
+//                String today = "2018-11-07";
 //                Date d = new Date();
 //                int day = d.getDay();
 //                int month = d.getMonth();
@@ -324,11 +323,12 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay1.setText(today);
 
-                cal.set(2018, 10, 29);
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
-//                String dateBeforeString = year+"-"+month+"-"+day;
-                String dateBeforeString = "2018-10-28";
+//                cal.set(2018, 10, 29);
+//                cal.add(Calendar.DATE, -1);
+//                day = cal.get(Calendar.DATE);
+                dateInstance.setDate(day-1);
+                String dateBeforeString = sdf.format(dateInstance);
+//                String dateBeforeString = "2018-10-28";
 
 //                ///////////// mChart1////////////
                 ArrayList<Entry> yValues1 = new ArrayList<>();
@@ -380,10 +380,8 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay1.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
-//                dateBeforeString = year+"-"+month+"-"+day;
-                dateBeforeString = "2018-11-08";
+                dateInstance.setDate(day-2);
+                dateBeforeString = sdf.format(dateInstance);
                 ///////////// mChart2////////////
                 ArrayList<Entry> yValues2 = new ArrayList<>();
                 int count2 = 0;
@@ -433,14 +431,14 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay2.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
+                dateInstance.setDate(day-3);
+                dateBeforeString = sdf.format(dateInstance);
 
                 ///////////// mChart3////////////
                 ArrayList<Entry> yValues3 = new ArrayList<>();
                 int count3 = 0;
                 ArrayList<String> xAxisFormat3 = new ArrayList<>();
-                DataSnapshot snapshot3 = dataSnapshot.child("2018-11-04").child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot3 = dataSnapshot.child(dateBeforeString).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot3.getChildren()) {
                     Log.d("debugging", snapshot3.getKey());
                     String time = s.getKey();
@@ -486,10 +484,8 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay3.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
-//                dateBeforeString = year+"-"+month+"-"+day;
-                dateBeforeString = "2018-11-03";
+                dateInstance.setDate(day-4);
+                dateBeforeString = sdf.format(dateInstance);
 
                 ///////////// mChart4////////////
                 ArrayList<Entry> yValues4 = new ArrayList<>();
@@ -541,10 +537,9 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay4.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
-//                dateBeforeString = year+"-"+month+"-"+day;
-                dateBeforeString = "2018-11-02";
+                dateInstance.setDate(day-5);
+                dateBeforeString = sdf.format(dateInstance);
+
                     ///////////// mChart5////////////
                 ArrayList<Entry> yValues5 = new ArrayList<>();
                 int count5 = 0;
@@ -595,15 +590,14 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay5.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
-
+                dateInstance.setDate(day-6);
+                dateBeforeString = sdf.format(dateInstance);
 
                 ///////////// mChart6////////////
                 ArrayList<Entry> yValues6 = new ArrayList<>();
                 int count6 = 0;
                 ArrayList<String> xAxisFormat6 = new ArrayList<>();
-                DataSnapshot snapshot6 = dataSnapshot.child("2018-11-03").child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot6 = dataSnapshot.child(dateBeforeString).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot6.getChildren()) {
                     Log.d("debugging", snapshot6.getKey());
                     String time = s.getKey();
@@ -649,15 +643,15 @@ public class GraphHr extends AppCompatActivity {
 
                 txtDay6.setText(dateBeforeString);
 
-                cal.add(Calendar.DATE, -1);
-                day = cal.get(Calendar.DATE);
+                dateInstance.setDate(day-7);
+                dateBeforeString = sdf.format(dateInstance);
 
 
                 ///////////// mChart7////////////
                 ArrayList<Entry> yValues7 = new ArrayList<>();
                 int count7 = 0;
                 ArrayList<String> xAxisFormat7 = new ArrayList<>();
-                DataSnapshot snapshot7 = dataSnapshot.child("2018-11-01").child("HeartRate").child("Timestemp");
+                DataSnapshot snapshot7 = dataSnapshot.child(dateBeforeString).child("HeartRate").child("Timestemp");
                 for (DataSnapshot s : snapshot7.getChildren()) {
                     Log.d("debugging", snapshot7.getKey());
                     String time = s.getKey();

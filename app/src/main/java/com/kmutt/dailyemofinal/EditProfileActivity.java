@@ -21,10 +21,12 @@ import com.kmutt.dailyemofinal.Model.User;
 public class EditProfileActivity extends AppCompatActivity {
 
     Button btnHome, btnProfile, btnResult, btnSuggesstion, btnSaveProfile;
-    EditText inputUsername, inputPassword, inputEmail, inputAge,inputWeight,inputHeight;
+    EditText inputUsername, inputPassword,inputConfPaswd, inputEmail, inputAge,inputWeight,inputHeight;
     FirebaseDatabase database;
     DatabaseReference mRootRef;
     String mUsername;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +72,23 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //end nav bar
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
+        Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+
         inputUsername = findViewById(R.id.edit_username);
         inputPassword = findViewById(R.id.edit_password);
+//        inputConfPaswd = findViewById(R.id.edit_confirm_password);
         inputEmail = findViewById(R.id.edit_email);
         inputAge = findViewById(R.id.edit_age);
         inputHeight = findViewById(R.id.edit_high);
         inputWeight = findViewById(R.id.edit_weight);
 
-        btnSaveProfile = findViewById(R.id.sign_in_button);
+        btnSaveProfile = findViewById(R.id.save_profile);
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
