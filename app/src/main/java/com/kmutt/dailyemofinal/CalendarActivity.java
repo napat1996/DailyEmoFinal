@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,6 +80,11 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stress_status);
 
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime());
+        TextView textViewDate = findViewById(R.id.text_date);
+        textViewDate.setText(currentDate);
+
 
         txt_sDay1 = findViewById(R.id.day_s1);
         txt_sDay2 = findViewById(R.id.day_s2);
@@ -101,53 +107,89 @@ public class CalendarActivity extends AppCompatActivity {
 
         sChart0.setDragEnabled(true);
         sChart0.setScaleEnabled(false);
+        sChart0.getDescription().setEnabled(false); // delete description
+        sChart0.getLegend().setEnabled(false); //delete data set 0
+//        sChart0.getAxisLeft().setDrawGridLines(false);//เส้นกราฟแนวตั้ง
+////        sChart0.getXAxis().setDrawGridLines(false);
 
         sChart1.setDragEnabled(true);
         sChart1.setScaleEnabled(false);
+        sChart1.getDescription().setEnabled(false);
+        sChart1.getLegend().setEnabled(false);
+        sChart1.getAxisLeft().setDrawGridLines(false);
+//        sChart1.getXAxis().setDrawGridLines(false);
 
         sChart2.setDragEnabled(true);
         sChart2.setScaleEnabled(false);
+        sChart2.getDescription().setEnabled(false);
+        sChart2.getLegend().setEnabled(false);
+        sChart2.getXAxis().setDrawGridLines(false);
+
 
         sChart3.setDragEnabled(true);
         sChart3.setScaleEnabled(false);
+        sChart3.getDescription().setEnabled(false);
+        sChart3.getLegend().setEnabled(false);
+        sChart3.getXAxis().setDrawGridLines(false);
+
 
         sChart4.setDragEnabled(true);
         sChart4.setScaleEnabled(false);
+        sChart4.getDescription().setEnabled(false);
+        sChart4.getLegend().setEnabled(false);
+        sChart4.getXAxis().setDrawGridLines(false);
+
 
         sChart5.setDragEnabled(true);
         sChart5.setScaleEnabled(false);
+        sChart5.getDescription().setEnabled(false);
+        sChart5.getLegend().setEnabled(false);
+        sChart5.getXAxis().setDrawGridLines(false);
+
 
         sChart6.setDragEnabled(true);
         sChart6.setScaleEnabled(false);
+        sChart6.getDescription().setEnabled(false);
+        sChart6.getLegend().setEnabled(false);
+        sChart6.getXAxis().setDrawGridLines(false);
+
 
         sChart7.setDragEnabled(true);
         sChart7.setScaleEnabled(false);
+        sChart7.getDescription().setEnabled(false);
+        sChart7.getLegend().setEnabled(false);
+        sChart7.getXAxis().setDrawGridLines(false);
+
 
 
         LimitLine upper_limit3 = new LimitLine(3f, "Level3");
-        upper_limit3.setLineWidth(4f);
-        upper_limit3.enableDashedLine(10f, 10f, 0f);
+        upper_limit3.setLineWidth(2.5f);
+//        upper_limit3.enableDashedLine(10f, 10f, 0f);
         upper_limit3.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         upper_limit3.setTextSize(15f);
+        upper_limit3.setLineColor(Color.rgb(197,95,78));
 
         LimitLine upper_limit2 = new LimitLine(2f, "Level2");
-        upper_limit3.setLineWidth(4f);
-        upper_limit3.enableDashedLine(10f, 10f, 0f);
-        upper_limit3.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        upper_limit3.setTextSize(15f);
+        upper_limit2.setLineWidth(2f);
+//        upper_limit2.enableDashedLine(10f, 10f, 0f);
+        upper_limit2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        upper_limit2.setTextSize(15f);
+        upper_limit2.setLineColor(Color.rgb(232,153,74));
 
         LimitLine upper_limit1 = new LimitLine(1f, "Level1");
-        upper_limit3.setLineWidth(4f);
-        upper_limit3.enableDashedLine(10f, 10f, 0f);
-        upper_limit3.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        upper_limit3.setTextSize(15f);
+        upper_limit1.setLineWidth(1f);
+//        upper_limit1.enableDashedLine(10f, 10f, 0f);
+        upper_limit1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        upper_limit1.setTextSize(15f);
+        upper_limit1.setLineColor(Color.rgb(230,197,112));
 
 
         LimitLine lower_limit = new LimitLine(0f, "Normal");
-        lower_limit.setLineWidth(4f);
-        lower_limit.enableDashedLine(10f, 10f, 0f);
+        lower_limit.setLineWidth(1f);
+//        lower_limit.enableDashedLine(10f, 10f, 0f);
         lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         lower_limit.setTextSize(15f);
+        lower_limit.setLineColor(Color.rgb(132,139,91));
 
         YAxis leftAxis0 = sChart0.getAxisLeft();
         leftAxis0.removeAllLimitLines();
@@ -162,80 +204,80 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         YAxis leftAxis1 = sChart1.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(4f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis1.removeAllLimitLines();
+        leftAxis1.addLimitLine(upper_limit3);
+        leftAxis1.addLimitLine(upper_limit2);
+        leftAxis1.addLimitLine(upper_limit1);
+        leftAxis1.addLimitLine(lower_limit);
+        leftAxis1.setAxisMaximum(4f);
+        leftAxis1.setAxisMinimum(0f);
+        leftAxis1.enableGridDashedLine(1f, 1f, 1);
         leftAxis1.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis2 = sChart2.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(4f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis2.removeAllLimitLines();
+        leftAxis2.addLimitLine(upper_limit3);
+        leftAxis2.addLimitLine(upper_limit2);
+        leftAxis2.addLimitLine(upper_limit1);
+        leftAxis2.addLimitLine(lower_limit);
+        leftAxis2.setAxisMaximum(4f);
+        leftAxis2.setAxisMinimum(0f);
+        leftAxis2.enableGridDashedLine(1f, 1f, 1);
         leftAxis2.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis3 = sChart3.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(4f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis3.removeAllLimitLines();
+        leftAxis3.addLimitLine(upper_limit3);
+        leftAxis3.addLimitLine(upper_limit2);
+        leftAxis3.addLimitLine(upper_limit1);
+        leftAxis3.addLimitLine(lower_limit);
+        leftAxis3.setAxisMaximum(4f);
+        leftAxis3.setAxisMinimum(0f);
+        leftAxis3.enableGridDashedLine(1f, 1f, 1);
         leftAxis3.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis4 = sChart4.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(5f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis4.removeAllLimitLines();
+        leftAxis4.addLimitLine(upper_limit3);
+        leftAxis4.addLimitLine(upper_limit2);
+        leftAxis4.addLimitLine(upper_limit1);
+        leftAxis4.addLimitLine(lower_limit);
+        leftAxis4.setAxisMaximum(5f);
+        leftAxis4.setAxisMinimum(0f);
+        leftAxis4.enableGridDashedLine(1f, 1f, 1);
         leftAxis4.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis5 = sChart5.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(5f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis5.removeAllLimitLines();
+        leftAxis5.addLimitLine(upper_limit3);
+        leftAxis5.addLimitLine(upper_limit2);
+        leftAxis5.addLimitLine(upper_limit1);
+        leftAxis5.addLimitLine(lower_limit);
+        leftAxis5.setAxisMaximum(5f);
+        leftAxis5.setAxisMinimum(0f);
+        leftAxis5.enableGridDashedLine(1f, 1f, 1);
         leftAxis5.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis6 = sChart6.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(5f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis6.removeAllLimitLines();
+        leftAxis6.addLimitLine(upper_limit3);
+        leftAxis6.addLimitLine(upper_limit2);
+        leftAxis6.addLimitLine(upper_limit1);
+        leftAxis6.addLimitLine(lower_limit);
+        leftAxis6.setAxisMaximum(5f);
+        leftAxis6.setAxisMinimum(0f);
+        leftAxis6.enableGridDashedLine(1f, 1f, 1);
         leftAxis6.setDrawLimitLinesBehindData(true);
 
         YAxis leftAxis7 = sChart7.getAxisLeft();
-        leftAxis0.removeAllLimitLines();
-        leftAxis0.addLimitLine(upper_limit3);
-        leftAxis0.addLimitLine(upper_limit2);
-        leftAxis0.addLimitLine(upper_limit1);
-        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(5f);
-        leftAxis0.setAxisMinimum(0f);
-        leftAxis0.enableGridDashedLine(1f, 1f, 1);
+        leftAxis7.removeAllLimitLines();
+        leftAxis7.addLimitLine(upper_limit3);
+        leftAxis7.addLimitLine(upper_limit2);
+        leftAxis7.addLimitLine(upper_limit1);
+        leftAxis7.addLimitLine(lower_limit);
+        leftAxis7.setAxisMaximum(5f);
+        leftAxis7.setAxisMinimum(0f);
+        leftAxis7.enableGridDashedLine(1f, 1f, 1);
         leftAxis7.setDrawLimitLinesBehindData(true);
 
         //delete line on the right side

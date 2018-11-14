@@ -18,7 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".LoginActivity">
+=======
+
+        <activity android:name=".LoginActivity">
+
+>>>>>>> 61f9ece492d7aeffbb0c92618913cce69f572b73
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,13 +32,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
+<<<<<<< HEAD
         <!--<activity android:name=".GraphHr" />-->
          <activity android:name=".GraphSleep" />
+=======
+
+        <!--<activity android:name=".GraphHr" />-->
+
+>>>>>>> 61f9ece492d7aeffbb0c92618913cce69f572b73
         <activity android:name=".HomelinkStep" />
-        <activity android:name=".GraphTaffic" />
+        <!--<activity android:name=".GraphTaffic" />-->
         <activity android:name=".SummaryActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".GraphHr"/>
         <activity android:name=".SuggestionBackgroundActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".EditProfileActivity" />

@@ -298,7 +298,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="62dp"
-        android:text="EDIT" />
+        android:text="SAVE" />
 
 
     <!--<TextView-->
