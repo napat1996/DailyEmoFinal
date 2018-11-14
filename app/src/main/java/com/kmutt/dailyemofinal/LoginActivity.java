@@ -48,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReference("Users");
 
-       inputUsername = (EditText)findViewById(R.id.inputUsername);
-       inputPassword = (EditText)findViewById(R.id.inputPassword) ;
+       inputUsername = findViewById(R.id.inputUsername);
+       inputPassword = findViewById(R.id.inputPassword) ;
 
-        btnLogin = (Button)findViewById(R.id.log_in_button);
-        btnToSignup = (TextView)findViewById(R.id.createNewAccount);
+        btnLogin = findViewById(R.id.log_in_button);
+        btnToSignup = findViewById(R.id.createNewAccount);
 
         //loginButton = (Button) findViewById(R.id.log_in_button);
        // loginProgress = findViewById(R.id.login_progress);

@@ -21,7 +21,7 @@ public class NotificationMain extends Activity {
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
+        cal.add(Calendar.SECOND, 20);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
-    }
-}
+                }
+                }

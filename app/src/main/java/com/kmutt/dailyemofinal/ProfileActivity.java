@@ -2,6 +2,7 @@ package com.kmutt.dailyemofinal;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kmutt.dailyemofinal.Model.FitbitData;
 
 import org.json.simple.JSONArray;
@@ -26,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,13 +45,13 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
-    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
+    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex, txtPassword;
 
-//    private static final String API_PREFIX = "https://api.fitbit.com";
-//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-18/1d/5min/time/00:00/23:59.json";
-//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-18.json";
-//    private static final String AUTHORIZATION = "Authorization";
-//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNzQ4Nzg3LCJpYXQiOjE1NDA3MTk5ODd9.K1aPl3D9k7f-Nn_vpYALvJoEAzVqSy6uX-C1h35eGOY";
+    private static final String API_PREFIX = "https://api.fitbit.com";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-07/1d/5min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-07.json";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQxNzU4OTQ1LCJpYXQiOjE1NDE3MzAxNDV9.yD9515M_qUIrOpqpTXJ21RuyijW6mDzZKvHuU8VBoZ8";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -55,14 +64,52 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
+        Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+
+        txtAge = findViewById(R.id.textView_age1);
+        txtEmail = findViewById(R.id.textView_email1);
+        txtHeight = findViewById(R.id.textView_high1);
+        txtSex = findViewById(R.id.textView_gender1);
+        txtWeight = findViewById(R.id.textView_weight1);
+        txtPassword = findViewById(R.id.textView_password1);
+        txtUsername = findViewById(R.id.textView_username);
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                txtUsername.setText((String)dataSnapshot.child("username").getValue());
+                txtAge.setText(dataSnapshot.child("age").getValue().toString());
+                txtPassword.setText("xxxxxxxxxx");
+                txtEmail.setText((String)dataSnapshot.child("email").getValue());
+                txtHeight.setText(dataSnapshot.child("height").getValue().toString());
+                txtSex.setText((String)dataSnapshot.child("sex").getValue());
+                txtWeight.setText(dataSnapshot.child("weight").getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        };
+        mRootRef.addValueEventListener(valEv);
+
+
         btnHome = findViewById(R.id.btn_home);
-//        btnHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent s = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(s);
-//            }
-//        });
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent s = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(s);
+            }
+        });
 
         btnProfile = findViewById(R.id.btn_profile);
         btnProfile.setOnClickListener(new View.OnClickListener() {
@@ -91,17 +138,18 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-//        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent s = new Intent(getApplicationContext(), EditProfileActivity.class);
-//                startActivity(s);
-//            }
-//        });
+        btnEditProfile = findViewById(R.id.button_edit_profile);
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent s = new Intent(getApplicationContext(), EditProfileActivity.class);
+                startActivity(s);
+            }
+        });
 
-
-
-//        /////////////ADD DATA TO FIREBASE////////////
+//
+//
+//        ///////////ADD DATA TO FIREBASE////////////
 //        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
 //        String username = preferences.getString("username", "tk");
 //
@@ -110,7 +158,7 @@ public class ProfileActivity extends AppCompatActivity {
 //        database = FirebaseDatabase.getInstance();
 //        mRootRef = database.getReferenceFromUrl(firebaseUrl);
 //        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-//
+//        dateTimeRef.child("2018-11-07").removeValue();
 //
 //        (new Thread(new Runnable() {
 //            @Override
@@ -150,51 +198,56 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-10-28");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-07");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
-//                            Map<String, Object> stressLevel = new HashMap<>();
-//                            stressLevel.put("level", 1);
-//                            stressLevel.put("time", heartRateTime);
+////                            Map<String, Object> stressLevel = new HashMap<>();
+//                            int stressLevel = 1;
+////                            stressLevel.put("level", 1);
+////                            stressLevel.put("time", heartRateTime);
 //
-//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
-//
+//                            heartRateDate.child("Stress").child(heartRateTime).setValue(stressLevel);
+//                            Log.d(TAG, "Debugging in Stress: "+heartRateTime+" :" +stressLevel);
 //                            lv1++;
 //                            heartRateDate.child("StressLevel").child("Level1").setValue(lv1);
 //                            low++;
 //                            heartRateDate.child("HeartRate").child("Low").setValue(low);
 //                        }
 //                        else if (heartRateValue >= 82 && heartRateValue < 100) {
-//                            Map<String, Object> stressLevel = new HashMap<>();
-//                            stressLevel.put("level", 2);
-//                            stressLevel.put("time", heartRateTime);
+//                            int stressLevel = 2;
+////                            Map<String, Object> stressLevel = new HashMap<>();
+////                            stressLevel.put("level", 2);
+////                            stressLevel.put("time", heartRateTime);
 //
-//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
+//                            heartRateDate.child("Stress").child(heartRateTime).setValue(stressLevel);
+//                            Log.d(TAG, "Debugging in Stress: "+heartRateTime+" :" +stressLevel);
 //                            lv2++;
 //                            heartRateDate.child("StressLevel").child("Level2").setValue(lv2);
 //                            high++;
 //                            heartRateDate.child("HeartRate").child("High").setValue(low);
 //                        }
 //                        else if(heartRateValue > 100){
-//                            Map<String, Object> stressLevel = new HashMap<>();
-//                            stressLevel.put("level", 3);
-//                            stressLevel.put("time", heartRateTime);
+//                            int stressLevel = 3;
+////                            Map<String, Object> stressLevel = new HashMap<>();
+////                            stressLevel.put("level", 3);
+////                            stressLevel.put("time", heartRateTime);
 //
-//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
-//
+//                            heartRateDate.child("Stress").child(heartRateTime).setValue(stressLevel);
+//                            Log.d(TAG, "Debugging in Stress: "+heartRateTime+" :" +stressLevel);
 //                            lv3++;
 //                            heartRateDate.child("StressLevel").child("Level3").setValue(lv3);
 //                            high++;
 //                            heartRateDate.child("HeartRate").child("High").setValue(low);
 //                        }
 //                        else{
-//                            Map<String, Object> stressLevel = new HashMap<>();
-//                            stressLevel.put("level", 0);
-//                            stressLevel.put("time", heartRateTime);
+//                            int stressLevel = 0;
+////                            Map<String, Object> stressLevel = new HashMap<>();
+////                            stressLevel.put("level", 0);
+////                            stressLevel.put("time", heartRateTime);
 //
-//                            heartRateDate.child("StressLevel").push().setValue(stressLevel);
-//
+//                            heartRateDate.child("Stress").child(heartRateTime).setValue(stressLevel);
+//                            Log.d(TAG, "Debugging in Stress: "+heartRateTime+" :" +stressLevel);
 //                            lv0++;
 //                            heartRateDate.child("StressLevel").child("Level0").setValue(lv0);
 //                            low++;
@@ -210,7 +263,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-10-28");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-07");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //
@@ -222,6 +275,7 @@ public class ProfileActivity extends AppCompatActivity {
 //            }
 //        })).start();
 //        Toast.makeText(getApplicationContext(),   "Added to db", Toast.LENGTH_LONG).show();
+
 
 
     }

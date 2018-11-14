@@ -18,7 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
+        <activity android:name=".GraphHr">
+=======
         <activity android:name=".LoginActivity">
+>>>>>>> 79e0b314a294807ce6ebd5288706ac105a854154
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +30,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
+<<<<<<< HEAD
+        <!--<activity android:name=".GraphHr" />-->
+=======
         <activity android:name=".GraphHr" />
-        <activity android:name=".GraphSleep" />
+>>>>>>> 79e0b314a294807ce6ebd5288706ac105a854154
+         <activity android:name=".GraphSleep" />
         <activity android:name=".HomelinkStep" />
         <activity android:name=".GraphTaffic" />
         <activity android:name=".SummaryActivity" />
@@ -35,14 +43,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".SuggestionBackgroundActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".StressStatus"></activity>
-
-        <service android:name="com.kmutt.dailyemofinal.Service.MyFirebaseInstanceService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
+        <activity android:name=".EditProfileActivity" />
+        <!--<activity android:name=".MyAxis" />-->
+        <!--<activity android:name=".MyValue"></activity>-->
     </application>
 
 </manifest>

@@ -23,8 +23,8 @@ public class GraphTaffic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traffic);
         mChart = (BarChart) findViewById(R.id.bar_taf);
-        setData(7);
-        mChart.setMaxVisibleValueCount(70);
+//        setData(7);
+//        mChart.setMaxVisibleValueCount(70);
 
         //start nav bar
         btnHome = findViewById(R.id.btn_home);
@@ -86,7 +86,7 @@ public class GraphTaffic extends AppCompatActivity {
         BarData data = new BarData(set1);
         data.setValueFormatter(new MyValueFormatter());
 
-        mChart.getAxisLeft().setAxisMaximum(60);
+//        mChart.getAxisLeft().setAxisMaximum(60);
 
         mChart.setData(data);
         mChart.setFitBars(true);

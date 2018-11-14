@@ -21,10 +21,12 @@ import com.kmutt.dailyemofinal.Model.User;
 public class EditProfileActivity extends AppCompatActivity {
 
     Button btnHome, btnProfile, btnResult, btnSuggesstion, btnSaveProfile;
-    EditText inputUsername, inputPassword, inputEmail, inputAge,inputWeight,inputHeight;
+    EditText inputUsername, inputPassword,inputConfPaswd, inputEmail, inputAge,inputWeight,inputHeight;
     FirebaseDatabase database;
     DatabaseReference mRootRef;
     String mUsername;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,48 +72,27 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //end nav bar
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
+        Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+
         inputUsername = findViewById(R.id.edit_username);
         inputPassword = findViewById(R.id.edit_password);
+//        inputConfPaswd = findViewById(R.id.edit_confirm_password);
         inputEmail = findViewById(R.id.edit_email);
         inputAge = findViewById(R.id.edit_age);
         inputHeight = findViewById(R.id.edit_high);
         inputWeight = findViewById(R.id.edit_weight);
 
-        btnSaveProfile = findViewById(R.id.sign_in_button);
+        btnSaveProfile = findViewById(R.id.save_profile);
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mRootRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users");
-                final User user = new User(inputUsername.getText().toString(),
-                        inputPassword.getText().toString(),
-                        inputEmail.getText().toString(),
-                        inputAge.getText().toString(),
-                        inputHeight.getText().toString(),
-                        inputWeight.getText().toString());
-                mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(user.getUsername()).exists())
-                            Toast.makeText(EditProfileActivity.this, "The Username is Already Exist!", Toast.LENGTH_SHORT).show();
-                        else {
-                            mRootRef.child(user.getUsername()).setValue(user);
-                            Toast.makeText(EditProfileActivity.this, "Success Register!", Toast.LENGTH_SHORT).show();
-
-                            mUsername = inputUsername.getText().toString();
-                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("username", mUsername);
-                            editor.commit();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("", "onCancelled: !!!!!!!!!!!!N O T   W O R K K K K!!!!!!!!" );
-                    }
-                });
-                Intent s = new Intent(getApplicationContext(), MainActivity.class);
+                Intent s = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(s);
             }
         });
