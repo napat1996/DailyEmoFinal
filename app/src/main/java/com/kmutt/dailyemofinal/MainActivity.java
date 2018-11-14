@@ -2,6 +2,7 @@ package com.kmutt.dailyemofinal;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,13 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private Thread repeatTaskThread;
     private String TAG = MainActivity.class.getSimpleName();
 
-
     BroadcastReceiver broadcastReceiver;
 
     private static final String API_PREFIX = "https://api.fitbit.com";
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
-    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept, txtUsername;
+    private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept, txtUsername, alertTextView;
     private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
@@ -117,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference process = mRootRef.child("process");
         process.child("Traffic").setValue(false);
         process.child("Stress").setValue(false);
+
+        alertTextView = findViewById(R.id.alertTextView);
+
+
+
+
 
         //start nav bar
         btnHome = findViewById(R.id.btn_home);
@@ -251,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
                     getDeviceLocation("initial");
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
+
                         @Override
                         public void run() {
                             //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
@@ -416,6 +424,25 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
+                String currentTimee = sdf.format(new Date());
+                if(currentTimee.equals("20:00:00")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                    builder.setCancelable(true);
+                    builder.setTitle("Syng Fitbit Data");
+                    builder.setMessage("Please syng your Fitbit with your Fitbit application");
+                    Log.e(TAG, "debugging: Alearttt!!!");
+
+                    builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.e(TAG, "Debugging onClick: Noti!!!!!");
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
                 //หลักจาก get location ขอ current แต่ละ location เรื่อยๆ
                 (new Thread(new Runnable() {
                     @Override
@@ -4322,14 +4349,14 @@ public class MainActivity extends AppCompatActivity {
                         //ห้ามลบบรรทัดนี้*****
                         preLocation = thisLocation;
                         thisLocation = null;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                txtDistance = findViewById(R.id.text_activity);
-                                txtDistance.setText(s + "");
-                                txtTraffic.setText(v + "");
-                            }
-                        });
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                txtDistance = findViewById(R.id.text_activity);
+//                                txtDistance.setText(s + "");
+//                                txtTraffic.setText(v + "");
+//                            }
+//                        });
 
                     } catch (Exception ex) {
                         ex.printStackTrace();

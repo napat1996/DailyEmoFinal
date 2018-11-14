@@ -2,6 +2,7 @@ package com.kmutt.dailyemofinal;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kmutt.dailyemofinal.Model.FitbitData;
 
 import org.json.simple.JSONArray;
@@ -26,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +45,7 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
-    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex;
+    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex, txtPassword;
 
     private static final String API_PREFIX = "https://api.fitbit.com";
     private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-07/1d/5min/time/00:00/23:59.json";
@@ -54,6 +63,44 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+        String username = preferences.getString("username", "tk");
+
+        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
+        Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
+        database = FirebaseDatabase.getInstance();
+        mRootRef = database.getReferenceFromUrl(firebaseUrl);
+
+        txtAge = findViewById(R.id.textView_age1);
+        txtEmail = findViewById(R.id.textView_email1);
+        txtHeight = findViewById(R.id.textView_high1);
+        txtSex = findViewById(R.id.textView_gender1);
+        txtWeight = findViewById(R.id.textView_weight1);
+        txtPassword = findViewById(R.id.textView_password1);
+        txtUsername = findViewById(R.id.textView_username);
+        ValueEventListener valEv = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                txtUsername.setText((String)dataSnapshot.child("username").getValue());
+                txtAge.setText(dataSnapshot.child("age").getValue().toString());
+                txtPassword.setText("xxxxxxxxxx");
+                txtEmail.setText((String)dataSnapshot.child("email").getValue());
+                txtHeight.setText(dataSnapshot.child("height").getValue().toString());
+                txtSex.setText((String)dataSnapshot.child("sex").getValue());
+                txtWeight.setText(dataSnapshot.child("weight").getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        };
+        mRootRef.addValueEventListener(valEv);
+
 
         btnHome = findViewById(R.id.btn_home);
         btnHome.setOnClickListener(new View.OnClickListener() {
