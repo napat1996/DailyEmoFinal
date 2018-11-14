@@ -4349,16 +4349,7 @@ public class MainActivity extends AppCompatActivity {
                         //ห้ามลบบรรทัดนี้*****
                         preLocation = thisLocation;
                         thisLocation = null;
-<<<<<<< HEAD
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                txtDistance = findViewById(R.id.text_activity);
-                                txtDistance.setText(s + "");
-                                txtTraffic.setText(v + "");
-                            }
-                        });
-=======
+
 //                        runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
@@ -4367,7 +4358,6 @@ public class MainActivity extends AppCompatActivity {
 //                                txtTraffic.setText(v + "");
 //                            }
 //                        });
->>>>>>> 79e0b314a294807ce6ebd5288706ac105a854154
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
