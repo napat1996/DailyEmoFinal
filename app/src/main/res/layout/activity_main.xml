@@ -144,8 +144,9 @@
             android:id="@+id/activity_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/text_map"
-            android:layout_alignStart="@+id/heart_rate"
+            android:layout_alignEnd="@+id/buttom_map2"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="76dp"
             android:gravity="center"
             android:textOff="Off"
             android:textOn="On" />
@@ -208,7 +209,6 @@
             android:id="@+id/text_date"
             android:layout_width="143dp"
             android:layout_height="35dp"
-
             android:layout_above="@+id/textView6"
             android:layout_toStartOf="@+id/img_mood"
             android:text="Date"

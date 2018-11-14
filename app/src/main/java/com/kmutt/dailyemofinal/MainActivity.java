@@ -4233,7 +4233,7 @@ public class MainActivity extends AppCompatActivity {
     int locationCount = 0;
 
     public void calculateVelocity(Context context) throws IOException, ParseException {
-        txtTraffic = findViewById(R.id.text_map);
+//        txtTraffic = findViewById(R.id.text_map);
 
 
         final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -4325,7 +4325,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                txtDistance = findViewById(R.id.text_activity);
+//                                txtDistance = findViewById(R.id.text_activity);
                                 txtDistance.setText(s + "");
                                 txtTraffic.setText(v + "");
                             }

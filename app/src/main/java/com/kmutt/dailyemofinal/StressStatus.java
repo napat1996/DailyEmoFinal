@@ -26,7 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kmutt.dailyemofinal.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class StressStatus extends AppCompatActivity {
 
@@ -45,6 +47,12 @@ public class StressStatus extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stress_status);
+
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime());
+        TextView textViewDate = findViewById(R.id.text_date);
+        textViewDate.setText(currentDate);
+
 
 
         txt_sDay1 = findViewById(R.id.day_s1);

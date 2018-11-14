@@ -5,66 +5,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StressStatus">
+    tools:context=".StressStatus"
+    android:background="#F0F0F0"
+   >
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+
   <TextView
       android:layout_width="match_parent"
       android:layout_height="50dp"
-      android:background="#e1d6ce"
+      android:textColor="#2f6589"
       android:text="Stress Level"
       android:layout_gravity="center"
       android:textAlignment="center"
-      android:textSize="28sp"
-      android:textColor="#FFFF"
-
+      android:textSize="30sp"
+      android:textStyle="bold"
+      android:layout_marginTop="10dp"
       />
-    <com.github.mikephil.charting.charts.LineChart
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:id="@+id/pieChart"
-        android:background="#e1d6ce">
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="212dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="17dp"
+            android:text="date"
+            android:textColor="@color/text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/pieChart"
+        android:layout_width="390dp"
+        android:layout_height="267dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="#e1d6ce"
+        >
     </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30sp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/text"
-            android:textSize="20sp"
+            android:textColor="@color/main_text2"
+            android:textSize="25sp"
             android:textStyle="bold"
-            android:text="This Week">
+            android:text="This Week"
+            android:layout_marginTop="10dp">
 
         </TextView>
-    <TextView
-        android:id="@+id/day_s1"
-        android:layout_width="match_parent"
-        android:layout_height="13sp"
-        android:text="18-10-2018"
-        android:textColor="@color/text"
-        android:textSize="10sp"/>
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/pieChart1">
-    </com.github.mikephil.charting.charts.LineChart>
 
         <TextView
-            android:id="@+id/day_s2"
-            android:layout_width="match_parent"
-            android:layout_height="13sp"
-            android:textSize="10sp"
-            android:textColor="@color/text"
-            android:text="DD-MM-YYYY"/>
+        android:id="@+id/day_s1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="18-10-2018"
+        android:textColor="@color/text"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+            />
+
+
+
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
