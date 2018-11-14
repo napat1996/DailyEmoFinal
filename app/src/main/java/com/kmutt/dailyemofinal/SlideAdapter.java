@@ -45,8 +45,8 @@ public class SlideAdapter extends PagerAdapter {
 
             // suggest- sleep
             "Sufficient sleep is important for your health, well-being and happiness. \n" +
-          "When you sleep better, you feel better. If you’re still having trouble sleeping, \n" +
-          "try to do some suggestions : \n" +
+            "When you sleep better, you feel better. If you’re still having trouble sleeping, \n" +
+            "try to do some suggestions : \n" +
 
                  "\n" +
                  "Tip1 : Exercise during the day which is a great stress reliever and has been \n" +
