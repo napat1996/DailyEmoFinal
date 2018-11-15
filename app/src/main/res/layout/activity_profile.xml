@@ -265,11 +265,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="145dp"
-        android:text="Percentage increase"
+        android:layout_marginBottom="144dp"
+        android:text="Heart rate percentage increase"
         android:textColor="#79593b"
-        android:textStyle="bold"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView_percenincrease1"
@@ -288,7 +288,7 @@
         android:layout_alignStart="@+id/textView_username"
         android:layout_below="@+id/percenincrease"
         android:layout_marginTop="-145dp"
-        android:text="(* Percentage increase is .....)"
+        android:text="(* Heart rate percentage increase is .....)"
         android:textSize="10sp" />
 
     <Button

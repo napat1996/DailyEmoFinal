@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtSex = findViewById(R.id.textView_gender1);
         txtWeight = findViewById(R.id.textView_weight1);
         txtPassword = findViewById(R.id.textView_password1);
-        txtUsername = findViewById(R.id.textView_username);
+        txtUsername = findViewById(R.id.textView_username1);
         ValueEventListener valEv = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Start the currentDate
         Calendar calendar = Calendar.getInstance();
-        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        String currentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
         TextView textViewDate = findViewById(R.id.text_date);
         textViewDate.setText(currentDate);
         //End the currentDate
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 DataSnapshot snapshot = dataSnapshot.child("username:");
                 String name = (String)snapshot.getValue();
                 Log.d(TAG, "Debugging username: "+name);
-                txtUsername.setText(username);
+//                txtUsername.setText(username);
             }
 
             @Override

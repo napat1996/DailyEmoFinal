@@ -282,7 +282,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/edit_percenincrease"
             android:layout_alignStart="@+id/textView_username"
-            android:text="Percentage increase"
+            android:text="Heart rate percentage increase"
             android:textColor="#79593b"
             android:textStyle="bold" />
 

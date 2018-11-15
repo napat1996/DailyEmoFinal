@@ -106,6 +106,7 @@ public class GraphHr extends AppCompatActivity {
         mChart0.getDescription().setEnabled(false);
         mChart0.getLegend().setEnabled(false);
 
+
         mChart1.setDragEnabled(true);
         mChart1.setScaleEnabled(false);
         mChart1.getDescription().setEnabled(false);
@@ -157,12 +158,26 @@ public class GraphHr extends AppCompatActivity {
         mChart7.getXAxis().setDrawGridLines(false);
 
 
+        //// DELETE labels on the right slide ////
+        mChart0.getAxisRight().setDrawLabels(false);
+        mChart1.getAxisRight().setDrawLabels(false);
+        mChart2.getAxisRight().setDrawLabels(false);
+        mChart3.getAxisRight().setDrawLabels(false);
+        mChart4.getAxisRight().setDrawLabels(false);
+        mChart5.getAxisRight().setDrawLabels(false);
+        mChart6.getAxisRight().setDrawLabels(false);
+        mChart7.getAxisRight().setDrawLabels(false);
+
+
+
+
         LimitLine upper_limit = new LimitLine(100f, "Danger");
         upper_limit.setLineWidth(3f);
         upper_limit.enableDashedLine(10f, 10f, 0f);
-        upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        upper_limit.setTextSize(8f);
-        upper_limit.setLineColor(Color.rgb(129,24,27));
+        upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+        upper_limit.setTextSize(10f);
+        upper_limit.setTextColor(Color.rgb(177,11,8));
+        upper_limit.setLineColor(Color.rgb(177,11,8));
 
 
 //        LimitLine lower_limit = new LimitLine(4f, "Too low");
@@ -175,7 +190,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis0.removeAllLimitLines();
         leftAxis0.addLimitLine(upper_limit);
 //        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(130f);
+        leftAxis0.setAxisMaximum(150f);
         leftAxis0.setAxisMinimum(40f);
         leftAxis0.enableGridDashedLine(10f, 10f, 10);
         leftAxis0.setDrawLimitLinesBehindData(true);
@@ -186,7 +201,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis1.removeAllLimitLines();
         leftAxis1.addLimitLine(upper_limit);
 //        leftAxis1.addLimitLine(lower_limit);
-        leftAxis1.setAxisMaximum(130f);
+        leftAxis1.setAxisMaximum(150f);
         leftAxis1.setAxisMinimum(40f);
         leftAxis1.enableGridDashedLine(10f, 10f, 10);
         leftAxis1.setDrawLimitLinesBehindData(true);
@@ -195,7 +210,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis2.removeAllLimitLines();
         leftAxis2.addLimitLine(upper_limit);
 //        leftAxis2.addLimitLine(lower_limit);
-        leftAxis2.setAxisMaximum(130f);
+        leftAxis2.setAxisMaximum(150f);
         leftAxis2.setAxisMinimum(40f);
         leftAxis2.enableGridDashedLine(10f, 10f, 10);
         leftAxis2.setDrawLimitLinesBehindData(true);
@@ -204,7 +219,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis3.removeAllLimitLines();
         leftAxis3.addLimitLine(upper_limit);
 //        leftAxis3.addLimitLine(lower_limit);
-        leftAxis3.setAxisMaximum(130f);
+        leftAxis3.setAxisMaximum(150f);
         leftAxis3.setAxisMinimum(40f);
         leftAxis3.enableGridDashedLine(10f, 10f, 10);
         leftAxis3.setDrawLimitLinesBehindData(true);
@@ -213,7 +228,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis4.removeAllLimitLines();
         leftAxis4.addLimitLine(upper_limit);
 //        leftAxis4.addLimitLine(lower_limit);
-        leftAxis4.setAxisMaximum(130f);
+        leftAxis4.setAxisMaximum(150f);
         leftAxis4.setAxisMinimum(40f);
         leftAxis4.enableGridDashedLine(10f, 10f, 10);
         leftAxis4.setDrawLimitLinesBehindData(true);
@@ -222,7 +237,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis5.removeAllLimitLines();
         leftAxis5.addLimitLine(upper_limit);
 //        leftAxis5.addLimitLine(lower_limit);
-        leftAxis5.setAxisMaximum(130f);
+        leftAxis5.setAxisMaximum(150f);
         leftAxis5.setAxisMinimum(40f);
         leftAxis5.enableGridDashedLine(10f, 10f, 10);
         leftAxis5.setDrawLimitLinesBehindData(true);
@@ -231,7 +246,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis6.removeAllLimitLines();
         leftAxis6.addLimitLine(upper_limit);
 //        leftAxis6.addLimitLine(lower_limit);
-        leftAxis6.setAxisMaximum(130f);
+        leftAxis6.setAxisMaximum(150f);
         leftAxis6.setAxisMinimum(40f);
         leftAxis6.enableGridDashedLine(10f, 10f, 10);
         leftAxis6.setDrawLimitLinesBehindData(true);
@@ -240,7 +255,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis7.removeAllLimitLines();
         leftAxis7.addLimitLine(upper_limit);
 //        leftAxis7.addLimitLine(lower_limit);
-        leftAxis7.setAxisMaximum(130f);
+        leftAxis7.setAxisMaximum(150f);
         leftAxis7.setAxisMinimum(40f);
         leftAxis7.enableGridDashedLine(10f, 10f, 10);
         leftAxis7.setDrawLimitLinesBehindData(true);
@@ -308,8 +323,9 @@ public class GraphHr extends AppCompatActivity {
 
                 set0.setColor(Color.rgb(36,71,143));
                 set0.setLineWidth(3f);
-                set0.setValueTextSize(10f);
-                set0.setValueTextColor(Color.rgb(255,255,255));
+                set0.setValueTextSize(8f);
+                set0.setValueTextColor(Color.rgb(36,71,143));
+//                set0.setCircleColor(Color.rgb());
 
                 ArrayList<ILineDataSet> dataSets0 = new ArrayList<>();
                 dataSets0.add(set0);
@@ -364,7 +380,7 @@ public class GraphHr extends AppCompatActivity {
 
                 set1.setColor(Color.rgb(36,71,143));
                 set1.setLineWidth(3f);
-                set1.setValueTextSize(10f);
+                set1.setValueTextSize(8f);
                 set1.setValueTextColor(Color.rgb(161,134,116));
 
                 ArrayList<ILineDataSet> dataSets1 = new ArrayList<>();
@@ -415,7 +431,7 @@ public class GraphHr extends AppCompatActivity {
 
                 set2.setColor(Color.rgb(36,71,143));
                 set2.setLineWidth(3f);
-                set2.setValueTextSize(10f);
+                set2.setValueTextSize(8f);
                 set2.setValueTextColor(Color.rgb(161,134,116));
 
                 ArrayList<ILineDataSet> dataSets2 = new ArrayList<>();
@@ -467,7 +483,7 @@ public class GraphHr extends AppCompatActivity {
 
 
                 set3.setLineWidth(3f);
-                set3.setValueTextSize(10f);
+                set3.setValueTextSize(8f);
                 set3.setValueTextColor(Color.rgb(161,134,116));
                 set3.setColor(Color.rgb(36,71,143));
 
@@ -520,7 +536,7 @@ public class GraphHr extends AppCompatActivity {
 
 
                 set4.setLineWidth(3f);
-                set4.setValueTextSize(10f);
+                set4.setValueTextSize(8f);
                 set4.setValueTextColor(Color.rgb(161,134,116));
                 set4.setColor(Color.rgb(36,71,143));
 
@@ -573,7 +589,7 @@ public class GraphHr extends AppCompatActivity {
 
 
                 set5.setLineWidth(3f);
-                set5.setValueTextSize(10f);
+                set5.setValueTextSize(8f);
                 set5.setValueTextColor(Color.rgb(161,134,116));
                 set5.setColor(Color.rgb(36,71,143));
 
@@ -626,7 +642,7 @@ public class GraphHr extends AppCompatActivity {
 
 
                 set6.setLineWidth(3f);
-                set6.setValueTextSize(10f);
+                set6.setValueTextSize(8f);
                 set6.setValueTextColor(Color.rgb(161,134,116));
                 set6.setColor(Color.rgb(36,71,143));
 
@@ -679,7 +695,7 @@ public class GraphHr extends AppCompatActivity {
 //                set1.setFillAlpha(110);
 
                 set7.setLineWidth(3f);
-                set7.setValueTextSize(10f);
+                set7.setValueTextSize(8f);
                 set7.setValueTextColor(Color.rgb(161,134,116));
                 set7.setColor(Color.rgb(36,71,143));
 

@@ -37,6 +37,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".GraphHr"/>
+        <activity android:name=".GraphSleep"/>
         <activity android:name=".SuggestionBackgroundActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".EditProfileActivity" />

@@ -18,37 +18,50 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#F0F0F0"
+                android:text="Heart Rate"
+                android:textAlignment="center"
+                android:textColor="#a42455"
+                android:textSize="30sp"
+                android:textStyle="bold"
 
+                />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
 
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="50sp"
-          android:background="#F0F0F0"
-          android:textColor="#2f6589"
-          android:text="Heart Rate"
-          android:layout_gravity="center"
-          android:textStyle="bold"
-          android:textAlignment="center"
-          android:textSize="30sp"
-          android:layout_marginTop="10dp"
-
-          />
-
+           >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today :"
+                android:textSize="13sp"
+                android:layout_marginStart="18dp"
+                android:textStyle="bold"
+                android:textColor="##1d3174"/>
             <TextView
                 android:id="@+id/text_date"
-                android:layout_width="212dp"
-                android:layout_height="27dp"
-                android:layout_marginStart="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
                 android:text="date"
-                android:textColor="@color/text"
-                android:textSize="15sp"
+                android:textColor="##1d3174"
+                android:textSize="13sp"
                 android:textStyle="bold" />
+
+        </LinearLayout>
 
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr"
-                android:layout_width="390dp"
-                android:layout_height="267dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#e1d6ce">
@@ -61,10 +74,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This Week"
+                android:text="✿This Week✿"
                 android:textAlignment="center"
-                android:textColor="@color/main_text2"
-                android:textSize="25sp"
+                android:textColor="#796262"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"/>
 
@@ -76,18 +89,18 @@
                 android:text="DD-MM-YYYY"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
-                android:textColor="@color/text"
-                android:textSize="15sp"
+                android:textColor="#1d3174"
+                android:textSize="14sp"
                 android:layout_marginBottom="10dp"/>
 
 
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr1"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 android:layout_gravity="center">
 
             </com.github.mikephil.charting.charts.LineChart>
@@ -98,9 +111,9 @@
         android:id="@+id/day2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/text"
+        android:textColor="#1d3174"
         android:text="DD-MM-YYYY"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_marginStart="20dp"
         android:textStyle="bold"
         android:layout_marginBottom="10dp"
@@ -111,11 +124,11 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart_hr2"
-        android:layout_width="390dp"
-        android:layout_height="250dp"
+        android:layout_width="339dp"
+        android:layout_height="204dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="#ededed">
+        android:background="#eaeaea">
     </com.github.mikephil.charting.charts.LineChart>
 
 
@@ -124,9 +137,9 @@
                  android:id="@+id/day3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text"
+                android:textColor="#1d3174"
                 android:text="DD-MM-YYYY"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:layout_marginStart="20dp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"
@@ -136,11 +149,11 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr3"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 >
             </com.github.mikephil.charting.charts.LineChart>
 
@@ -148,11 +161,11 @@
                 android:id="@+id/day4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:text="DD-MM-YYYY"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
-                android:textColor="@color/text"
+                android:textColor="#1d3174"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"/>
 
@@ -160,10 +173,10 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr4"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 android:layout_gravity="center">
             </com.github.mikephil.charting.charts.LineChart>
 
@@ -173,11 +186,11 @@
                 android:id="@+id/day5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text"
+                android:textColor="#1d3174"
                 android:text="DD-MM-YYYY"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 />
@@ -185,10 +198,10 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr5"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 android:layout_gravity="center">
             </com.github.mikephil.charting.charts.LineChart>
 
@@ -198,11 +211,11 @@
                 android:id="@+id/day6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:text="DD-MM-YYYY"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
-                android:textColor="@color/text"
+                android:textColor="#1d3174"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 />
@@ -210,10 +223,10 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr6"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 android:layout_gravity="center">
             </com.github.mikephil.charting.charts.LineChart>
 
@@ -234,12 +247,12 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart_hr7"
-                android:layout_width="390dp"
-                android:layout_height="250dp"
+                android:layout_width="339dp"
+                android:layout_height="204dp"
                 android:layout_weight="1"
-                android:background="#ededed"
+                android:background="#eaeaea"
                 android:layout_gravity="center"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="65dp">
             </com.github.mikephil.charting.charts.LineChart>
 
 
