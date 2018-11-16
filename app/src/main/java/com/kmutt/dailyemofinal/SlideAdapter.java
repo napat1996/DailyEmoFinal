@@ -24,7 +24,7 @@ public class SlideAdapter extends PagerAdapter {
             R.drawable.icon_moon,
             R.drawable.icon_heart,
             R.drawable.icon_step,
-            R.drawable.carr
+            R.drawable.carr,
 
     };
 // list of titles
@@ -44,61 +44,71 @@ public class SlideAdapter extends PagerAdapter {
     public String[] lst_title ={
 
             // suggest- sleep
-            "Sufficient sleep is important for your health, well-being and happiness. \n" +
-            "When you sleep better, you feel better. If you’re still having trouble sleeping, \n" +
-            "try to do some suggestions : \n" +
+            "\n"+
+            "\t\t\t\t\t\t\t\t\t Sufficient sleep is important for your \n" +
+                    "\t\t\t\t\t health, well-being and happiness. When you \n"+
+                    "\t\t\t\t\t sleep better ,you feel better. If you are still \n" +
+                    "\t\t\t\t\t having trouble sleeping try to do some  \n"+
+                    "\t\t\t\t\t suggestions : \n" +
 
                  "\n" +
-                 "Tip1 : Exercise during the day which is a great stress reliever and has been \n" +
-                 "\t\tshown to improve the quality of sleep.\n" +
+                    "\t\t\t\t\t Tip 1: Exercise during the day which is a \n" +
+                    "\t\t\t\t\t great sleep. Stress reliever and has been \n" +
+                    "\t\t\t\t\t shown to improve the quality of sleep.\n" +
                  "\n" +
 
-                 "Tip2: Eat a healthy, balanced diet: Eating a varied diet rich in fruits, vegetables, lean proteins,\n" +
-                    "nuts, and legumes can help to improve the health of the heart, as well as overall health." +
-
-                 "Tip3 : Wind down and clear your head. Your body needs time to shift into \n" +
-                 "\t\tsleep mode, so spend the last hour before bed doing a calming \n" +
-                 "\t\tactivity such as reading, and avoid using an electronic device. ",
-
-
-
+                    "\t\t\t\t\t Tip 2: Eat a healthy, balanced diet: Eating a \n" +
+                    "\t\t\t\t\t varied diet rich in fruits, vegetables, lean \n" +
+                    "\t\t\t\t\t proteins, nuts, and legumes can help to \n" +
+                    "\t\t\t\t\t improve the overall health. \n",
 
             //suggest-hr
-            "Breathe in for 5-8 seconds, hold that breath for 3-5 seconds, then exhale \n" +
-                    "slowly. Repeat several times. Raising your aortic pressure in this way will \n" +
-                    "lower your heart rate.",
-
-
+            "\n"+
+            "\t\t\t\t\t\t\t\t\t A normal resting heart rate is between \n" +
+                    "\t\t\t\t\t 60 and 100 beats per minute. By doing these \n"+
+                    "\t\t\t\t\t suggestion, you can start to lower your \n"+
+                    "\t\t\t\t\t resting heart rate and also help maintain \n"+
+                    "\t\t\t\t\t a healthy heart: \n" +
+            "\n"+
+                    "\t\t\t\t\t Tip 1: Avoid tobacco products. \n"+
+                    "\t\t\t\t\t Tip 2: Take up yoga or meditation. \n"+
+                    "\t\t\t\t\t Tip 3: Get your potassium.  \n"+
+                    "\t\t\t\t\t Tip 4: Increase your physical activity.  \n"+
+                    "\t\t\t\t\t Tip 5: Laugh out loud. \n"+
+                    "\t\t\t\t\t Tip 6: Let the music move you. \n"+
+                    "\t\t\t\t\t Tip 7: Get a good night’s sleep. \n",
 
         // suggest-step
-            "Walking  can help reduce anxiety and gives you time to think, as well as \n" +
-                 "time to get away from stress. Getting out of the stressful environment, \n" +
-                 "breathing the air, and feeling your body move is natural stress-relief.  \n" +
-                 "Try walking outside for 20 -30 minutes several times per week to alleviate\n" +
-                 "stress and give your mind a boost. Whether it’s a slow stroll in the park with\n" +
-                 "friends or a brisk power-walk around the neighborhood, make walking a \n" +
-                 "part of your daily routine to reduce tension and promote feelings of calm.",
+            "\n"+
+            "\t\t\t\t\t\t\t\t\t Walking  can help reduce anxiety and \n" +
+                    "\t\t\t\t\t gives you time to think, as well as time to get\n" +
+                    "\t\t\t\t\t away from stress. Getting out of the stressful\n" +
+                    "\t\t\t\t\t environment, breathing the air, and feeling \n" +
+                    "\t\t\t\t\t your body move is natural stress-relief. \n" +
+                    "\t\t\t\t\t Try walking outside for 20 -30 minutes \n" +
+                    "\t\t\t\t\t several times per week to alleviate stress \n" +
+                    "\t\t\t\t\t and give your mind a boost. Whether it is\n" +
+                    "\t\t\t\t\t slow stroll in the park with friends or a brisk \n" +
+                    "\t\t\t\t\t power-walk around the neighborhood ,make  \n" +
+                    "\t\t\t\t\t walking a part of your daily routine to reduce \n"+
+                    "\t\t\t\t\t tension and promote feelings of calm.\n",
 
             // suggest-traffic
-            "Driving can be an incredibly stressful activity, especially when you're dealing with\n" +
-                    "stop-and-go highway traffic or navigating chaotic city streets.  \n" +
-                    "And because you're trapped in a confined space, that pent-up\n" +
-                    "stress can often turn into full-on road rage, which can put you and \n" +
-                    "other drivers at risk. Here are some key tips to help you manage \n" +
-                    "stress while driving:\n" +
-                    "\n" +
-                    "Tip1 : Pick the right playlist. Listened the classical or pop music were \n" +
-                    "\t\ttless stressed out during their car rides. Turn on a playlist of \n" +
-                    "\t\tsongs that will lift your spirits and take your mind off any traffic \n" +
-                    "\t\ttstandstill.\n" +
-                    "\n" +
-                    "Tip2 : Ride with a passenger. Set up a carpool with a coworker or bring\n" +
-                    "\t\tyour partner along when running errands. You’ll have another \n" +
-                    "\t\tset of eyes on the road and someone to chat with while you \n" +
-                    "\t\tdrive.\n" +
-                    "Tip3 : Make sure you’re comfortable. Use the heat or air conditioning \n" +
-                    "\t\tas necessary to keep yourself comfortable. If your car feels stuffy,\n" +
-                    "\t\tconsider opening the windows if the weather is nice. "
+            "\t\t\t\t\t\t\t\t\t Driving can be an incredibly stressful \n" +
+                    "\t\t\t\t\t activity,especially when you're dealing with \n" +
+                    "\t\t\t\t\t stop and go highway traffic or navigating  \n" +
+                    "\t\t\t\t\t chaotic city streets. Here are some key tips \n" +
+                    "\t\t\t\t\t to help you manage stress while driving: \n" +
+                    "\n"+
+                    "\t\t\t\t\t Tip 1: Learn the traffic patterns.\n" +
+                    "\t\t\t\t\t Tip 2: Always have an alternate plan. \n" +
+                    "\t\t\t\t\t Tip 3: Find enjoyable activities to pass \n" +
+                    "\t\t\t\t\t the time. \n" +
+                    "\t\t\t\t\t Tip 4: De-stress with a sounds and thoughts \n" +
+                    "\t\t\t\t\t Meditation. \n" +
+                    "\t\t\t\t\t Tip 5: Listen to music. \n" +
+                    "\t\t\t\t\t Tip 6: Keep away from aggressive drivers.\n" +
+                    "\t\t\t\t\t Tip 7: Have a break, have a snack.\n",
 
     };
 

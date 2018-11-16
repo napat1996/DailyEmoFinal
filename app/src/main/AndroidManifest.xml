@@ -18,9 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".LoginActivity">
-=======
+
 
         <activity android:name=".LoginActivity">
 
@@ -32,10 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
-<<<<<<< HEAD
-        <!--<activity android:name=".GraphHr" />-->
-         <activity android:name=".GraphSleep" />
-=======
+
 
         <!--<activity android:name=".GraphHr" />-->
 
