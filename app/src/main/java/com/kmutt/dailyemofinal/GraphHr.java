@@ -180,6 +180,7 @@ public class GraphHr extends AppCompatActivity {
         upper_limit.setLineColor(Color.rgb(177,11,8));
 
 
+
 //        LimitLine lower_limit = new LimitLine(4f, "Too low");
 //        upper_limit.setLineWidth(4f);
 //        upper_limit.enableDashedLine(10f, 10f, 0f);
@@ -259,6 +260,32 @@ public class GraphHr extends AppCompatActivity {
         leftAxis7.setAxisMinimum(40f);
         leftAxis7.enableGridDashedLine(10f, 10f, 10);
         leftAxis7.setDrawLimitLinesBehindData(true);
+
+        // ลดตัวอักษรขนาดของเวลา
+        XAxis xAxis = mChart0.getXAxis();
+        xAxis.setTextSize(6f);
+
+        XAxis xAxis1 = mChart1.getXAxis();
+        xAxis1.setTextSize(6f);
+
+        XAxis xAxis2 = mChart2.getXAxis();
+        xAxis2.setTextSize(6f);
+
+        XAxis xAxis3 = mChart3.getXAxis();
+        xAxis3.setTextSize(6f);
+
+        XAxis xAxis4 = mChart4.getXAxis();
+        xAxis4.setTextSize(6f);
+
+        XAxis xAxis5 = mChart5.getXAxis();
+        xAxis5.setTextSize(6f);
+
+        XAxis xAxis6 = mChart6.getXAxis();
+        xAxis6.setTextSize(6f);
+
+        XAxis xAxis7 = mChart7.getXAxis();
+        xAxis7.setTextSize(6f);
+
 
 
         //delete line on the right side

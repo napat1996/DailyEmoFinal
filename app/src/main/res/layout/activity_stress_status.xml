@@ -23,7 +23,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Stress Level"
                 android:textAlignment="center"
-                android:textColor="#a42455"
+                android:textColor="#b35656"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:text="Today :"
-                    android:textColor="##1d3174"
+                    android:textColor="#1d3174"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -50,8 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
                     android:text="date"
-                    android:textColor="##1d3174"
-                    android:textSize="15sp"
+                    android:textColor="#1d3174"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

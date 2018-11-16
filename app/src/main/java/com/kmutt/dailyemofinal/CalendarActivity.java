@@ -333,28 +333,28 @@ public class CalendarActivity extends AppCompatActivity {
 
 //     // ลดตัวอักษรขนาดของเวลา
         XAxis xAxis = sChart0.getXAxis();
-        xAxis.setTextSize(5f);
+        xAxis.setTextSize(6f);
 
         XAxis xAxis1 = sChart1.getXAxis();
-        xAxis1.setTextSize(5f);
+        xAxis1.setTextSize(6f);
 
         XAxis xAxis2 = sChart2.getXAxis();
-        xAxis2.setTextSize(5f);
+        xAxis2.setTextSize(6f);
 
         XAxis xAxis3 = sChart3.getXAxis();
-        xAxis3.setTextSize(5f);
+        xAxis3.setTextSize(6f);
 
         XAxis xAxis4 = sChart4.getXAxis();
-        xAxis4.setTextSize(5f);
+        xAxis4.setTextSize(6f);
 
         XAxis xAxis5 = sChart5.getXAxis();
-        xAxis5.setTextSize(5f);
+        xAxis5.setTextSize(6f);
 
         XAxis xAxis6 = sChart6.getXAxis();
-        xAxis6.setTextSize(5f);
+        xAxis6.setTextSize(6f);
 
         XAxis xAxis7 = sChart7.getXAxis();
-        xAxis7.setTextSize(5f);
+        xAxis7.setTextSize(6f);
 
 
 

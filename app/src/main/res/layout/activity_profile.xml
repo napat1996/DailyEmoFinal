@@ -39,8 +39,6 @@
             android:id="@+id/btn_suggestion"
             android:layout_width="33dp"
             android:layout_height="29dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_marginLeft="65dp"
             android:background="@drawable/iiii" />
@@ -49,8 +47,6 @@
             android:id="@+id/btn_profile"
             android:layout_width="33dp"
             android:layout_height="29dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
             android:layout_marginStart="50dp"
             android:background="@drawable/ue" />
@@ -60,245 +56,567 @@
 
     <!--end nav bar-->
 
-    <ImageView
-        android:id="@+id/image_profile"
-        android:layout_width="115dp"
-        android:layout_height="104dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        app:srcCompat="@drawable/prof" />
+    <LinearLayout
+        android:id="@+id/a1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_username"
+        <ImageView
+            android:id="@+id/image_edit_profile"
+            android:layout_width="115dp"
+            android:layout_height="104dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="35dp"
+            android:layout_marginTop="40dp"
+            app:srcCompat="@drawable/prof" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="176dp"
+        android:layout_below="@id/a1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/textView_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Username"
         android:textSize="15dp"
         android:textColor="#79593b"
         android:textStyle="bold"/>
+        <TextView
+        android:id="@+id/textView_username1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30sp"
+        android:text="TextView"
+        android:textSize="15sp" />
 
+    </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/c1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/b1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
         android:id="@+id/textView_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="215dp"
         android:text="Password"
         android:textColor="#79593b"
         android:textSize="15sp"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/textView_confirm_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginTop="252dp"
-        android:text="Confirm password"
-        android:textColor="#79593b"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_centerVertical="true"
-        android:text="E-mail"
-        android:textColor="#79593b"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="254dp"
-        android:text="Gender"
-        android:textColor="#79593b"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_birthDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="216dp"
-        android:text="Birth of Date"
-        android:textColor="#79593b"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/image_profile"
-        android:layout_alignTop="@+id/textView_gender"
-        android:text="Age"
-        android:textSize="15dp"
-        android:textColor="#79593b"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="179dp"
-        android:text="Weight"
-        android:textColor="#79593b"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_age"
-        android:layout_alignTop="@+id/textView_weight"
-        android:text="Height"
-        android:textSize="15dp"
-        android:textColor="#79593b"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/textView_username1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView_username"
-        android:layout_toEndOf="@+id/textView_username"
-        android:layout_marginStart="20sp"
-        android:text="TextView"
-        android:textSize="14dp" />
-
-    <TextView
+        <TextView
         android:id="@+id/textView_password1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView_username1"
         android:layout_alignTop="@+id/textView_password"
         android:text="TextView"
-        android:textSize="14dp"/>
+        android:textSize="15dp"
+        android:layout_marginStart="32dp"/>
 
-    <TextView
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/d1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/c1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+        android:id="@+id/textView_confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm password"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
+        <TextView
         android:id="@+id/textView_confirm_password1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username1"
-        android:layout_alignTop="@+id/textView_email"
         android:text="TextView"
-        android:textSize="14dp"/>
+        android:textSize="15dp"
+        android:layout_marginStart="30dp"/>
 
-    <TextView
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/e1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/d1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+        android:id="@+id/textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail"
+        android:textColor="#79593b"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+        <TextView
         android:id="@+id/textView_email1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView_confirm_password"
         android:layout_toEndOf="@+id/textView_username1"
         android:text="TextView"
-        android:textSize="14dp"/>
+            android:textSize="15dp"
+            android:layout_marginStart="56dp"/>
 
-    <TextView
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/f1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/e1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+        android:id="@+id/textView_birthDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birth of Date"
+        android:textColor="#79593b"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+        <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BirthDate"
+            android:textSize="15sp"
+        android:layout_marginStart="13dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/g1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/f1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+
+        <TextView
+        android:id="@+id/textView_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:textColor="#79593b"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+        <TextView
         android:id="@+id/textView_gender1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username1"
-        android:layout_alignTop="@+id/textView_gender"
         android:text="TextView"
-        android:textSize="14dp"/>
+        android:textSize="15dp"
+            android:layout_marginStart="50dp"/>
 
-    <TextView
-        android:id="@+id/textView_birthDate1"
-        android:layout_width="94dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username1"
-        android:layout_alignTop="@+id/textView_birthDate"
-        android:text="TextView"
-        android:textSize="14dp"/>
-
-    <TextView
-        android:id="@+id/textView_weight1"
+        <TextView
+        android:id="@+id/textView_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username1"
-        android:layout_alignTop="@+id/textView_weight"
-        android:text="TextView"
-        android:textSize="14dp"/>
+        android:text="Age"
+        android:textSize="15dp"
+        android:textColor="#79593b"
+        android:textStyle="bold"
+            android:layout_marginStart="30dp"/>
 
-    <TextView
-        android:id="@+id/textView_high1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textView_weight"
-        android:layout_marginEnd="47dp"
-        android:text="TextView"
-        android:textSize="14dp"/>
-
-    <TextView
+        <TextView
         android:id="@+id/textView_age1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_high1"
-        android:layout_alignTop="@+id/textView_gender"
-        android:text="TextView" />
+        android:text="TextView"
+            android:textSize="15sp"
+            android:layout_marginStart="30dp"/>
 
-    <TextView
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/g1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+
+        <TextView
+        android:id="@+id/textView_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight"
+        android:textColor="#79593b"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/textView_weight1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="15dp"
+            android:layout_marginStart="50dp"/>
+
+        <TextView
+        android:id="@+id/textView_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Height"
+        android:textSize="15dp"
+        android:textColor="#79593b"
+        android:textStyle="bold"
+            android:layout_marginStart="30dp"/>
+
+        <TextView
+        android:id="@+id/textView_high1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="47dp"
+        android:text="TextView"
+        android:textSize="15dp"
+            android:layout_marginStart="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/i1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/h1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
         android:id="@+id/percenincrease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_marginBottom="144dp"
         android:text="Heart rate percentage increase"
         android:textColor="#79593b"
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <TextView
+        <TextView
         android:id="@+id/textView_percenincrease1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/image_profile"
-
         android:layout_alignTop="@+id/percenincrease"
-        android:text="0"
-        android:textSize="14sp"/>
+        android:layout_toEndOf="@+id/textView_high"
+        android:text="TextView"
+        android:textSize="15sp"
+            android:layout_marginStart="40dp"/>
 
-    <TextView
-        android:id="@+id/textView8"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/k1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView_username"
-        android:layout_below="@+id/percenincrease"
-        android:layout_marginTop="-145dp"
-        android:text="(* Heart rate percentage increase is .....)"
-        android:textSize="10sp" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/i1"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(* Heart rate percentage increase he function that allows the user to adjust the percentage of stress depend on his/her demand..)"
+            android:textSize="10sp" />
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_edit_profile"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
-        android:text="SAVE" />
+        android:layout_marginBottom="58dp"
+        android:text="EDIT PROFILE" />
+
+
+    <!--<ImageView-->
+        <!--android:id="@+id/image_profile"-->
+        <!--android:layout_width="115dp"-->
+        <!--android:layout_height="104dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="35dp"-->
+        <!--app:srcCompat="@drawable/prof" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_username"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginStart="37dp"-->
+        <!--android:layout_marginTop="176dp"-->
+        <!--android:text="Username"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textStyle="bold"/>-->
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_password"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginTop="215dp"-->
+        <!--android:text="Password"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_confirm_password"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginTop="252dp"-->
+        <!--android:text="Confirm password"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_email"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:text="E-mail"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_gender"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginBottom="254dp"-->
+        <!--android:text="Gender"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_birthDate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginBottom="216dp"-->
+        <!--android:text="Birth of Date"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_age"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/image_profile"-->
+        <!--android:layout_alignTop="@+id/textView_gender"-->
+        <!--android:text="Age"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_weight"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginBottom="179dp"-->
+        <!--android:text="Weight"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_high"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_age"-->
+        <!--android:layout_alignTop="@+id/textView_weight"-->
+        <!--android:text="Height"-->
+        <!--android:textSize="15dp"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textStyle="bold"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_username1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/textView_username"-->
+        <!--android:layout_toEndOf="@+id/textView_username"-->
+        <!--android:layout_marginStart="20sp"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_password1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username1"-->
+        <!--android:layout_alignTop="@+id/textView_password"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_confirm_password1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username1"-->
+        <!--android:layout_alignTop="@+id/textView_email"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_email1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/textView_confirm_password"-->
+        <!--android:layout_toEndOf="@+id/textView_username1"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_gender1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username1"-->
+        <!--android:layout_alignTop="@+id/textView_gender"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_birthDate1"-->
+        <!--android:layout_width="94dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username1"-->
+        <!--android:layout_alignTop="@+id/textView_birthDate"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_weight1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username1"-->
+        <!--android:layout_alignTop="@+id/textView_weight"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_high1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignTop="@+id/textView_weight"-->
+        <!--android:layout_marginEnd="47dp"-->
+        <!--android:text="TextView"-->
+        <!--android:textSize="14dp"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_age1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_high1"-->
+        <!--android:layout_alignTop="@+id/textView_gender"-->
+        <!--android:text="TextView" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/percenincrease"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_marginBottom="144dp"-->
+        <!--android:text="Heart rate percentage increase"-->
+        <!--android:textColor="#79593b"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView_percenincrease1"-->
+        <!--android:layout_width="43dp"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:layout_alignTop="@+id/percenincrease"-->
+        <!--android:layout_toEndOf="@+id/textView_high"-->
+        <!--android:text="0"-->
+        <!--android:textSize="14sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView8"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textView_username"-->
+        <!--android:layout_below="@+id/percenincrease"-->
+        <!--android:layout_marginTop="-145dp"-->
+        <!--android:text="(* Heart rate percentage increase he function that allows the user to adjust the percentage of stress depend on his/her demand..)"-->
+        <!--android:textSize="10sp" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/button_edit_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="53dp"-->
+        <!--android:text="EDIT PROFILE" />-->
 
 
     <!--<TextView-->

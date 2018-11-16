@@ -26,7 +26,7 @@
                 android:background="#F0F0F0"
                 android:text="Heart Rate"
                 android:textAlignment="center"
-                android:textColor="#a42455"
+                android:textColor="#b35656"
                 android:textSize="30sp"
                 android:textStyle="bold"
 
@@ -44,14 +44,14 @@
                 android:textSize="13sp"
                 android:layout_marginStart="18dp"
                 android:textStyle="bold"
-                android:textColor="##1d3174"/>
+                android:textColor="#1d3174"/>
             <TextView
                 android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="date"
-                android:textColor="##1d3174"
+                android:textColor="#1d3174"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 

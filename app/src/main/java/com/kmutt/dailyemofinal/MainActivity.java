@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
     private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept, txtUsername, alertTextView;
-    private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
+    private Button btnHeartRate, btnSleep;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
     private Switch btnSwitch, btnSwitchEx;
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         txtStept = findViewById(R.id.text_steps);
 //                            txtActivity.setText(activity);
 
-        btnMap = findViewById(R.id.buttom_map2);
+//        btnMap = findViewById(R.id.buttom_map2);
 
 
         btnHeartRate.setOnClickListener(new View.OnClickListener() {
@@ -235,15 +235,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("go to Traffic graph page");
-                Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
-                startActivity(myIntent);
-
-            }
-        });
+//        btnMap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("go to Traffic graph page");
+//                Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
+//                startActivity(myIntent);
+//
+//            }
+//        });
 
         btnSwitch = findViewById(R.id.activity_switch);
         btnSwitchEx = findViewById(R.id.exercise_switch);
