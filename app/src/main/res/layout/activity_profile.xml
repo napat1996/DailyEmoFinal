@@ -247,7 +247,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="15dp"
-            android:layout_marginStart="50dp"/>
+            android:layout_marginStart="40dp"/>
 
         <TextView
         android:id="@+id/textView_age"
@@ -270,61 +270,60 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/h1"
+        android:id="@+id/p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@id/g1"
         android:layout_marginStart="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
 
         <TextView
-        android:id="@+id/textView_weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Weight"
-        android:textColor="#79593b"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
+            android:id="@+id/textView_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight"
+            android:textColor="#79593b"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/textView_weight1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:text="TextView"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/textView_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="Height"
+            android:textColor="#79593b"
             android:textSize="15dp"
-            android:layout_marginStart="50dp"/>
+            android:textStyle="bold" />
 
         <TextView
-        android:id="@+id/textView_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Height"
-        android:textSize="15dp"
-        android:textColor="#79593b"
-        android:textStyle="bold"
-            android:layout_marginStart="30dp"/>
-
-        <TextView
-        android:id="@+id/textView_high1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="47dp"
-        android:text="TextView"
-        android:textSize="15dp"
-            android:layout_marginStart="14dp"/>
+            android:id="@+id/textView_high1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="TextView"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/i1"
+        android:id="@+id/z1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/h1"
+        android:layout_below="@id/p1"
         android:layout_marginStart="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp">>
 
         <TextView
         android:id="@+id/percenincrease"
@@ -343,7 +342,7 @@
         android:layout_toEndOf="@+id/textView_high"
         android:text="TextView"
         android:textSize="15sp"
-            android:layout_marginStart="40dp"/>
+            android:layout_marginStart="20dp"/>
 
     </LinearLayout>
 
@@ -352,7 +351,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/i1"
+        android:layout_below="@id/z1"
         android:layout_marginStart="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="5dp">
@@ -362,20 +361,33 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(* Heart rate percentage increase he function that allows the user to adjust the percentage of stress depend on his/her demand..)"
+            android:text="(* Heart rate percentage increase he function that allows the user \n to adjust the percentage of stress depend on his/her demand."
             android:textSize="10sp" />
 
 
     </LinearLayout>
 
+    <!--<Button-->
+        <!--android:id="@+id/button_edit_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="58dp"-->
+        <!--android:text="EDIT PROFILE" />-->
+
     <Button
         android:id="@+id/button_edit_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:layout_height="38sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp"
-        android:text="EDIT PROFILE" />
+        android:layout_marginBottom="67dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="0sp"
+        android:text="EDIT PROFILE"
+        android:textColor="@color/text"
+        android:textSize="15sp" />
 
 
     <!--<ImageView-->
