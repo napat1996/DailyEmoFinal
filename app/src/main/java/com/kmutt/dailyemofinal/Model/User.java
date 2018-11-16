@@ -19,6 +19,7 @@ public class User {
     private int heartRateValue;
     private String heartTime;
     private int sleepMinute;
+    private int percent;
 
 
     public User(String s, String toString, String string, String s1, String toString1, String string1){
@@ -29,6 +30,18 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public User(String username, String password, String email, String sex, String high, String age, String bd, String inputWeightText, String percent) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.sex = sex;
+        this.height = Integer.parseInt(high);
+        this.age = Integer.parseInt(age);
+        this.birthDate = bd;
+        this.weight = Integer.parseInt(inputWeightText);
+        this.percent = Integer.parseInt(percent);
     }
 
     public User(String username, String password, String email, String sex, String high, String age, String bd, String inputWeightText) {

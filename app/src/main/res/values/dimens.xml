@@ -1,4 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="vert_line">1sp</dimen>
+    <dimen name="hort_line">2sp</dimen>
 
 </resources>

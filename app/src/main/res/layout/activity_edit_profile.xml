@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity"
-    android:background="#f9f8f7">
+    android:background="#F0F0F0">
 
 
     <LinearLayout
@@ -13,124 +13,413 @@
         android:layout_height="40sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="#e2e2e2">
+        android:background="#e2e2e2"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_home"
             android:layout_width="33dp"
-            android:layout_height="30dp"
+            android:layout_height="29dp"
             android:layout_gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             android:background="@drawable/ho" />
 
         <Button
             android:id="@+id/btn_summary"
             android:layout_width="33sp"
-            android:layout_height="30sp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="29sp"
             android:layout_gravity="center"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="50dp"
             android:background="@drawable/statistics" />
 
         <Button
             android:id="@+id/btn_suggestion"
             android:layout_width="33sp"
             android:layout_height="29dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:layout_marginLeft="65dp"
+            android:layout_marginStart="60dp"
             android:background="@drawable/iiii" />
 
         <Button
             android:id="@+id/btn_profile"
             android:layout_width="33sp"
             android:layout_height="29sp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
             android:layout_marginStart="50sp"
             android:background="@drawable/ue" />
 
+
     </LinearLayout>
 
-
     <!--end nav bar-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
 
+    <LinearLayout
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/image_edit_profile"
             android:layout_width="115dp"
             android:layout_height="104dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             app:srcCompat="@drawable/prof" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/a"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        >
 
         <TextView
-            android:id="@+id/textView_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_username"
-            android:layout_alignStart="@+id/textView_password"
-            android:text="Username"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        android:id="@+id/textView_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_username"
-            android:layout_width="173dp"
+            android:layout_width="179dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="162dp"
-            android:layout_toEndOf="@+id/textView_password"
+            android:layout_marginStart="30dp"
             android:hint="username"
             android:textSize="15sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/b"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView_password"
+        android:id="@+id/textView_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="password"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+        <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="179dp"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:textSize="15sp"
+        android:layout_marginStart="33dp"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/c"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+        <TextView
+        android:id="@+id/textView_confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Confirm password"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/edit_confirm_password"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:hint="confirm password"
+            android:textSize="15sp"
+            android:layout_marginStart="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/e"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/d"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="218dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="58dp"
+            android:hint="example@example.com"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/e"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/textView_birthDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birth of Date"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+        <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="YYYY-MM-DD"
+        android:textSize="15sp"
+        android:layout_marginStart="15dp"    />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/f"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/textView_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+        <EditText
+        android:id="@+id/edit_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="sex"
+        android:textSize="15sp"
+        android:layout_marginStart="24dp"/>
+
+        <TextView
+            android:id="@+id/textView_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_password"
-            android:layout_alignStart="@+id/textView_confirm_password"
-            android:text="password"
+            android:text="Age"
+            android:textColor="#79593b"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginStart="50dp"/>
+
+        <EditText
+            android:id="@+id/edit_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="years"
+            android:textSize="15sp"
+            android:layout_marginStart="46dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/g"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/h"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+        android:id="@+id/textView_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="weight"
+        android:textColor="#79593b"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:hint="(kg.)"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:text="Height"
             android:textColor="#79593b"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edit_password"
-            android:layout_width="159dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edit_username"
-            android:layout_below="@+id/edit_username"
-            android:layout_alignEnd="@+id/edit_username"
-            android:hint="password"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView_confirm_password"
+            android:id="@+id/edit_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_confirm_password"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:text="Confirm password"
+            android:layout_marginStart="30dp"
+            android:hint="(cm.)"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/i"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/g"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Heart rate percentage increase"
             android:textColor="#79593b"
-            android:textSize="15sp"
             android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_percenincrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="ex.0,10,20"
+            android:textSize="15sp"
+            android:layout_marginStart="30dp"/>
+
+    </LinearLayout>
+
+    <!--<Button-->
+        <!--android:id="@+id/save_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="38dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="54dp"-->
+        <!--android:text="SAVE" />-->
+
+    <Button
+        android:id="@+id/save_profile"
+        android:layout_width="103sp"
+        android:layout_height="38sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="0sp"
+        android:text="SAVE"
+        android:textColor="@color/text"
+        android:textSize="15sp" />
+
+
+    <!--<RelativeLayout-->
+     <!--android:layout_width="match_parent"-->
+     <!--android:layout_height="match_parent">-->
+
+
+
+        <!--<ImageView-->
+            <!--android:id="@+id/image_edit_profile"-->
+            <!--android:layout_width="115dp"-->
+            <!--android:layout_height="104dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="35dp"-->
+            <!--app:srcCompat="@drawable/prof" />-->
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView_username"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_username"-->
+            <!--android:layout_alignStart="@+id/textView_password"-->
+            <!--android:text="Username"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/edit_username"-->
+            <!--android:layout_width="173dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginStart="60dp"-->
+            <!--android:layout_marginTop="162dp"-->
+            <!--android:layout_toEndOf="@+id/textView_password"-->
+            <!--android:hint="username"-->
+            <!--android:textSize="15sp" />-->
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView_password"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_password"-->
+            <!--android:layout_alignStart="@+id/textView_confirm_password"-->
+            <!--android:text="password"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/edit_password"-->
+            <!--android:layout_width="159dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/edit_username"-->
+            <!--android:layout_below="@+id/edit_username"-->
+            <!--android:layout_alignEnd="@+id/edit_username"-->
+            <!--android:hint="password"-->
+            <!--android:textSize="15sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView_confirm_password"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_confirm_password"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_marginStart="15dp"-->
+            <!--android:text="Confirm password"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
         <!--<EditText-->
             <!--android:id="@+id/edit_confirm_password"-->
@@ -142,161 +431,161 @@
             <!--android:hint="confirm password"-->
             <!--android:textSize="15sp" />-->
 
-        <TextView
-            android:id="@+id/textView_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView_username"
-            android:layout_centerVertical="true"
-            android:text="E-mail"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_email"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView_username"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="E-mail"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/edit_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
-            android:layout_below="@+id/edit_confirm_password"
-            android:hint="example@example.com"
-            android:textSize="15sp" />
-
-
-        <TextView
-            android:id="@+id/textView_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_gender"
-            android:layout_alignStart="@+id/textView_username"
-            android:text="Gender"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
-            android:layout_below="@+id/edit_email"
-            android:hint="sex"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_gender"
-            android:layout_toEndOf="@+id/textView_high"
-            android:text="Age"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/edit_password"
-            android:layout_below="@+id/edit_email"
-            android:hint="years"
-            android:textSize="15sp" />
+        <!--<EditText-->
+            <!--android:id="@+id/edit_email"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/image_edit_profile"-->
+            <!--android:layout_below="@+id/edit_confirm_password"-->
+            <!--android:hint="example@example.com"-->
+            <!--android:textSize="15sp" />-->
 
 
-        <TextView
-            android:id="@+id/textView_birthDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/textView_username"
-            android:layout_marginBottom="206dp"
-            android:text="Birth of Date"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_gender"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_gender"-->
+            <!--android:layout_alignStart="@+id/textView_username"-->
+            <!--android:text="Gender"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/edit_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
-            android:layout_below="@+id/edit_gender"
-            android:hint="YYYY-MM-DD"
-            android:textSize="15sp" />
+        <!--<EditText-->
+            <!--android:id="@+id/edit_gender"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/image_edit_profile"-->
+            <!--android:layout_below="@+id/edit_email"-->
+            <!--android:hint="sex"-->
+            <!--android:textSize="15sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView_age"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_gender"-->
+            <!--android:layout_toEndOf="@+id/textView_high"-->
+            <!--android:text="Age"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/edit_age"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignEnd="@+id/edit_password"-->
+            <!--android:layout_below="@+id/edit_email"-->
+            <!--android:hint="years"-->
+            <!--android:textSize="15sp" />-->
 
 
-        <TextView
-            android:id="@+id/textView_high"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/edit_date"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="165dp"
-            android:text="Height"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_birthDate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignStart="@+id/textView_username"-->
+            <!--android:layout_marginBottom="206dp"-->
+            <!--android:text="Birth of Date"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/edit_high"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/edit_username"
-            android:layout_below="@+id/edit_date"
-            android:hint="(cm.)"
-            android:textSize="15sp" />
+        <!--<EditText-->
+            <!--android:id="@+id/edit_date"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/image_edit_profile"-->
+            <!--android:layout_below="@+id/edit_gender"-->
+            <!--android:hint="YYYY-MM-DD"-->
+            <!--android:textSize="15sp" />-->
 
-        <TextView
-            android:id="@+id/textView_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView_username"
-            android:layout_alignTop="@+id/textView_high"
-            android:text="weight"
-            android:textColor="#79593b"
-            android:textSize="15sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/image_edit_profile"
-            android:layout_below="@+id/edit_date"
-            android:hint="(kg.)"
-            android:textSize="15sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_high"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignEnd="@+id/edit_date"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="165dp"-->
+            <!--android:text="Height"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <Button
-            android:id="@+id/save_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="34dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="58dp"
-            android:text="Sign Up" />
+        <!--<EditText-->
+            <!--android:id="@+id/edit_high"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignEnd="@+id/edit_username"-->
+            <!--android:layout_below="@+id/edit_date"-->
+            <!--android:hint="(cm.)"-->
+            <!--android:textSize="15sp" />-->
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edit_percenincrease"
-            android:layout_alignStart="@+id/textView_username"
-            android:text="Percentage increase"
-            android:textColor="#79593b"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_weight"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView_username"-->
+            <!--android:layout_alignTop="@+id/textView_high"-->
+            <!--android:text="weight"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/edit_percenincrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!--<EditText-->
+            <!--android:id="@+id/edit_weight"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/image_edit_profile"-->
+            <!--android:layout_below="@+id/edit_date"-->
+            <!--android:hint="(kg.)"-->
+            <!--android:textSize="15sp" />-->
 
-            android:layout_alignStart="@+id/save_profile"
-            android:layout_below="@+id/edit_high"
-            android:hint="10%"
-            android:textSize="15sp" />
-    </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/save_profile"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="34dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="58dp"-->
+            <!--android:text="Sign Up" />-->
 
+        <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/edit_percenincrease"-->
+            <!--android:layout_alignStart="@+id/textView_username"-->
+            <!--android:text="Heart rate percentage increase"-->
+            <!--android:textColor="#79593b"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/edit_percenincrease"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+
+            <!--android:layout_alignStart="@+id/save_profile"-->
+            <!--android:layout_below="@+id/edit_high"-->
+            <!--android:hint="10%"-->
+            <!--android:textSize="15sp" />-->
+
+ <!--</RelativeLayout>-->
 </RelativeLayout>
 
 

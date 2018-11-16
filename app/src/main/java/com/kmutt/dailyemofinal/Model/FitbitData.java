@@ -1,12 +1,18 @@
 package com.kmutt.dailyemofinal.Model;
 
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kmutt.dailyemofinal.R;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,6 +25,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,15 +37,22 @@ import static android.content.ContentValues.TAG;
 
 public class FitbitData {
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-01/1d/5min/time/00:00/23:59.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-15/1d/1min/time/00:00/23:59.json";
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-01.json";
     private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-11-01/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQxNzU4OTQ1LCJpYXQiOjE1NDE3MzAxNDV9.yD9515M_qUIrOpqpTXJ21RuyijW6mDzZKvHuU8VBoZ8";
-    FirebaseDatabase database;
-    DatabaseReference mRootRef;
-    java.util.Calendar calendar = Calendar.getInstance();
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQmiOiIyMkQ0QkYiLCkJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQxNzU4OTQ1LCJpYXQiOjE1NDE3MzAxNDV9.yD9515M_qUIrOpqpTXJ21RuyijW6mDzZKvHuU8VBoZ8";
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+    Calendar calendar = Calendar.getInstance();
+    String currentDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime());
+
+
+    String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/Tangkwa" ;
+    DatabaseReference mRootRef = database.getReferenceFromUrl(firebaseUrl);
+    DatabaseReference dateTimeRef = mRootRef.child("DateTime");
 
     public long getHeartRateValue() throws IOException, ParseException {
         URLConnection connection = new URL(API_PREFIX.concat(URL_HEART_RATE)).openConnection();
@@ -49,12 +63,45 @@ public class FitbitData {
                 new InputStreamReader(response, "UTF-8"));
         JSONObject activities = (JSONObject) responseObject.get("activities-heart-intraday");
         JSONArray dataset = (JSONArray) activities.get("dataset");
-//        int i = 0;
+        int i = 0;
 //        while(i<dataset.size()-1){
 //            JSONObject datasetObject = (JSONObject) dataset.get(i);
 //        final String heartRateValue = (datasetObject.get("value")) + "";
 //        final String heartRateTime = (datasetObject.get("time")) + "";
 //        }
+
+//        ValueEventListener valEv = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
+//                String currentTime = sdf.format(new Date());
+//                Log.d(TAG, "Debugging: String "+currentTime);
+//                ;
+//                DataSnapshot snapshot = dataSnapshot.child("2018-11-15").child("HeartRate").child("Timestemp");
+//
+//                for (DataSnapshot s : snapshot.getChildren()) {
+//                    String time = s.getKey();
+////                                                Log.d(TAG, currentTime);
+////                                                Log.d(TAG, time);
+//                    if(time.equals( currentTime)){
+//                        final long heartRate = (long)s.getValue();
+//                        Log.d(TAG, "heartrate " + heartRate);
+//                        Log.e(TAG, "debugging: HeartRate = " + heartRate);
+//
+//                    }
+//
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//        dateTimeRef.addValueEventListener(valEv);
+
+
         Log.d(TAG, "getHeartRateValue: dataset size" + dataset.size());
         JSONObject datasetObject = (JSONObject) dataset.get(dataset.size() - 1);
         final long heartRateValue = (Long) (datasetObject.get("value"));
@@ -100,7 +147,7 @@ public class FitbitData {
 
             database = FirebaseDatabase.getInstance();
 
-            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
+            mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/Tangkwa");
 
             DatabaseReference heartRateDate = mRootRef.child("DateTime").child(date);
             heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);

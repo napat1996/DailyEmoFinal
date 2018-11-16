@@ -45,13 +45,13 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private Button btnHome,btnProfile,btnResult,btnSuggesstion,btnEditProfile;
-    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex, txtPassword;
+    TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex, txtPassword, txtPercent;
 
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-07/1d/5min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-07.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-09/1d/1min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-09.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQxNzU4OTQ1LCJpYXQiOjE1NDE3MzAxNDV9.yD9515M_qUIrOpqpTXJ21RuyijW6mDzZKvHuU8VBoZ8";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDAxMDg1LCJpYXQiOjE1NDIzNzIyODV9.ELC7aLjORJmUD8inCoKRV-Bfg6a0zG6DmKr9yJxXWAo";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -65,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "tk");
+        String username = preferences.getString("username", "Tangkwa");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
         Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
@@ -78,10 +78,16 @@ public class ProfileActivity extends AppCompatActivity {
         txtSex = findViewById(R.id.textView_gender1);
         txtWeight = findViewById(R.id.textView_weight1);
         txtPassword = findViewById(R.id.textView_password1);
-        txtUsername = findViewById(R.id.textView_username);
+        txtUsername = findViewById(R.id.textView_username1);
+        txtPercent = findViewById(R.id.textView_percenincrease1);
         ValueEventListener valEv = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                long percent = 0;
+                if(dataSnapshot.child("percent").getValue() != null){
+                    percent = (long)dataSnapshot.child("percent").getValue();
+                }
 
                 txtUsername.setText((String)dataSnapshot.child("username").getValue());
                 txtAge.setText(dataSnapshot.child("age").getValue().toString());
@@ -90,6 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
                 txtHeight.setText(dataSnapshot.child("height").getValue().toString());
                 txtSex.setText((String)dataSnapshot.child("sex").getValue());
                 txtWeight.setText(dataSnapshot.child("weight").getValue().toString());
+                txtPercent.setText(percent+"%");
 
             }
 
@@ -147,18 +154,18 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-//
+
 //
 //        ///////////ADD DATA TO FIREBASE////////////
-//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-//        String username = preferences.getString("username", "tk");
-//
-//        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/tk";
+////        preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+////        String username = preferences.getString("username", "tk");
+////
+////        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/tk";
 //        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
 //        database = FirebaseDatabase.getInstance();
 //        mRootRef = database.getReferenceFromUrl(firebaseUrl);
 //        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-//        dateTimeRef.child("2018-11-07").removeValue();
+//        dateTimeRef.child("2018-11-09").removeValue();
 //
 //        (new Thread(new Runnable() {
 //            @Override
@@ -196,9 +203,9 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //                        database = FirebaseDatabase.getInstance();
 //
-//                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
+//                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/Tangkwa");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-07");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-09");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
@@ -263,7 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-07");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-09");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //
@@ -275,7 +282,7 @@ public class ProfileActivity extends AppCompatActivity {
 //            }
 //        })).start();
 //        Toast.makeText(getApplicationContext(),   "Added to db", Toast.LENGTH_LONG).show();
-
+//
 
 
     }

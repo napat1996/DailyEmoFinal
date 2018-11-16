@@ -35,18 +35,18 @@ import static android.content.ContentValues.TAG;
 
 public class SuggestionBackgroundActivity extends AppCompatActivity {
 
-//
+
 //    private static final String API_PREFIX = "https://api.fitbit.com";
-//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-10-19/1d/5min/time/00:00/23:59.json";
-//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-10-19.json";
+//    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-11/1d/5min/time/00:00/23:59.json";
+//    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-11.json";
 //    private static final String AUTHORIZATION = "Authorization";
-//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ2UkYiLCJzdWIiOiI2VzdESDQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQwNzQ4Nzg3LCJpYXQiOjE1NDA3MTk5ODd9.K1aPl3D9k7f-Nn_vpYALvJoEAzVqSy6uX-C1h35eGOY";
-//
-//    FirebaseDatabase database;
-//    DatabaseReference mRootRef;
-//    FitbitData data = new FitbitData();
-//    java.util.Calendar calendar = Calendar.getInstance();
-//    String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+//    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDAxMDg1LCJpYXQiOjE1NDIzNzIyODV9.ELC7aLjORJmUD8inCoKRV-Bfg6a0zG6DmKr9yJxXWAo";
+
+    FirebaseDatabase database;
+    DatabaseReference mRootRef;
+    FitbitData data = new FitbitData();
+    java.util.Calendar calendar = Calendar.getInstance();
+    String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
 
    private ViewPager viewPager;
@@ -98,13 +98,13 @@ public class SuggestionBackgroundActivity extends AppCompatActivity {
             }
         });
 
-        //end nav bar
+//        end nav bar
 
 //        /////////////ADD DATA TO FIREBASE////////////
 //        SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-//        String username = preferences.getString("username", "tk");
+//        String username = preferences.getString("username", "Tangkwa");
 //
-//        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/tk";
+//        String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/Tangkwa";
 //        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
 //        database = FirebaseDatabase.getInstance();
 //        mRootRef = database.getReferenceFromUrl(firebaseUrl);
@@ -147,9 +147,9 @@ public class SuggestionBackgroundActivity extends AppCompatActivity {
 //
 //                        database = FirebaseDatabase.getInstance();
 //
-//                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/tk");
+//                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/Tangkwa");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-10-27");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-11");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
@@ -209,7 +209,7 @@ public class SuggestionBackgroundActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-10-27");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-11");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //

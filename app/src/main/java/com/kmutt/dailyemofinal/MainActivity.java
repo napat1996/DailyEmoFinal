@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText inputUsername, inputEmail, inputPassword, confirmPassword;
     private TextView txtHeartRate, txtSleep, txtActivity, txtTraffic, txtDistance, txtStept, txtUsername, alertTextView;
-    private Button btnHeartRate, btnSleep, btnStep, btnMap, btnEmo;
+    private Button btnHeartRate, btnSleep;
     private Button btnHome, btnProfile, btnResult, btnSuggesstion;
     private ImageView imgMood;
     private Switch btnSwitch, btnSwitchEx;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        final String username = preferences.getString("username", "tk");
+        final String username = preferences.getString("username", "");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
         database = FirebaseDatabase.getInstance();
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Start the currentDate
         Calendar calendar = Calendar.getInstance();
-        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        String currentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
         TextView textViewDate = findViewById(R.id.text_date);
         textViewDate.setText(currentDate);
         //End the currentDate
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 ////        startTracking();
 
         txtUsername = findViewById(R.id.text_name);
+        txtUsername.setText(username);
 
         database = FirebaseDatabase.getInstance();
         mRootRef = database.getReferenceFromUrl(firebaseUrl);
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 DataSnapshot snapshot = dataSnapshot.child("username:");
                 String name = (String)snapshot.getValue();
                 Log.d(TAG, "Debugging username: "+name);
-                txtUsername.setText(username);
+//                txtUsername.setText(username);
             }
 
             @Override
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         txtStept = findViewById(R.id.text_steps);
 //                            txtActivity.setText(activity);
 
-        btnMap = findViewById(R.id.buttom_map2);
+//        btnMap = findViewById(R.id.buttom_map2);
 
 
         btnHeartRate.setOnClickListener(new View.OnClickListener() {
@@ -235,15 +236,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("go to Traffic graph page");
-                Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
-                startActivity(myIntent);
-
-            }
-        });
+//        btnMap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("go to Traffic graph page");
+//                Intent myIntent = new Intent(getApplicationContext(), GraphTaffic.class);
+//                startActivity(myIntent);
+//
+//            }
+//        });
 
         btnSwitch = findViewById(R.id.activity_switch);
         btnSwitchEx = findViewById(R.id.exercise_switch);
@@ -382,16 +383,23 @@ public class MainActivity extends AppCompatActivity {
                                     String currentTime = sdf.format(new Date());
                                     Log.d(TAG, "Debugging: String "+currentTime);
 
-                                    DataSnapshot stp = dataSnapshot.child("2018-11-01").child("Steps");
-                                    long steps = (long)stp.getValue();
+                                    DataSnapshot stp = dataSnapshot.child("2018-11-15").child("Steps");
+                                    long steps = 0;
+                                    if(stp!=null) {
+                                        steps = (long) stp.getValue();
+                                    }
                                     txtStept = findViewById(R.id.text_steps);
                                     txtStept.setText(steps + "");
 
-                                    DataSnapshot slp = dataSnapshot.child("2018-11-01").child("Sleep").child("TotalMinute");
-                                    long sleepMinute = (long)slp.getValue();
+                                    DataSnapshot slp = dataSnapshot.child("2018-11-13").child("Sleep").child("TotalMinute");
+                                    long sleepMinute = 0;
+                                    if(slp.getValue()!=null) {
+                                        sleepMinute = (long) slp.getValue();
+                                    }
+
                                     txtSleep = findViewById(R.id.text_sleep);
                                     txtSleep.setText(sleepMinute + "");
-                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-01").child("HeartRate").child("Timestemp");
+                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-15").child("HeartRate").child("Timestemp");
 
                                     for (DataSnapshot s : snapshot.getChildren()) {
                                         String time = s.getKey();
@@ -399,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                                             final long heartRate = (long)s.getValue();
                                             txtHeartRate = findViewById(R.id.heart_rate);
                                             txtHeartRate.setText(heartRate + "");
-                                            Log.e(TAG, "debugging: HeartRate = " + heartRate);
+                                            Log.e(TAG, "debugging: HeartRate in cash = " + heartRate);
 
                                         }
 
@@ -426,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
                 String currentTimee = sdf.format(new Date());
-                if(currentTimee.equals("20:00:00")){
+                if(currentTimee.equals("21:15:00") || currentTimee.equals("08:00:00")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                     builder.setCancelable(true);
@@ -508,35 +516,379 @@ public class MainActivity extends AppCompatActivity {
                                     ValueEventListener valEv = new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
-                                            String currentTime = sdf.format(new Date());
-                                            Log.d(TAG, "Debugging: String "+currentTime);
+                                            int age = 22;
+                                            final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                            boolean isJam = false;
+                                            final FitbitData data = new FitbitData();
 
-                                            DataSnapshot stp = dataSnapshot.child("2018-11-01").child("Steps");
-                                            long steps = (long)stp.getValue();
+                                            int level = 0, lv1=0, lv2=0, lv3=0, lv0 =0;
+                                            final long minuteSleep = 0;
+                                            long heartRatee = 0;
+                                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
+                                            String currentTimee = sdf.format(new Date());
+                                            Log.d(TAG, "Debugging: String "+currentTimee);
+
+                                            DataSnapshot stp = dataSnapshot.child("2018-11-15").child("Steps");
+                                            long steps = 0;
+                                            if(stp!=null) {
+                                                steps = (long) stp.getValue();
+                                            }
                                             txtStept = findViewById(R.id.text_steps);
                                             txtStept.setText(steps + "");
 
-                                            DataSnapshot slp = dataSnapshot.child("2018-11-01").child("Sleep").child("TotalMinute");
-                                            long sleepMinute = (long)slp.getValue();
+                                            DataSnapshot slp = dataSnapshot.child("2018-11-13").child("Sleep").child("TotalMinute");
+                                            long sleepMinute = 0;
+                                            if(slp!=null) {
+                                                sleepMinute = (long) slp.getValue();
+                                            }
                                             txtSleep = findViewById(R.id.text_sleep);
                                             txtSleep.setText(sleepMinute + "");
-                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-01").child("HeartRate").child("Timestemp");
+                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-15").child("HeartRate").child("Timestemp");
 
                                             for (DataSnapshot s : snapshot.getChildren()) {
                                                 String time = s.getKey();
 //                                                Log.d(TAG, currentTime);
 //                                                Log.d(TAG, time);
-                                                if(time.equals( currentTime)){
-                                                    final long heartRate = (long)s.getValue();
-                                                    Log.d(TAG, "heartrate " + heartRate);
+                                                if(time.equals( currentTimee)){
+                                                    heartRatee = (long)s.getValue();
+                                                    Log.d(TAG, "heartrate " + heartRatee);
                                                     txtHeartRate = findViewById(R.id.heart_rate);
-                                                    txtHeartRate.setText(heartRate + "");
-                                                    Log.e(TAG, "debugging: HeartRate = " + heartRate);
+                                                    txtHeartRate.setText(heartRatee + "");
+                                                    Log.e(TAG, "debugging: HeartRate = " + heartRatee);
 
                                                 }
 
 
+                                            }
+
+                                            if (age >= 18 && age <= 25) {
+                                                String mood = "Normal";
+                                                final int t = 0;
+                                                if (heartRatee >= 74 && heartRatee < 82) {
+                                                    level = 0;
+                                                    mRootRef.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                            Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                            Integer hour = cal.get(Calendar.HOUR);
+                                                            Integer minute = cal.get(Calendar.MINUTE);
+                                                            Integer second = cal.get(Calendar.SECOND);
+                                                            final String thisTime = hour+":"+minute+":"+second;
+
+                                                            Log.d("Debugging", "on Data change is running");
+                                                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                                            final Boolean isJam = (Boolean) value.get("Traffic");
+                                                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+
+                                                                    boolean isStress = false;
+                                                                    long asSleep = 0;
+                                                                    asSleep = minuteSleep;
+                                                                    Log.d(TAG, "debugging: assleep : "+asSleep);
+                                                                    if (asSleep < 400) {
+                                                                        runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                imgMood.setImageResource(R.drawable.emo_level1);
+
+                                                                                int stressLevel = 1;
+                                                                                mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(stressLevel);
+                                                                                mRootRef.child("DateTime").child(today).child("StressLevel").child("Level1").setValue(1);
+                                                                                Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    lv1++;
+
+                                                                            }
+                                                                        });
+
+                                                                        stressStr = "Stress";
+                                                                    }
+
+                                                                    if (btnSwitch.isChecked()) {
+                                                                        if (isJam) {
+                                                                            isStress = true;
+                                                                            stressStr = "Stress";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    imgMood.setImageResource(imgInt[1]);
+
+                                                                                    int stressLevel = 1;
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(stressLevel);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(1);
+                                                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    lv1++;
+                                                                                    Log.d(TAG, "Debugging stress because Traffic: ");
+                                                                                }
+                                                                            });
+                                                                        } else {
+                                                                            isStress = false;
+                                                                            stressStr = "Normal";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+//                                                        Map<String, Object> stressLevel = new HashMap<>();
+//                                                        stressLevel.put("level", 0);
+//                                                        stressLevel.put("time", currentTime);
+                                                                                    imgMood.setImageResource(imgInt[0]);
+
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(0);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(1);
+                                                                                    Log.d(TAG, "Debugging stress because sleep: ");
+//                                                    lv1++;
+                                                                                    Log.d(TAG, "debugging: Normal");
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+
+                                                                    Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                                                    DatabaseReference process = mRootRef.child("process");
+                                                                    process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+
+
+                                                    });
+                                                }
+                                                else if (heartRatee >= 82 && heartRatee < 100) {
+                                                    level = 0;
+                                                    mRootRef.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                            Log.d("Debugging", "on Data change is running");
+                                                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                                            final Boolean isJam = (Boolean) value.get("Traffic");
+                                                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+
+                                                                    boolean isStress = false;
+                                                                    long asSleep = 0;
+                                                            asSleep = minuteSleep;
+                                                            if (asSleep < 400) {
+                                                                        runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                Integer hour = cal.get(Calendar.HOUR);
+                                                                                Integer minute = cal.get(Calendar.MINUTE);
+                                                                                Integer second = cal.get(Calendar.SECOND);
+                                                                                final String thisTime = hour+":"+minute+":"+second;
+                                                                                imgMood.setImageResource(R.drawable.emo_level2);
+//
+
+                                                                                int stressLevel = 1;
+                                                                                mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(2);
+                                                                                mRootRef.child("DateTime").child(today).child("StressLevel").child("Level2").setValue(2);
+                                                                                Log.d(TAG, "Debugging inn stress because sleep: ");
+//
+                                                                            }
+                                                                        });
+
+                                                                        stressStr = "Stress";
+                                                                    }
+
+                                                                    if (btnSwitch.isChecked()) {
+                                                                        if (isJam) {
+                                                                            isStress = true;
+                                                                            stressStr = "Stress";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                    Integer hour = cal.get(Calendar.HOUR);
+                                                                                    Integer minute = cal.get(Calendar.MINUTE);
+                                                                                    Integer second = cal.get(Calendar.SECOND);
+                                                                                    final String thisTime = hour+":"+minute+":"+second;
+
+                                                                                    imgMood.setImageResource(imgInt[2]);
+//                                                        Map<String, Object> stressLevel = new HashMap<>();
+//                                                        stressLevel.put("level", 2);
+//                                                        stressLevel.put("time", currentTime);
+
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(2);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level2").setValue(2);
+                                                                                    Log.d(TAG, "Debugging inn stress because sleep: ");
+//                                                    lv1++;.d(TAG, "Debugging stress because Traffic: ");
+                                                                                }
+                                                                            });
+                                                                        } else {
+                                                                            isStress = false;
+                                                                            stressStr = "Normal";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                    Integer hour = cal.get(Calendar.HOUR);
+                                                                                    Integer minute = cal.get(Calendar.MINUTE);
+                                                                                    Integer second = cal.get(Calendar.SECOND);
+                                                                                    final String thisTime = hour+":"+minute+":"+second;
+                                                                                    imgMood.setImageResource(imgInt[0]);
+
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(0);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(1);
+                                                                                    Log.d(TAG, "Debugging inn stress because : Nomal");
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+
+
+                                                                    DatabaseReference process = mRootRef.child("process");
+                                                                    process.child("Stress").setValue(isStress);
+//                            process.child("Traffic").setValue(false);
+                                                                }
+
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            Log.d("Debugging", "on Data change error");
+                                                            Log.e(TAG, "onCancelled: ", databaseError.toException());
+                                                        }
+                                                    });
+                                                }
+                                                else if (heartRatee >= 100) {
+                                                    level = 0;
+                                                    mRootRef.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            Log.d("Debugging", "on Data change is running");
+                                                            Map<String, Object> value = (Map<String, Object>) dataSnapshot.child("process").getValue();
+                                                            final Boolean isJam = (Boolean) value.get("Traffic");
+                                                            Log.e(TAG, "onDataChange: isJam =" + isJam);
+
+                                                                    boolean isStress = false;
+                                                                    long asSleep = 0;
+                                                                    try {
+                                                                        asSleep = data.getMinutesAsleep();
+                                                                    } catch (IOException e) {
+                                                                        e.printStackTrace();
+                                                                    } catch (ParseException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                    if (asSleep < 400) {
+                                                                        runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                Integer hour = cal.get(Calendar.HOUR);
+                                                                                Integer minute = cal.get(Calendar.MINUTE);
+                                                                                Integer second = cal.get(Calendar.SECOND);
+                                                                                final String thisTime = hour+":"+minute+":"+second;
+                                                                                imgMood.setImageResource(R.drawable.emo_level3);
+//                                                    Map<String, Object> stressLevel = new HashMap<>();
+//                                                    stressLevel.put("level", 3);
+//                                                    stressLevel.put("time", currentTime);
+
+                                                                                mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(3);
+                                                                                mRootRef.child("DateTime").child(today).child("StressLevel").child("Level3").setValue(1);
+                                                                                Log.d(TAG, "Debugging inn stress because sleep: ");
+
+                                                                            }
+                                                                        });
+
+                                                                        stressStr = "Stress";
+                                                                    }
+
+                                                                    if (btnSwitch.isChecked()) {
+                                                                        if (isJam) {
+                                                                            isStress = true;
+                                                                            stressStr = "Stress";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                    Integer hour = cal.get(Calendar.HOUR);
+                                                                                    Integer minute = cal.get(Calendar.MINUTE);
+                                                                                    Integer second = cal.get(Calendar.SECOND);
+                                                                                    final String thisTime = hour+":"+minute+":"+second;
+                                                                                    imgMood.setImageResource(imgInt[3]);
+//                                                        Map<String, Object> stressLevel = new HashMap<>();
+//                                                        stressLevel.put("level", 3);
+//                                                        stressLevel.put("time", currentTime);
+
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(3);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level3").setValue(1);
+                                                                                    Log.d(TAG, "Debugging inn stress because Traffic: ");
+                                                                                }
+                                                                            });
+                                                                        } else {
+                                                                            isStress = false;
+                                                                            stressStr = "Normal";
+                                                                            runOnUiThread(new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                                                    Integer hour = cal.get(Calendar.HOUR);
+                                                                                    Integer minute = cal.get(Calendar.MINUTE);
+                                                                                    Integer second = cal.get(Calendar.SECOND);
+                                                                                    final String thisTime = hour+":"+minute+":"+second;
+                                                                                    imgMood.setImageResource(imgInt[0]);
+//                                                        Map<String, Object> stressLevel = new HashMap<>();
+//                                                        stressLevel.put("level", 0);
+//                                                        stressLevel.put("time", currentTime);
+
+                                                                                    mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(0);
+                                                                                    mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(2);
+                                                                                    Log.d(TAG, "Debugging inn stress because : Nomal");
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+
+                                                                    Log.d(TAG, "Debugging: Sleep" + asSleep);
+
+                                                                    DatabaseReference process = mRootRef.child("process");
+                                                                    process.child("Stress").setValue(isStress);
+
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            Log.d("Debugging", "on Data change error");
+                                                            Log.e(TAG, "onCancelled: ", databaseError.toException());
+                                                        }
+                                                    });
+                                                }
+
+                                                else {
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Calendar cal = Calendar.getInstance();
+//                                cal.setTime(dateInstance);
+                                                            Integer hour = cal.get(Calendar.HOUR);
+                                                            Integer minute = cal.get(Calendar.MINUTE);
+                                                            Integer second = cal.get(Calendar.SECOND);
+                                                            final String thisTime = hour+":"+minute+":"+second;
+                                                            imgMood.setImageResource(imgInt[0]);
+//                                Map<String, Object> stressLevel = new HashMap<>();
+//                                stressLevel.put("level", 0);
+//                                stressLevel.put("time", currentTime);
+
+                                                            mRootRef.child("DateTime").child(today).child("Stress").child(thisTime).setValue(0);
+                                                            mRootRef.child("DateTime").child(today).child("StressLevel").child("Level0").setValue(2);
+                                                            Log.d(TAG, "Debugging inn stress because : Nomal");
+                                                        }
+                                                    });
+                                                }
+                                                DatabaseReference process = mRootRef.child("process");
+                                                process.child("HeartRate").setValue(heartRatee);
                                             }
                                         }
 
@@ -4226,8 +4578,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Debugging", "in getDevicePermission");
         try {
             if (mLocationPermissionGranted) {
+                Log.d("debugging", "getDeviceLocation:  Grated");
                 Task<Location> locationResult = mFusedLocationClient.getLastLocation();
                 locationResult.addOnSuccessListener(this, new OnSuccessListener<Location>() {
+
                     @Override
                     public void onSuccess(Location location) {
                         Log.d("Debugging", "in onSuccess");
@@ -4278,6 +4632,7 @@ public class MainActivity extends AppCompatActivity {
             private void isTrafficJam(double velocity, int count, long distance) {
                 boolean isJam = false;
                 Log.d(TAG, "Debugging : isTrafficJam: " + velocity);
+                velocity =10;
                 if (velocity < 20) {
                     isJam = true;
                     jamCount++;
@@ -4332,8 +4687,8 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "run: Lat : "+lat);
 //                        Log.d(TAG, "run: Lat : "+lng);
                         // calculate เพือหา v ในทุกๆ 5 นาที ทำอันนี้******** (ซึ่งตอนนี้เป็น1วิ)
-                        Log.d(TAG, "run: " + locationCount + " Distance = " + distance / 100);
-                        Log.d(TAG, "run: " + locationCount + " Duration = " + duration);
+                        Log.d(TAG, "debugging: " + locationCount + " Distance = " + distance / 100);
+                        Log.d(TAG, "debugging: " + locationCount + " Duration = " + duration);
 
                         final int t = 5;
                         final double s = distance / 100;
@@ -4343,7 +4698,7 @@ public class MainActivity extends AppCompatActivity {
                         this.isTrafficJam(v, locationCount, distance);
 
 
-                        Log.e(TAG, "calculateVelocity: V = " + v);
+                        Log.e(TAG, "debugging calculateVelocity: V = " + v);
 
                         // reset location
                         //ห้ามลบบรรทัดนี้*****
