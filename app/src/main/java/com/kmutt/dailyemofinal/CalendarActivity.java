@@ -374,7 +374,7 @@ public class CalendarActivity extends AppCompatActivity {
 //                dataSnapshot
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
-                int day =16;
+                int day =17;
                 dateInstance.setDate(day);
                 String today = sdf.format(dateInstance);
 

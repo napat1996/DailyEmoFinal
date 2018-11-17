@@ -136,7 +136,7 @@ public class GraphSleep extends AppCompatActivity {
                 String[] date = new String[7];
 
                 for (int i = 0; i <= 6; i++) {
-                    dateInstance.setDate(15 - i);
+                    dateInstance.setDate(17 - i);
                     String dateBefore = sdf.format(dateInstance);
                     date[i] = dateBefore;
 

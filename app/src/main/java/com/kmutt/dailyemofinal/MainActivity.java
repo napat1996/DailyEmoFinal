@@ -383,15 +383,15 @@ public class MainActivity extends AppCompatActivity {
                                     String currentTime = sdf.format(new Date());
                                     Log.d(TAG, "Debugging: String "+currentTime);
 
-                                    DataSnapshot stp = dataSnapshot.child("2018-11-15").child("Steps");
+                                    DataSnapshot stp = dataSnapshot.child("2018-11-17").child("Steps");
                                     long steps = 0;
-                                    if(stp!=null) {
+                                    if(stp.exists()) {
                                         steps = (long) stp.getValue();
                                     }
                                     txtStept = findViewById(R.id.text_steps);
                                     txtStept.setText(steps + "");
 
-                                    DataSnapshot slp = dataSnapshot.child("2018-11-13").child("Sleep").child("TotalMinute");
+                                    DataSnapshot slp = dataSnapshot.child("2018-11-17").child("Sleep").child("TotalMinute");
                                     long sleepMinute = 0;
                                     if(slp.getValue()!=null) {
                                         sleepMinute = (long) slp.getValue();
@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     txtSleep = findViewById(R.id.text_sleep);
                                     txtSleep.setText(sleepMinute + "");
-                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-15").child("HeartRate").child("Timestemp");
+                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-17").child("HeartRate").child("Timestemp");
 
                                     for (DataSnapshot s : snapshot.getChildren()) {
                                         String time = s.getKey();
@@ -528,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
                                             String currentTimee = sdf.format(new Date());
                                             Log.d(TAG, "Debugging: String "+currentTimee);
 
-                                            DataSnapshot stp = dataSnapshot.child("2018-11-15").child("Steps");
+                                            DataSnapshot stp = dataSnapshot.child("2018-11-17").child("Steps");
                                             long steps = 0;
                                             if(stp!=null) {
                                                 steps = (long) stp.getValue();
@@ -536,14 +536,14 @@ public class MainActivity extends AppCompatActivity {
                                             txtStept = findViewById(R.id.text_steps);
                                             txtStept.setText(steps + "");
 
-                                            DataSnapshot slp = dataSnapshot.child("2018-11-13").child("Sleep").child("TotalMinute");
+                                            DataSnapshot slp = dataSnapshot.child("2018-11-17").child("Sleep").child("TotalMinute");
                                             long sleepMinute = 0;
                                             if(slp!=null) {
                                                 sleepMinute = (long) slp.getValue();
                                             }
                                             txtSleep = findViewById(R.id.text_sleep);
                                             txtSleep.setText(sleepMinute + "");
-                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-15").child("HeartRate").child("Timestemp");
+                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-17").child("HeartRate").child("Timestemp");
 
                                             for (DataSnapshot s : snapshot.getChildren()) {
                                                 String time = s.getKey();

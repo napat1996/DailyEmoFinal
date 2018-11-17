@@ -2,6 +2,9 @@ package com.kmutt.dailyemofinal.Model;
 
 import android.text.Editable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
 
     private String username;
@@ -37,11 +40,11 @@ public class User {
         this.password = password;
         this.email = email;
         this.sex = sex;
-        this.height = Integer.parseInt(high);
-        this.age = Integer.parseInt(age);
+        this.height = (int) Integer.parseInt(high);
+        this.age = (int) Integer.parseInt(age);
         this.birthDate = bd;
-        this.weight = Integer.parseInt(inputWeightText);
-        this.percent = Integer.parseInt(percent);
+        this.weight = (int) Integer.parseInt(inputWeightText);
+        this.percent = (int) Integer.parseInt(percent);
     }
 
     public User(String username, String password, String email, String sex, String high, String age, String bd, String inputWeightText) {
@@ -108,5 +111,27 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
+    public Map<String, Object> toMap(){
+        Map<String, Object> mapping = new HashMap<>();
+        mapping.put("username",this.username);
+        mapping.put("age", this.age);
+        mapping.put("email", this.email);
+        mapping.put("password", this.password);
+        mapping.put("sex", this.sex);
+        mapping.put("birthDate", this.birthDate);
+        mapping.put("high",this.height);
+        mapping.put("weight",this.weight);
+        mapping.put("percent",this.percent);
+        return mapping;
     }
 }

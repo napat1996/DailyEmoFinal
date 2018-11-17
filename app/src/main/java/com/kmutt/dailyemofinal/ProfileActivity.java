@@ -48,10 +48,10 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtName, txtUsername, txtEmail, txtHeight, txtAge, txtWeight, txtSex, txtPassword, txtPercent;
 
     private static final String API_PREFIX = "https://api.fitbit.com";
-    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-09/1d/1min/time/00:00/23:59.json";
-    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-09.json";
+    private static final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-01/1d/1min/time/00:00/23:59.json";
+    private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-15.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDAxMDg1LCJpYXQiOjE1NDIzNzIyODV9.ELC7aLjORJmUD8inCoKRV-Bfg6a0zG6DmKr9yJxXWAo";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDc4Nzc0LCJpYXQiOjE1NDI0NDk5NzR9.7HCmZYt4O6f16FB1c-4ilL_qt7sjJGuQ3sTlRCzVp5s";
 
     FirebaseDatabase database;
     DatabaseReference mRootRef;
@@ -154,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
+//
 //
 //        ///////////ADD DATA TO FIREBASE////////////
 ////        preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
@@ -165,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity {
 //        database = FirebaseDatabase.getInstance();
 //        mRootRef = database.getReferenceFromUrl(firebaseUrl);
 //        DatabaseReference dateTimeRef = mRootRef.child("DateTime");
-//        dateTimeRef.child("2018-11-09").removeValue();
+////        dateTimeRef.child("2018-11-13").removeValue();
 //
 //        (new Thread(new Runnable() {
 //            @Override
@@ -205,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //                        mRootRef = database.getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/Tangkwa");
 //
-//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-09");
+//                        DatabaseReference heartRateDate = mRootRef.child("DateTime").child("2018-11-15");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
@@ -270,7 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-09");
+//                    DatabaseReference sleepDate = mRootRef.child("DateTime").child("2018-11-15");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
 //
 //
@@ -282,7 +282,7 @@ public class ProfileActivity extends AppCompatActivity {
 //            }
 //        })).start();
 //        Toast.makeText(getApplicationContext(),   "Added to db", Toast.LENGTH_LONG).show();
-//
+
 
 
     }

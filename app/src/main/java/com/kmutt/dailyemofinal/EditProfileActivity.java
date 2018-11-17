@@ -2,6 +2,7 @@ package com.kmutt.dailyemofinal;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -130,31 +135,40 @@ public class EditProfileActivity extends AppCompatActivity {
                         inputAge.getText().toString(),
                         inputBD.getText().toString(),
                         inputWeight.getText().toString(),
-                        inputPercent.toString()
+                        inputPercent.getText().toString()
                 );
-                mRootRef.child(user.getUsername()).setValue(user);
-                mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                Log.e("data", ""+user.getAge());
+                Log.e("username" , "username : " + username);
+                mRootRef.updateChildren(user.toMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "debugging onDataChange: edit profile");
-
-                            mRootRef.child(user.getUsername()).setValue(user);
-                            Toast.makeText(EditProfileActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "debugging: edit profile successed");
-
-                            mUsername = inputUsername.getText().toString();
-                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("username", mUsername);
-                            editor.commit();
-
+                    public void onSuccess(Void aVoid) {
+                        Log.e("add to database" , "adding successful");
                     }
-
+                }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e(TAG, "onCancelled: !!!!!!!!!!!!N O T   W O R K K K K!!!!!!!!" );
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("add to database" , "adding failure");
                     }
                 });
+//                mRootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Log.d(TAG, "debugging onDataChange: edit profile");
+//                            Toast.makeText(EditProfileActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+//                            Log.d(TAG, "debugging: edit profile successed");
+////                            mUsername = inputUsername.getText().toString();
+////                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
+////                            SharedPreferences.Editor editor = preferences.edit();
+////                            editor.putString("username", mUsername);
+////                            editor.commit();
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Log.e(TAG, "onCancelled: !!!!!!!!!!!!N O T   W O R K K K K!!!!!!!!" );
+//                    }
+//                });
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
 
@@ -164,10 +178,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
 //        ///////////ADD DATA TO FIREBASE////////////
 //         final String API_PREFIX = "https://api.fitbit.com";
-//        final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-09/1d/1min/time/00:00/23:59.json";
-//        final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-09.json";
+//        final String URL_HEART_RATE = "/1/user/-/activities/heart/date/2018-11-15/1d/1min/time/00:00/23:59.json";
+//        final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-06.json";
+//        final String URL_STEPS = "/1/user/-/activities/steps/date/2018-11-15/1d.json";
 //        final String AUTHORIZATION = "Authorization";
-//        final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDAxMDg1LCJpYXQiOjE1NDIzNzIyODV9.ELC7aLjORJmUD8inCoKRV-Bfg6a0zG6DmKr9yJxXWAo";
+//        final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd3BybyB3bnV0IHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNTQyNDc4Nzc0LCJpYXQiOjE1NDI0NDk5NzR9.7HCmZYt4O6f16FB1c-4ilL_qt7sjJGuQ3sTlRCzVp5s";
 //
 //        final FirebaseDatabase[] database = new FirebaseDatabase[1];
 //        final DatabaseReference[] mRootRef = new DatabaseReference[1];
@@ -179,14 +194,15 @@ public class EditProfileActivity extends AppCompatActivity {
 //        Log.d(TAG, "onCreate: debugging firebaseurl "+firebaseUrl);
 //        database[0] = FirebaseDatabase.getInstance();
 //        mRootRef[0] = database[0].getReferenceFromUrl(firebaseUrl);
-//        DatabaseReference dateTimeRef = mRootRef[0].child("DateTime");
-//        dateTimeRef.child("2018-11-16").removeValue();
+//        dateTimeRef = mRootRef[0].child("DateTime");
+////        dateTimeRef.child("2018-11-15").removeValue();
 //
 //        (new Thread(new Runnable() {
 //            @Override
 //            public void run() {
 //                URLConnection connection = null;
 //                URLConnection connectionS = null;
+//                URLConnection connectionStep = null;
 //                Log.d(TAG, "Debuggung: in Thread");
 //                try {
 //                    Log.d(TAG, "Debuggung: in Try");
@@ -194,6 +210,8 @@ public class EditProfileActivity extends AppCompatActivity {
 //                    connection.setRequestProperty(AUTHORIZATION,BEARER);
 //                    connectionS = new URL(API_PREFIX + URL_SLEEP).openConnection();
 //                    connectionS.setRequestProperty(AUTHORIZATION,BEARER);
+//                    connectionStep = new URL(API_PREFIX + URL_STEPS).openConnection();
+//                    connectionStep.setRequestProperty(AUTHORIZATION,BEARER);
 //                    Log.d(TAG, "Debuggung: test");
 ////                    BufferedReader response = new BufferedReader(new InputStreamReader(
 ////                            connection.getInputStream()));
@@ -220,7 +238,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //
 //                        mRootRef[0] = database[0].getReferenceFromUrl("https://dailyemo-194412.firebaseio.com/Users/Tangkwa");
 //
-//                        DatabaseReference heartRateDate = mRootRef[0].child("DateTime").child("2018-11-09");
+//                        DatabaseReference heartRateDate = mRootRef[0].child("DateTime").child("2018-11-15");
 //                        heartRateDate.child("HeartRate").child("Timestemp").child(heartRateTime).setValue(heartRateValue);
 //
 //                        if (heartRateValue >= 74 && heartRateValue < 82) {
@@ -285,8 +303,17 @@ public class EditProfileActivity extends AppCompatActivity {
 //                    JSONObject summary = (JSONObject) responseObjectS.get("summary");
 //                    long minuteAsleep = (Long)summary.get("totalMinutesAsleep");
 //                    Log.d(TAG, "getMinutesAsleep: "+ minuteAsleep );
-//                    DatabaseReference sleepDate = mRootRef[0].child("DateTime").child("2018-11-09");
+//                    DatabaseReference sleepDate = mRootRef[0].child("DateTime").child("2018-11-15");
 //                    sleepDate.child("Sleep").child("TotalMinute").setValue(minuteAsleep);
+//
+//
+//                    JSONObject responseObjectStep = (JSONObject)jsonParser.parse(
+//                            new InputStreamReader(responseS, "UTF-8"));
+//                    JSONObject activity = (JSONObject) responseObjectStep.get("activities-steps");
+//                    long stepCount = (Long)activity.get("value");
+//                    Log.d(TAG, "getMinutesAsleep: "+ stepCount );
+//                    DatabaseReference date = mRootRef[0].child("DateTime").child("2018-11-15");
+//                    date.child("Steps").setValue(minuteAsleep);
 //
 //
 //                } catch (IOException e) {
