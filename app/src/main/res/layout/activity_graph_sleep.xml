@@ -34,140 +34,124 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barchart_sleep"
             android:layout_width="339dp"
-            android:layout_height="314dp"
+            android:layout_height="307dp"
             android:layout_gravity="center"
             android:background="#e1d6ce">
 
         </com.github.mikephil.charting.charts.BarChart>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="1 hours = 60 minutes"
-                android:textSize="15sp"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="6 hours = 360 minutes"
-                android:textSize="15sp"
-                android:layout_marginStart="30dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:text="2 hours = 120 minutes"
-            android:textSize="15sp"
+            android:layout_weight="1"
+            android:weightSum="1">
 
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:text="7 hours = 420 minutes"
-            android:textSize="15sp"
-            android:layout_marginStart="24dp"/>
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
+            <!--START Block - HEART RATE-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="3 hours = 180 minutes"
-                android:textSize="15sp"
+                android:layout_marginBottom="@dimen/hort_line"
+                android:layout_marginRight="@dimen/vert_line"
+                android:layout_marginTop="15dp"
+                android:background="#f0f0f0"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp">
 
-                />
-            <TextView
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="1 hours = 60 minutes"
+                    android:textSize="15sp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="2 hours = 120 minutes"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="3 hours = 180 minutes"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="4 hours = 240 minutes"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+
+                    android:text="5 hours = 300 minutes"
+                    android:textSize="15sp" />
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="8 hours = 480 minutes"
-                android:textSize="15sp"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginBottom="@dimen/hort_line"
+                android:layout_marginLeft="@dimen/vert_line"
+                android:layout_marginTop="15dp"
+                android:background="#f0f0f0"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginStart="23dp">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="4 hours = 240 minutes"
-                android:textSize="15sp"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="9 hours = 540 minutes"
-                android:textSize="15sp"
-                android:layout_marginStart="24dp"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="5 hours = 300 minutes"
-                android:textSize="15sp"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:text="10 hours = 600 minutes"
-                android:textSize="15sp"
-                android:layout_marginStart="24dp"/>
-
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="7 hours = 420 minutes"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="8 hours = 480 minutes"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="9 hours = 540 minutes"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="10 hours = 600 minutes"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="11 hours = 660 minutes"
+                    android:textSize="15sp" />
+              
 
 
+            </LinearLayout>
+
+
+        </TableRow>
 
 
         <!--<com.github.mikephil.charting.charts.HorizontalBarChart-->
