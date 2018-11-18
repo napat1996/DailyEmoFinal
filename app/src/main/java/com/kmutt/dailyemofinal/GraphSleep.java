@@ -164,7 +164,7 @@ public class GraphSleep extends AppCompatActivity {
                 set1.setDrawIcons(false);
                 set1.setColors(ColorTemplate.PASTEL_COLORS[0]);
                 set1.setStackLabels(new String[]{"Higher", "Normal"});
-                set1.setColors(ColorTemplate.PASTEL_COLORS);
+                set1.setColors(Color.rgb(36,71,143));
 
 
 
@@ -237,16 +237,16 @@ public class GraphSleep extends AppCompatActivity {
 
     }
 
-    public int[] getColors() {
-        int stacksize = 1;
-
-        // have as many colors as stack-values per entry
-        int[] colors = new int[stacksize];
-
-        for (int i = 0; i < colors.length; i++) {
-            colors[i] = ColorTemplate.PASTEL_COLORS[0];
-
-        }
-        return colors;
-    }
+//    public int[] getColors() {
+//        int stacksize = 1;
+//
+//        // have as many colors as stack-values per entry
+//        int[] colors = new int[stacksize];
+//
+//        for (int i = 0; i < colors.length; i++) {
+//            colors[i] = Color.rgb(255,255,255);
+//
+//        }
+//        return colors;
+//    }
 }

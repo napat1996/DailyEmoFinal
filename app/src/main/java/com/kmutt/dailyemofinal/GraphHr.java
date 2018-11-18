@@ -187,7 +187,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis0.removeAllLimitLines();
         leftAxis0.addLimitLine(upper_limit);
 //        leftAxis0.addLimitLine(lower_limit);
-        leftAxis0.setAxisMaximum(200f);
+        leftAxis0.setAxisMaximum(160f);
         leftAxis0.setAxisMinimum(40f);
         leftAxis0.enableGridDashedLine(10f, 10f, 10);
         leftAxis0.setDrawLimitLinesBehindData(true);
@@ -198,7 +198,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis1.removeAllLimitLines();
         leftAxis1.addLimitLine(upper_limit);
 //        leftAxis1.addLimitLine(lower_limit);
-        leftAxis1.setAxisMaximum(200f);
+        leftAxis1.setAxisMaximum(160f);
         leftAxis1.setAxisMinimum(40f);
         leftAxis1.enableGridDashedLine(10f, 10f, 10);
         leftAxis1.setDrawLimitLinesBehindData(true);
@@ -207,7 +207,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis2.removeAllLimitLines();
         leftAxis2.addLimitLine(upper_limit);
 //        leftAxis2.addLimitLine(lower_limit);
-        leftAxis2.setAxisMaximum(200f);
+        leftAxis2.setAxisMaximum(160f);
         leftAxis2.setAxisMinimum(40f);
         leftAxis2.enableGridDashedLine(10f, 10f, 10);
         leftAxis2.setDrawLimitLinesBehindData(true);
@@ -216,7 +216,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis3.removeAllLimitLines();
         leftAxis3.addLimitLine(upper_limit);
 //        leftAxis3.addLimitLine(lower_limit);
-        leftAxis3.setAxisMaximum(200f);
+        leftAxis3.setAxisMaximum(160f);
         leftAxis3.setAxisMinimum(40f);
         leftAxis3.enableGridDashedLine(10f, 10f, 10);
         leftAxis3.setDrawLimitLinesBehindData(true);
@@ -225,7 +225,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis4.removeAllLimitLines();
         leftAxis4.addLimitLine(upper_limit);
 //        leftAxis4.addLimitLine(lower_limit);
-        leftAxis4.setAxisMaximum(200f);
+        leftAxis4.setAxisMaximum(160f);
         leftAxis4.setAxisMinimum(40f);
         leftAxis4.enableGridDashedLine(10f, 10f, 10);
         leftAxis4.setDrawLimitLinesBehindData(true);
@@ -243,7 +243,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis6.removeAllLimitLines();
         leftAxis6.addLimitLine(upper_limit);
 //        leftAxis6.addLimitLine(lower_limit);
-        leftAxis6.setAxisMaximum(200f);
+        leftAxis6.setAxisMaximum(160f);
         leftAxis6.setAxisMinimum(40f);
         leftAxis6.enableGridDashedLine(10f, 10f, 10);
         leftAxis6.setDrawLimitLinesBehindData(true);
@@ -252,7 +252,7 @@ public class GraphHr extends AppCompatActivity {
         leftAxis7.removeAllLimitLines();
         leftAxis7.addLimitLine(upper_limit);
 //        leftAxis7.addLimitLine(lower_limit);
-        leftAxis7.setAxisMaximum(200f);
+        leftAxis7.setAxisMaximum(160f);
         leftAxis7.setAxisMinimum(40f);
         leftAxis7.enableGridDashedLine(10f, 10f, 10);
         leftAxis7.setDrawLimitLinesBehindData(true);
