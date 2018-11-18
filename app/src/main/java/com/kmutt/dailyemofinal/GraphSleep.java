@@ -160,7 +160,7 @@ public class GraphSleep extends AppCompatActivity {
                 xAxis.setTextSize(7f);
                 mChart.animateXY(1000,1000);
 
-                set1 = new BarDataSet(yValues, "Hours of sleep");
+                set1 = new BarDataSet(yValues, "Minutes of sleep");
                 set1.setDrawIcons(false);
                 set1.setColors(ColorTemplate.PASTEL_COLORS[0]);
                 set1.setStackLabels(new String[]{"Higher", "Normal"});
@@ -185,15 +185,15 @@ public class GraphSleep extends AppCompatActivity {
                 mChart.getAxisRight().setDrawLabels(false); //ลบคำด้านขวามือ
                 mChart.getAxisRight().setDrawGridLines(false);// ลบเส้นขวามือ
 
-                LimitLine upper_limit = new LimitLine(550f, "higher");
-                upper_limit.setLineWidth(3f);
-                upper_limit.enableDashedLine(10f, 10f, 0f);
-                upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
-                upper_limit.setTextSize(10f);
-                upper_limit.setTextColor(Color.rgb(177,11,8));
-                upper_limit.setLineColor(Color.rgb(177,11,8));
+//                LimitLine upper_limit = new LimitLine(550f, "higher");
+//                upper_limit.setLineWidth(3f);
+//                upper_limit.enableDashedLine(10f, 10f, 0f);
+//                upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+//                upper_limit.setTextSize(10f);
+//                upper_limit.setTextColor(Color.rgb(177,11,8));
+//                upper_limit.setLineColor(Color.rgb(177,11,8));
 
-                LimitLine lower_limit = new LimitLine(200f, "Less");
+                LimitLine lower_limit = new LimitLine(420f, "Less");
                 lower_limit.setLineWidth(3f);
                 lower_limit.enableDashedLine(10f, 10f, 0f);
                 lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
@@ -204,7 +204,7 @@ public class GraphSleep extends AppCompatActivity {
 
                 YAxis leftAxis0 = mChart.getAxisLeft();
                 leftAxis0.removeAllLimitLines();
-                leftAxis0.addLimitLine(upper_limit);
+//                leftAxis0.addLimitLine(upper_limit);
                 leftAxis0.addLimitLine(lower_limit);
 //        leftAxis0.addLimitLine(lower_limit);;
 //                leftAxis0.enableGridDashedLine(10f, 10f, 10);
