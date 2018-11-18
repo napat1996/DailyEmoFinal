@@ -374,7 +374,7 @@ public class CalendarActivity extends AppCompatActivity {
 //                dataSnapshot
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
-                int day =17;
+                int day =18;
                 dateInstance.setDate(day);
                 String today = sdf.format(dateInstance);
 
@@ -393,7 +393,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                     Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 10 == 0) {
+                    if (count % 8 == 0) {
 
                         yValues0.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -451,7 +451,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 5 == 0) {
+                    if (count % 8 == 0) {
 
                     yValues1.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -489,7 +489,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay1.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-2);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -509,7 +509,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 5 == 0) {
+                    if (count % 8 == 0) {
 
                         yValues2.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -548,7 +548,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay2.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-3);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -568,7 +568,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 20 == 0) {
+                    if (count % 8 == 0) {
 
                     yValues3.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -605,7 +605,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay3.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-4);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -625,7 +625,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 20 == 0) {
+                    if (count % 8 == 0) {
 
                     yValues4.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -662,7 +662,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay4.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-5);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -682,7 +682,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 15 == 0) {
+                    if (count % 8 == 0) {
 
                         yValues5.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -720,7 +720,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay5.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-6);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -740,7 +740,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 20 == 0) {
+                    if (count % 8 == 0) {
 
                         yValues6.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -778,7 +778,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay6.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-7);
                 dateBeforeString = sdf.format(dateInstance);
 
 
@@ -798,7 +798,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 20 == 0) {
+                    if (count % 8 == 0) {
 
                         yValues7.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -836,7 +836,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 txt_sDay7.setText(dateBeforeString);
 
-                dateInstance.setDate(day-1);
+                dateInstance.setDate(day-8);
                 dateBeforeString = sdf.format(dateInstance);
 
 
