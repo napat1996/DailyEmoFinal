@@ -393,7 +393,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                     Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 5 == 0) {
+                    if (count % 10 == 0) {
 
                         yValues0.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -568,7 +568,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 5 == 0) {
+                    if (count % 20 == 0) {
 
                     yValues3.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -625,7 +625,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 5 == 0) {
+                    if (count % 20 == 0) {
 
                     yValues4.add(new Entry(count, (Long)s.getValue() * 1f));
                     }
@@ -682,7 +682,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 2 == 0) {
+                    if (count % 15 == 0) {
 
                         yValues5.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -740,7 +740,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 2 == 0) {
+                    if (count % 20 == 0) {
 
                         yValues6.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
@@ -798,7 +798,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
-                    if (count % 2 == 0) {
+                    if (count % 20 == 0) {
 
                         yValues7.add(new Entry(count, (Long) s.getValue() * 1f));
                     }
