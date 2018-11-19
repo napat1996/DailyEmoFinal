@@ -41,7 +41,7 @@ public class FitbitData {
     private static final String URL_SLEEP = "/1.2/user/-/sleep/date/2018-11-01.json";
     private static final String URL_STEPS = "/1/user/-/activities/steps/date/2018-11-01/1d.json";
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQmiOiIyMkQ0QkYiLCkJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQxNzU4OTQ1LCJpYXQiOjE1NDE3MzAxNDV9.yD9515M_qUIrOpqpTXJ21RuyijW6mDzZKvHuU8VBoZ8";
+    private static final String BEARER = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkQ0QkYiLCJzdWIiOiI2WFc3MzMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNTQyNjEzNDc1LCJpYXQiOjE1NDI1ODQ2NzV9.ZcUPzUSQlCXUWJFfxzH_vDvRzwOd-Rr41Sw_sWct3gI";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());

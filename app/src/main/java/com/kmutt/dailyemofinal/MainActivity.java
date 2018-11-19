@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        })).start();
-        (new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -377,13 +377,24 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             ValueEventListener valEv = new ValueEventListener() {
+                                final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                boolean isJam = false;
+                                final FitbitData data = new FitbitData();
+
+                                int level = 0, lv1=0, lv2=0, lv3=0, lv0 =0;
+                                final long minuteSleep = 0;
+                                long heartRatee = 0;
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
+                                String currentTimee = sdf.format(new Date());
+
                                 @Override
+
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:00");
                                     String currentTime = sdf.format(new Date());
                                     Log.d(TAG, "Debugging: String "+currentTime);
 
-                                    DataSnapshot stp = dataSnapshot.child("2018-11-18").child("Steps");
+                                    DataSnapshot stp = dataSnapshot.child("2018-11-19").child("Steps");
                                     long steps = 0;
                                     if(stp.exists()) {
                                         steps = (long) stp.getValue();
@@ -391,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
                                     txtStept = findViewById(R.id.text_steps);
                                     txtStept.setText(steps + "");
 
-                                    DataSnapshot slp = dataSnapshot.child("2018-11-18").child("Sleep").child("TotalMinute");
+                                    DataSnapshot slp = dataSnapshot.child("2018-11-19").child("Sleep").child("TotalMinute");
                                     long sleepMinute = 0;
                                     if(slp.getValue()!=null) {
                                         sleepMinute = (long) slp.getValue();
@@ -399,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     txtSleep = findViewById(R.id.text_sleep);
                                     txtSleep.setText(sleepMinute + "");
-                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-10").child("HeartRate").child("Timestemp");
+                                    DataSnapshot snapshot = dataSnapshot.child("2018-11-12").child("HeartRate").child("Timestemp");
 
                                     for (DataSnapshot s : snapshot.getChildren()) {
                                         String time = s.getKey();
@@ -407,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
                                             final long heartRate = (long)s.getValue();
                                             txtHeartRate = findViewById(R.id.heart_rate);
                                             txtHeartRate.setText(heartRate + "");
+                                            mRootRef.child("DateTime").child(today).child("HeartRate").child("Timestemp").child(currentTimee).setValue(heartRatee);
                                             Log.e(TAG, "debugging: HeartRate in cash = " + heartRate);
 
                                         }
@@ -427,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        })).start();
+        }).start();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -528,7 +540,7 @@ public class MainActivity extends AppCompatActivity {
                                             String currentTimee = sdf.format(new Date());
                                             Log.d(TAG, "Debugging: String "+currentTimee);
 
-                                            DataSnapshot stp = dataSnapshot.child("2018-11-18").child("Steps");
+                                            DataSnapshot stp = dataSnapshot.child("2018-11-19").child("Steps");
                                             long steps = 0;
                                             if(stp!=null) {
                                                 steps = (long) stp.getValue();
@@ -536,14 +548,14 @@ public class MainActivity extends AppCompatActivity {
                                             txtStept = findViewById(R.id.text_steps);
                                             txtStept.setText(steps + "");
 
-                                            DataSnapshot slp = dataSnapshot.child("2018-11-18").child("Sleep").child("TotalMinute");
+                                            DataSnapshot slp = dataSnapshot.child("2018-11-19").child("Sleep").child("TotalMinute");
                                             long sleepMinute = 0;
                                             if(slp!=null) {
                                                 sleepMinute = (long) slp.getValue();
                                             }
                                             txtSleep = findViewById(R.id.text_sleep);
                                             txtSleep.setText(sleepMinute + "");
-                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-10").child("HeartRate").child("Timestemp");
+                                            DataSnapshot snapshot = dataSnapshot.child("2018-11-12").child("HeartRate").child("Timestemp");
 
                                             for (DataSnapshot s : snapshot.getChildren()) {
                                                 String time = s.getKey();
@@ -554,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
                                                     Log.d(TAG, "heartrate " + heartRatee);
                                                     txtHeartRate = findViewById(R.id.heart_rate);
                                                     txtHeartRate.setText(heartRatee + "");
+                                                    mRootRef.child("DateTime").child(today).child("HeartRate").child("Timestemp").child(currentTimee).setValue(heartRatee);
                                                     Log.e(TAG, "debugging: HeartRate = " + heartRatee);
 
                                                 }
