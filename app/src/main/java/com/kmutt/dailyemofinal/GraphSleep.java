@@ -117,7 +117,7 @@ public class GraphSleep extends AppCompatActivity {
     public void setData(int count) {
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "");
+        String username = preferences.getString("username", "Tangkwa");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
         Log.d("", "onCreate: debugging firebaseurl " + firebaseUrl);
@@ -134,10 +134,15 @@ public class GraphSleep extends AppCompatActivity {
 
                 ArrayList<BarEntry> yValues = new ArrayList<>();
                 String[] date = new String[7];
+                Date d = new Date();
+                int month = d.getMonth();
+                int year = 2018;
 
                 for (int i = 0; i <= 6; i++) {
-                    dateInstance.setDate(19 - i);
-                    String dateBefore = sdf.format(dateInstance);
+                    int day = 19-i;
+                    String dateBefore =  year+"-"+month+"-"+day;
+//                    dateInstance.setDate(19 - i);
+//                    String dateBefore = sdf.format(dateInstance);
                     date[i] = dateBefore;
 
                     Log.d("Debugging dateBefore", dateBefore);

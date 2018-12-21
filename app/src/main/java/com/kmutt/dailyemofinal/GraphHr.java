@@ -75,7 +75,7 @@ public class GraphHr extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime());
         TextView textViewDate = findViewById(R.id.text_date);
-        textViewDate.setText(currentDate);
+        textViewDate.setText("19 Nov 2018");
 
 
 //        dateTimeRef.child("Heartrate").setValue(false);
@@ -288,7 +288,7 @@ public class GraphHr extends AppCompatActivity {
         mChart0.getAxisRight().setEnabled(false);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "");
+        String username = preferences.getString("username", "Tangkwa");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
         Log.d(TAG, "onCreate: debugging firebaseurl " + firebaseUrl);
@@ -305,10 +305,10 @@ public class GraphHr extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
                 int day =19;
-                dateInstance.setDate(day);
+                dateInstance.setDate(day-32);
                 String today = sdf.format(dateInstance);
 //                String today =  year+"-"+month+"-"+day;
-//                String today = "2018-11-07";
+//                today = "2018-11-19";
 //                Date d = new Date();
 //                int day = d.getDay();
 //                int month = d.getMonth();

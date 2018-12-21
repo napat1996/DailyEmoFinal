@@ -84,7 +84,7 @@ public class CalendarActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.DEFAULT).format(calendar.getTime());
         TextView textViewDate = findViewById(R.id.text_date);
-        textViewDate.setText(currentDate);
+        textViewDate.setText("19 Nov 2018");
 
 
         txt_sDay1 = findViewById(R.id.day_s1);
@@ -360,7 +360,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "tk");
+        String username = preferences.getString("username", "");
 
         String firebaseUrl = "https://dailyemo-194412.firebaseio.com/Users/" + username;
         Log.d(TAG, "onCreate: debugging firebaseurl " + firebaseUrl);
@@ -375,8 +375,9 @@ public class CalendarActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateInstance = new Date();
                 int day =19;
-                dateInstance.setDate(day);
+                dateInstance.setDate(day-32);
                 String today = sdf.format(dateInstance);
+//                today = "2018-11-19";
 
                 ArrayList<Entry> yValues0 = new ArrayList<>();
                 int count = 0;
@@ -385,13 +386,10 @@ public class CalendarActivity extends AppCompatActivity {
                 //today
                 DataSnapshot snapshot0 = dataSnapshot.child(today).child("Stress");
                 for (DataSnapshot s : snapshot0.getChildren()) {
-//                    Log.d("debugging in Stress", s.getKey());
                     String time = s.getKey();
                     xAxisFormat0.add(time);
-//                    String hr = (String)snapshot.getValue();
-//                    Log.d(TAG, "Debugging: "+hr);
 
-                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
+//                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 
                     if (count % 8 == 0) {
 
@@ -446,8 +444,6 @@ public class CalendarActivity extends AppCompatActivity {
 //                    Log.d("debugging in Stress", s.getKey());
                     String time = s.getKey();
                     xAxisFormat1.add(time);
-//                    String hr = (String)snapshot.getValue();
-//                    Log.d(TAG, "Debugging: "+hr);
 
 //                    Log.d(TAG, "Debugging : StressLevel :"+s.getValue());
 

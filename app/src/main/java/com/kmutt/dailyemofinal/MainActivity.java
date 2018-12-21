@@ -529,7 +529,8 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             int age = 22;
-                                            final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                            //final String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                            final String today = "2018-11-19";
                                             boolean isJam = false;
                                             final FitbitData data = new FitbitData();
 
@@ -4632,7 +4633,7 @@ public class MainActivity extends AppCompatActivity {
 
         final String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         SharedPreferences preferences = context.getSharedPreferences("DailyEmoPref", 0);
-        String username = preferences.getString("username", "");
+        String username = preferences.getString("username", "Tangkwa");
 
         database = FirebaseDatabase.getInstance();
 
